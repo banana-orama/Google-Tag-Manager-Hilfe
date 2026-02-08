@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+.env
+client_secret_*.json
+credentials.json
+*.js.map
+*.d.ts.map
