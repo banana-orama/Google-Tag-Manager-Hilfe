@@ -1,0 +1,680 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2026-02-01 20:47:29",
+    "containerVersion": {
+        "path": "accounts/0/containers/0/versions/0",
+        "accountId": "0",
+        "containerId": "0",
+        "containerVersionId": "0",
+        "fingerprint": "1769975249731",
+        "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/0/containers/0/workspaces?apiLink=container",
+        "container": {
+            "path": "accounts/0/containers/0",
+            "accountId": "0",
+            "containerId": "0",
+            "name": "[SSG] Demo",
+            "publicId": "GTM-XXXXXX",
+            "usageContext": [
+                "SERVER"
+            ],
+            "fingerprint": "1769975249731",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/0/containers/0/workspaces?apiLink=container",
+            "features": {
+                "supportUserPermissions": true,
+                "supportEnvironments": true,
+                "supportWorkspaces": true,
+                "supportGtagConfigs": false,
+                "supportBuiltInVariables": true,
+                "supportClients": true,
+                "supportFolders": true,
+                "supportTags": true,
+                "supportTemplates": true,
+                "supportTriggers": true,
+                "supportVariables": true,
+                "supportVersions": true,
+                "supportZones": true,
+                "supportTransformations": true
+            },
+            "tagIds": [
+                "GTM-XXXXXX"
+            ]
+        },
+        "tag": [
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "tagId": "1",
+                "name": "SSG - GA4 - All Events",
+                "type": "sgtmgaaw",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "measurementId",
+                        "value": "{{const - ga4 measurement id}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "epToIncludeDropdown",
+                        "value": "all"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "upToIncludeDropdown",
+                        "value": "all"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "redactVisitorIp",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "firingTriggerId": [
+                    "1"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                },
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "parentFolderId": "3"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "tagId": "2",
+                "name": "SSG - GA4 - page_view",
+                "type": "sgtmgaaw",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "measurementId",
+                        "value": "{{const - ga4 measurement id}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "epToIncludeDropdown",
+                        "value": "all"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "upToIncludeDropdown",
+                        "value": "all"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "redactVisitorIp",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "firingTriggerId": [
+                    "2"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                },
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "parentFolderId": "3"
+            }
+        ],
+        "trigger": [
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "triggerId": "1",
+                "name": "All Events - GA4",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "MATCH_REGEX",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": ".*"
+                            }
+                        ]
+                    }
+                ],
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Client Name}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "GA4"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1769975249731"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "triggerId": "2",
+                "name": "[GA4] page_view",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "page_view"
+                            }
+                        ]
+                    }
+                ],
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Client Name}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "GA4"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1769975249731"
+            }
+        ],
+        "variable": [
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "1",
+                "name": "const - ga4 measurement id",
+                "type": "c",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "value",
+                        "value": "[HIER_EINFUEGEN: GA4 Measurement ID, z.B. G-XXXXXXXXXX]"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "1"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "2",
+                "name": "const - transport url",
+                "type": "c",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "value",
+                        "value": "[HIER_EINFUEGEN: Server-Side GTM URL, z.B. https://sgtm.example.com]"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "1"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "3",
+                "name": "ed - email_address",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "email_address"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "4",
+                "name": "ed - phone_number",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "phone_number"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "5",
+                "name": "ed - first_name",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "first_name"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "6",
+                "name": "ed - last_name",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "last_name"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "7",
+                "name": "ed - user_id",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "user_id"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "8",
+                "name": "ed - value",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "value"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "9",
+                "name": "ed - currency",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "currency"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "10",
+                "name": "ed - transaction_id",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "transaction_id"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "11",
+                "name": "ed - event_id",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "event_id"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "12",
+                "name": "ed - items",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "items"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "13",
+                "name": "ed - content_ids",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "content_ids"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "14",
+                "name": "ed - contents",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "contents"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "15",
+                "name": "ed - postal_code",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "postal_code"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "16",
+                "name": "ed - city",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "city"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "17",
+                "name": "ed - country",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "country"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "variableId": "18",
+                "name": "ed - region",
+                "type": "ed",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "keyPath",
+                        "value": "region"
+                    }
+                ],
+                "fingerprint": "1769975249731",
+                "formatValue": {},
+                "parentFolderId": "2"
+            }
+        ],
+        "folder": [
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "folderId": "1",
+                "name": "_Einstellungen",
+                "fingerprint": "1769975249731"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "folderId": "2",
+                "name": "Event Data",
+                "fingerprint": "1769975249731"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "folderId": "3",
+                "name": "GA4",
+                "fingerprint": "1769975249731"
+            }
+        ],
+        "client": [
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "clientId": "1",
+                "name": "GA4",
+                "type": "gaaw_client",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "cookieDomain",
+                        "value": "auto"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "cookieMaxAgeInSec",
+                        "value": "63072000"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "activateDefaultPaths",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "cookiePath",
+                        "value": "/"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "cookieManagement",
+                        "value": "server"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "cookieName",
+                        "value": "FPID"
+                    }
+                ],
+                "fingerprint": "1769975249731"
+            }
+        ],
+        "builtInVariable": [
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "type": "EVENT_NAME",
+                "name": "Event Name"
+            },
+            {
+                "accountId": "0",
+                "containerId": "0",
+                "type": "CLIENT_NAME",
+                "name": "Client Name"
+            }
+        ]
+    }
+}

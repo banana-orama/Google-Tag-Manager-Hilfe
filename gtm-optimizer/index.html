@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTM Container Optimizer - Professionelles Bereinigungs-Tool</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="8" fill="#4285F4"/>
+                    <path d="M12 20L18 26L28 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                GTM Container Optimizer
+            </h1>
+            <p class="subtitle">Professionelles Tool zur Analyse, Bereinigung und Optimierung von Google Tag Manager Containern</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Upload Section -->
+            <section id="uploadSection" class="upload-section">
+                <div class="upload-card">
+                    <div class="upload-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <h2>GTM Container importieren</h2>
+                    <p>Laden Sie Ihre GTM Container-Konfiguration als JSON-Datei hoch oder fügen Sie den JSON-Code direkt ein.</p>
+
+                    <div class="upload-methods">
+                        <div class="upload-method active" data-method="file">
+                            <input type="file" id="fileInput" accept=".json" class="file-input">
+                            <label for="fileInput" class="upload-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                Datei auswählen
+                            </label>
+                            <span class="file-name" id="fileName">Keine Datei ausgewählt</span>
+                        </div>
+
+                        <div class="upload-divider">oder</div>
+
+                        <div class="upload-method">
+                            <button id="pasteBtn" class="paste-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                Aus Zwischenablage einfügen
+                            </button>
+                        </div>
+                    </div>
+
+                    <textarea id="jsonInput" class="json-input" placeholder="Oder fügen Sie hier direkt den GTM Container JSON ein..."></textarea>
+
+                    <button id="analyzeBtn" class="btn btn-primary btn-large" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        Container analysieren
+                    </button>
+
+                    <div class="supported-formats">
+                        <strong>Unterstützte Formate:</strong> GTM Container Export (.json)
+                    </div>
+                </div>
+
+                <!-- Demo Data Button -->
+                <button id="loadDemoBtn" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                    Demodaten laden
+                </button>
+            </section>
+
+            <!-- Analysis Results Section -->
+            <section id="resultsSection" class="results-section hidden">
+                <!-- Header with Container Info -->
+                <div class="results-header">
+                    <button id="backBtn" class="btn btn-back">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"/>
+                            <polyline points="12 19 5 12 12 5"/>
+                        </svg>
+                        Zurück
+                    </button>
+                    <div class="container-info">
+                        <h2 id="containerName">GTM Container</h2>
+                        <div class="container-meta">
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                </svg>
+                                <span id="containerId">GTM-XXXXXX</span>
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span id="sourceFilename">-</span>
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span id="exportDate">-</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button id="reportBtn" class="btn btn-secondary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="8" y1="13" x2="16" y2="13"/>
+                                <line x1="8" y1="17" x2="16" y2="17"/>
+                            </svg>
+                            Audit-Report exportieren
+                        </button>
+                        <button id="changeLogBtn" class="btn btn-secondary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="8" y1="13" x2="16" y2="13"/>
+                                <line x1="8" y1="17" x2="12" y2="17"/>
+                            </svg>
+                            Change-Log exportieren
+                        </button>
+                        <button id="exportBtn" class="btn btn-success">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Bereinigten Container exportieren
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Score Cards -->
+                <div class="score-cards">
+                    <div class="score-card overall">
+                        <div class="score-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        <div class="score-content">
+                            <span class="score-value" id="overallScore">0</span>
+                            <span class="score-label">Gesamtscore</span>
+                        </div>
+                        <div class="score-bar">
+                            <div class="score-fill" id="overallScoreFill"></div>
+                        </div>
+                    </div>
+
+                    <div class="score-card">
+                        <div class="score-icon small" data-color="blue">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                        <div class="score-content">
+                            <span class="score-value" id="cleanupScore">0</span>
+                            <span class="score-label">Bereinigung</span>
+                        </div>
+                    </div>
+
+                    <div class="score-card">
+                        <div class="score-icon small" data-color="green">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                        </div>
+                        <div class="score-content">
+                            <span class="score-value" id="performanceScore">0</span>
+                            <span class="score-label">Performance</span>
+                        </div>
+                    </div>
+
+                    <div class="score-card">
+                        <div class="score-icon small" data-color="purple">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <div class="score-content">
+                            <span class="score-value" id="structureScore">0</span>
+                            <span class="score-label">Struktur</span>
+                        </div>
+                    </div>
+
+                    <div class="score-card">
+                        <div class="score-icon small" data-color="orange">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        <div class="score-content">
+                            <span class="score-value" id="securityScore">0</span>
+                            <span class="score-label">Sicherheit</span>
+                        </div>
+                    </div>
+
+                    <div class="score-card">
+                        <div class="score-icon small" data-color="red">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
+                        </div>
+                        <div class="score-content">
+                            <span class="score-value" id="ssgScore">0</span>
+                            <span class="score-label">SSG-Reife</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs Navigation -->
+                <div class="tabs">
+                    <button class="tab active" data-tab="issues">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        Gefundene Probleme
+                        <span class="tab-badge" id="issuesBadge">0</span>
+                    </button>
+                    <button class="tab" data-tab="suggestions">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                            <path d="M21 18l6-6-6-6" transform="translate(-6)"/>
+                        </svg>
+                        Optimierungsvorschläge
+                        <span class="tab-badge" id="suggestionsBadge">0</span>
+                    </button>
+                    <button class="tab" data-tab="inventory">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"/>
+                            <line x1="8" y1="12" x2="21" y2="12"/>
+                            <line x1="8" y1="18" x2="21" y2="18"/>
+                            <line x1="3" y1="6" x2="3.01" y2="6"/>
+                            <line x1="3" y1="12" x2="3.01" y2="12"/>
+                            <line x1="3" y1="18" x2="3.01" y2="18"/>
+                        </svg>
+                        Inventar
+                    </button>
+                    <button class="tab" data-tab="changes">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"/>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                        </svg>
+                        Geplante Änderungen
+                        <span class="tab-badge" id="changesBadge">0</span>
+                    </button>
+                    <button class="tab" data-tab="ssg">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                        </svg>
+                        Server-Side Vorbereitung
+                    </button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Issues Tab -->
+                    <div id="issuesTab" class="tab-pane active">
+                        <div class="issues-header">
+                            <div class="issues-filter">
+                                <button class="filter-btn active" data-severity="all">Alle</button>
+                                <button class="filter-btn" data-severity="critical">
+                                    <span class="severity-dot critical"></span>
+                                    Kritisch
+                                </button>
+                                <button class="filter-btn" data-severity="high">
+                                    <span class="severity-dot high"></span>
+                                    Hoch
+                                </button>
+                                <button class="filter-btn" data-severity="medium">
+                                    <span class="severity-dot medium"></span>
+                                    Mittel
+                                </button>
+                                <button class="filter-btn" data-severity="low">
+                                    <span class="severity-dot low"></span>
+                                    Niedrig
+                                </button>
+                            </div>
+                            <div class="issues-actions">
+                                <button id="selectAllIssuesBtn" class="btn btn-sm">Alle auswählen</button>
+                                <button id="fixSelectedBtn" class="btn btn-sm btn-primary">Ausgewählte beheben</button>
+                            </div>
+                        </div>
+                        <div id="issuesList" class="issues-list"></div>
+                    </div>
+
+                    <!-- Suggestions Tab -->
+                    <div id="suggestionsTab" class="tab-pane">
+                        <div class="suggestions-header">
+                            <div class="suggestions-filter">
+                                <button class="filter-btn active" data-category="all">Alle</button>
+                                <button class="filter-btn" data-category="performance">Performance</button>
+                                <button class="filter-btn" data-category="structure">Struktur</button>
+                                <button class="filter-btn" data-category="maintainability">Wartbarkeit</button>
+                                <button class="filter-btn" data-category="privacy">Datenschutz</button>
+                            </div>
+                        </div>
+                        <div id="suggestionsList" class="suggestions-list"></div>
+                    </div>
+
+                    <!-- Inventory Tab -->
+                    <div id="inventoryTab" class="tab-pane">
+                        <div class="inventory-grid">
+                            <div class="inventory-card">
+                                <div class="inventory-header">
+                                    <h3>Tags</h3>
+                                    <span class="inventory-count" id="tagCount">0</span>
+                                </div>
+                                <div class="inventory-body" id="tagInventory"></div>
+                            </div>
+                            <div class="inventory-card">
+                                <div class="inventory-header">
+                                    <h3>Trigger</h3>
+                                    <span class="inventory-count" id="triggerCount">0</span>
+                                </div>
+                                <div class="inventory-body" id="triggerInventory"></div>
+                            </div>
+                            <div class="inventory-card">
+                                <div class="inventory-header">
+                                    <h3>Variablen</h3>
+                                    <span class="inventory-count" id="variableCount">0</span>
+                                </div>
+                                <div class="inventory-body" id="variableInventory"></div>
+                            </div>
+                            <div class="inventory-card">
+                                <div class="inventory-header">
+                                    <h3>Templates</h3>
+                                    <span class="inventory-count" id="templateCount">0</span>
+                                </div>
+                                <div class="inventory-body" id="templateInventory"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Changes Tab -->
+                    <div id="changesTab" class="tab-pane">
+                        <div class="changes-summary">
+                            <div class="change-summary-card">
+                                <span class="change-count" id="deleteCount">0</span>
+                                <span class="change-label">Zu löschen</span>
+                            </div>
+                            <div class="change-summary-card">
+                                <span class="change-count" id="modifyCount">0</span>
+                                <span class="change-label">Zu ändern</span>
+                            </div>
+                            <div class="change-summary-card">
+                                <span class="change-count" id="createCount">0</span>
+                                <span class="change-label">Zu erstellen</span>
+                            </div>
+                        </div>
+                        <div id="changesList" class="changes-list"></div>
+                    </div>
+
+                    <!-- SSG Tab -->
+                    <div id="ssgTab" class="tab-pane">
+                        <div class="ssg-overview">
+                            <div class="ssg-vendor-selection">
+                                <h3>Server-Side Auswahl</h3>
+                                <p class="ssg-export-description">
+                                    Wähle, welche Anbieter serverseitig gesendet werden sollen.
+                                    Es werden nur erkannte Anbieter angezeigt.
+                                </p>
+                                <div id="ssgVendorOptions" class="ssg-vendor-options"></div>
+                            </div>
+                        </div>
+                        <div class="ssg-migration-plan">
+                            <h3>Migrations-Plan</h3>
+                            <div id="migrationSteps" class="migration-steps"></div>
+                        </div>
+
+                        <!-- SSG Container Generation -->
+                        <div class="ssg-export-section">
+                            <h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                                </svg>
+                                Server-Side Container generieren
+                            </h3>
+                            <p class="ssg-export-description">
+                                Erstelle automatisch einen Server-Side GTM Container basierend auf der Analyse.
+                                Konfigurierbare Werte werden als Konstanten-Variablen mit Platzhaltern angelegt,
+                                die du anschliessend im GTM ausfuellst.
+                            </p>
+                            <button id="generateSSGBtn" class="btn btn-primary btn-large" onclick="UI.exportSSGContainers()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                                </svg>
+                                Server-Side Container generieren
+                            </button>
+                            <div id="ssgExportResults" class="ssg-export-results hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 GTM Container Optimizer | Alle Analysen werden lokal in Ihrem Browser durchgeführt.</p>
+        </div>
+    </footer>
+
+    <!-- Modal for Issue Details -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Details</h3>
+                <button id="modalClose" class="modal-close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer">
+                <button id="modalCancel" class="btn btn-secondary">Schließen</button>
+                <button id="modalAction" class="btn btn-primary">Beheben</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/gtm-parser.js"></script>
+    <script src="js/rules.js"></script>
+    <script src="js/deduplicator.js"></script>
+    <script src="js/ssg-prep.js"></script>
+    <script src="js/ssg-templates.js"></script>
+    <script src="js/ssg-generator.js"></script>
+    <script src="js/optimizer.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
