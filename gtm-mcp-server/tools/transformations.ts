@@ -130,7 +130,7 @@ export async function updateTransformation(
     notes: string;
   }>,
   fingerprint: string
-): Promise<TransformationDetails | null> {
+): Promise<TransformationDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -153,15 +153,14 @@ export async function updateTransformation(
       notes: transformation.notes || undefined,
     };
   } catch (error) {
-    console.error('Error updating transformation:', error);
-    return null;
+    return handleApiError(error, 'updateTransformation', { transformationPath, transformationConfig, fingerprint });
   }
 }
 
 /**
  * Delete a transformation (DESTRUCTIVE!)
  */
-export async function deleteTransformation(transformationPath: string): Promise<boolean> {
+export async function deleteTransformation(transformationPath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -170,9 +169,8 @@ export async function deleteTransformation(transformationPath: string): Promise<
         path: transformationPath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting transformation:', error);
-    return false;
+    return handleApiError(error, 'deleteTransformation', { transformationPath });
   }
 }

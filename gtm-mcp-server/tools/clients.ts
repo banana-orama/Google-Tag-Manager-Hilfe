@@ -135,7 +135,7 @@ export async function updateClient(
     notes: string;
   }>,
   fingerprint: string
-): Promise<ClientDetails | null> {
+): Promise<ClientDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -159,15 +159,14 @@ export async function updateClient(
       priority: client.priority || undefined,
     };
   } catch (error) {
-    console.error('Error updating client:', error);
-    return null;
+    return handleApiError(error, 'updateClient', { clientPath, clientConfig, fingerprint });
   }
 }
 
 /**
  * Delete a client (DESTRUCTIVE!)
  */
-export async function deleteClient(clientPath: string): Promise<boolean> {
+export async function deleteClient(clientPath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -176,10 +175,9 @@ export async function deleteClient(clientPath: string): Promise<boolean> {
         path: clientPath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting client:', error);
-    return false;
+    return handleApiError(error, 'deleteClient', { clientPath });
   }
 }
 

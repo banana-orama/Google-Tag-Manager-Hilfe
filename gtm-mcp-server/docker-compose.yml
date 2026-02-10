@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  gtm-mcp-server:
+    build: .
+    container_name: gtm-mcp-server
+    restart: unless-stopped
+    volumes:
+      # Mount the entire project directory for development
+      - .:/app
+      # Mount credentials from host
+      - /Users/tobias_batke/.gtm-mcp:/root/.gtm-mcp:rw
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"

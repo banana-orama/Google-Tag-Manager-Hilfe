@@ -117,13 +117,13 @@ export async function updateZone(
   zonePath: string,
   zoneConfig: Partial<{
     name: string;
-    notes: string;
     boundary: tagmanager_v2.Schema$ZoneBoundary;
     childContainer: tagmanager_v2.Schema$ZoneChildContainer[];
     typeRestriction: tagmanager_v2.Schema$ZoneTypeRestriction;
+    notes: string;
   }>,
   fingerprint: string
-): Promise<ZoneDetails | null> {
+): Promise<ZoneDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -146,15 +146,14 @@ export async function updateZone(
       typeRestriction: zone.typeRestriction || undefined,
     };
   } catch (error) {
-    console.error('Error updating zone:', error);
-    return null;
+    return handleApiError(error, 'updateZone', { zonePath, zoneConfig, fingerprint });
   }
 }
 
 /**
  * Delete a zone (DESTRUCTIVE!)
  */
-export async function deleteZone(zonePath: string): Promise<boolean> {
+export async function deleteZone(zonePath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -163,9 +162,8 @@ export async function deleteZone(zonePath: string): Promise<boolean> {
         path: zonePath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting zone:', error);
-    return false;
+    return handleApiError(error, 'deleteZone', { zonePath });
   }
 }

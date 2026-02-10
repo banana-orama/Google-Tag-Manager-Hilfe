@@ -20,8 +20,12 @@ import {
 } from './auth/oauth.js';
 import { initTagManagerClient } from './utils/gtm-client.js';
 import { rateLimiter } from './utils/rate-limiter.js';
-import { getTriggerTemplate, validateTriggerConfigFull } from './utils/llm-helpers.js';
+import { getTriggerTemplate, validateTriggerConfigFull, getVariableParameters } from './utils/llm-helpers.js';
 import { getContainerInfo } from './utils/container-validator.js';
+import { getTagTypeInfo, getAllTagTypes, validateTagParameters } from './utils/tag-helpers.js';
+import { getWorkflow, getAllWorkflows, customizeWorkflow } from './utils/workflow-guides.js';
+import { searchEntities, formatSearchResults } from './utils/search.js';
+import { checkBestPractices, formatBestPracticesResult } from './utils/best-practices.js';
 
 // Tool implementations
 import * as accounts from './tools/accounts.js';
@@ -293,14 +297,30 @@ const TOOLS: Tool[] = [
     name: 'gtm_create_trigger',
     description: `Create a new GTM trigger.
 
-**Important:** Different container types support different trigger types:
-- **Web containers:** PAGEVIEW, CLICK, FORM_SUBMISSION, CUSTOM_EVENT, TIMER, etc.
-- **Server containers:** always, customEvent, triggerGroup
+**Container Compatibility:**
+- **Web containers:** pageview, domReady, windowLoaded, click, linkClick, formSubmission, customEvent, timer, scrollDepth, elementVisibility, jsError, historyChange, youTubeVideo
+- **Server containers:** always, customEvent, triggerGroup, init, consentInit, serverPageview
 
-**Filter Examples:**
-- PAGEVIEW: Use \`filter\` with conditions like \`{ "type": "contains", "arg1": "{{Page URL}}", "arg2": "/checkout" }\`
-- CUSTOM_EVENT: Use \`customEventFilter\` with conditions like \`{ "type": "equals", "arg1": "{{Event}}", "arg2": "purchase" }\`
-- always (Server): No filter needed`,
+**⚠️ IMPORTANT: Condition Format (API v2)**
+All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
+\`\`\`json
+{
+  "type": "contains",
+  "parameter": [
+    { "key": "arg0", "type": "template", "value": "{{Page URL}}" },
+    { "key": "arg1", "type: "template", "value": "/checkout" }
+  ]
+}
+\`\`\`
+
+**Condition Types:** equals, contains, startsWith, endsWith, matchRegex, greater, greaterOrEquals, less, lessOrEquals, cssSelector, urlMatches
+
+**When to use which filter:**
+- \`filter\`: Trigger activation conditions (e.g., only on certain pages)
+- \`customEventFilter\`: ONLY for customEvent type triggers (matches data layer event name)
+- \`autoEventFilter\`: For auto-event triggers (element visibility, etc.)
+
+**Check compatibility:** Use \`gtm_get_container_info\` before creating triggers.`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -314,90 +334,112 @@ const TOOLS: Tool[] = [
         },
         type: {
           type: 'string',
-          description: 'Trigger type - depends on container type',
+          description: 'Trigger type (lowercase: pageview, click, customEvent, etc.) - depends on container type',
           enum: [
-            'PAGEVIEW', 'DOM_READY', 'WINDOW_LOADED', 'CUSTOM_EVENT',
-            'CLICK', 'LINK_CLICK', 'FORM_SUBMISSION',
-            'TIMER', 'SCROLL_DEPTH', 'ELEMENT_VISIBILITY',
-            'JS_ERROR', 'HISTORY_CHANGE',
-            'YOU_TUBE_VIDEO',
-            'FIREBASE_APP_EXCEPTION', 'FIREBASE_APP_UPDATE', 'FIREBASE_CAMPAIGN',
-            'FIREBASE_FIRST_OPEN', 'FIREBASE_IN_APP_PURCHASE', 'FIREBASE_NOTIFICATION_DISMISS',
-            'FIREBASE_NOTIFICATION_FOREGROUND', 'FIREBASE_NOTIFICATION_OPEN', 'FIREBASE_OS_UPDATE',
-            'FIREBASE_SESSION_START', 'FIREBASE_USER_ENGAGEMENT',
-            'AMP_CLICK', 'AMP_TIMER', 'AMP_SCROLL', 'AMP_VISIBILITY',
-            'always', 'customEvent', 'triggerGroup'
+            'pageview', 'domReady', 'windowLoaded', 'customEvent',
+            'click', 'linkClick', 'formSubmission',
+            'timer', 'scrollDepth', 'elementVisibility',
+            'jsError', 'historyChange', 'youTubeVideo',
+            'init', 'consentInit', 'serverPageview', 'always', 'triggerGroup',
+            'firebaseAppException', 'firebaseAppUpdate', 'firebaseCampaign',
+            'firebaseFirstOpen', 'firebaseInAppPurchase', 'firebaseNotificationDismiss',
+            'firebaseNotificationForeground', 'firebaseNotificationOpen',
+            'firebaseOsUpdate', 'firebaseSessionStart', 'firebaseUserEngagement',
+            'ampClick', 'ampTimer', 'ampScroll', 'ampVisibility'
           ],
         },
         filter: {
           type: 'array',
-          description: `Filter conditions for most trigger types.
+          description: `Trigger activation conditions.
 
-**Format:** Array of Condition objects
+**CRITICAL: Use parameter array with arg0/arg1 (API v2 format)**
 \`\`\`json
-[
-  {
-    "type": "contains",
-    "arg1": "{{Page URL}}",
-    "arg2": "/checkout"
-  }
-]
+[{
+  "type": "contains",
+  "parameter": [
+    { "key": "arg0", "type": "template", "value": "{{Page URL}}" },
+    { "key": "arg1", "type": "template", "value": "/checkout" }
+  ]
+}]
 \`\`\`
 
-**Condition types:** equals, contains, matchRegex, startsWith, endsWith, greater, less, etc.
-
-**Used for:** PAGEVIEW, CLICK, FORM_SUBMISSION, LINK_CLICK, TIMER, SCROLL_DEPTH, etc.`,
+**Optional:** Add { "key": "ignore_case", "type": "boolean", "value": "true" } for case-insensitive matching`,
           items: {
             type: 'object',
             properties: {
-              type: { type: 'string', description: 'Condition type (contains, equals, matchRegex, etc.)' },
-              arg1: { type: 'string', description: 'Variable or value to compare (e.g., {{Page URL}})' },
-              arg2: { type: 'string', description: 'Comparison value' },
-              ignoreCase: { type: 'boolean', description: 'Case-insensitive comparison (optional)' },
+              type: { type: 'string', description: 'Condition type (equals, contains, matchRegex, startsWith, endsWith, greater, less, etc.)' },
+              parameter: {
+                type: 'array',
+                description: 'Condition parameters with arg0, arg1, and optional ignore_case/negate',
+                items: {
+                  type: 'object',
+                  properties: {
+                    key: { type: 'string', description: 'Parameter key (arg0, arg1, ignore_case, negate)' },
+                    type: { type: 'string', description: 'Parameter type (template, boolean)' },
+                    value: { type: 'string', description: 'Parameter value' },
+                  },
+                  required: ['key', 'type', 'value'],
+                },
+              },
             },
-            required: ['type', 'arg1', 'arg2'],
+            required: ['type', 'parameter'],
           },
         },
         customEventFilter: {
           type: 'array',
-          description: `Filter conditions for CUSTOM_EVENT triggers ONLY.
+          description: `Filter for customEvent triggers ONLY. Same format as filter.
 
-**Required for:** CUSTOM_EVENT type triggers
-**Not used for:** Other trigger types (use \`filter\` instead)
-
-**Example:**
+**Example - Match data layer event "purchase":**
 \`\`\`json
-[
-  {
-    "type": "equals",
-    "arg1": "{{Event}}",
-    "arg2": "purchase"
-  }
-]
+[{
+  "type": "equals",
+  "parameter": [
+    { "key": "arg0", "type": "template", "value": "{{Event}}" },
+    { "key": "arg1", "type": "template", "value": "purchase" }
+  ]
+}]
 \`\`\``,
           items: {
             type: 'object',
             properties: {
               type: { type: 'string' },
-              arg1: { type: 'string' },
-              arg2: { type: 'string' },
-              ignoreCase: { type: 'boolean' },
+              parameter: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    key: { type: 'string' },
+                    type: { type: 'string' },
+                    value: { type: 'string' },
+                  },
+                  required: ['key', 'type', 'value'],
+                },
+              },
             },
-            required: ['type', 'arg1', 'arg2'],
+            required: ['type', 'parameter'],
           },
         },
         autoEventFilter: {
           type: 'array',
-          description: 'Filter conditions for auto-event triggers (Element Visibility, etc.)',
+          description: 'Auto-event filter (same format as filter)',
           items: {
             type: 'object',
             properties: {
               type: { type: 'string' },
-              arg1: { type: 'string' },
-              arg2: { type: 'string' },
-              ignoreCase: { type: 'boolean' },
+              parameter: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    key: { type: 'string' },
+                    type: { type: 'string' },
+                    value: { type: 'string' },
+                  },
+                  required: ['key', 'type', 'value'],
+                },
+              },
             },
-            required: ['type', 'arg1', 'arg2'],
+            required: ['type', 'parameter'],
           },
         },
         parentFolderId: {
@@ -818,7 +860,7 @@ const TOOLS: Tool[] = [
   },
   {
     name: 'gtm_get_trigger_template',
-    description: 'Get a template for common trigger configurations. Returns example configuration that you can modify.',
+    description: `Get a template for common trigger configurations. Returns example configuration that you can modify.`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -826,13 +868,180 @@ const TOOLS: Tool[] = [
           type: 'string',
           enum: [
             'pageview-all', 'pageview-filtered', 'click-download',
-            'custom-event-purchase', 'form-submission-contact', 'link-click-external',
-            'timer-30s', 'scroll-depth-50', 'server-always', 'server-custom'
+            'custom-event-purchase', 'custom-event-generic', 'form-submission-contact', 'link-click-external',
+            'timer-30s', 'scroll-depth-50', 'element-visibility', 'server-always', 'server-custom'
           ],
           description: 'Template type',
         },
       },
       required: ['templateType'],
+    },
+  },
+
+  // === TAG HELPERS ===
+  {
+    name: 'gtm_get_tag_parameters',
+    description: `Get required and optional parameters for a specific tag type.
+
+**Use this BEFORE creating tags** to understand parameter structure.
+
+**Common Tag Types:**
+- \`html\`: Custom HTML
+- \`gaawe\`: GA4 Event
+- \`googtag\`: Google tag (gtag.js)
+- \`awct\`: Google Ads Conversion
+- \`sp\`: Google Ads Remarketing
+- \`ua\`: Universal Analytics (deprecated)`,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        tagType: {
+          type: 'string',
+          description: 'Tag type (e.g., html, gaawe, awct, sp)',
+        },
+      },
+      required: ['tagType'],
+    },
+  },
+  {
+    name: 'gtm_list_tag_types',
+    description: `List all known tag types with their categories and descriptions.`,
+    inputSchema: {
+      type: 'object',
+      properties: {},
+      required: [],
+    },
+  },
+
+  // === VARIABLE HELPERS ===
+  {
+    name: 'gtm_get_variable_parameters',
+    description: `Get required and optional parameters for a specific variable type.
+
+**Common Variable Types:**
+- \`k\`: Constant
+- \`c\`: Cookie
+- \`v\`: URL Variable
+- \`f\`: Data Layer
+- \`jsm\`: JavaScript Macro
+- \`aev\`: Auto-Event Variable`,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        variableType: {
+          type: 'string',
+          description: 'Variable type (e.g., k, c, v, f, jsm, aev)',
+        },
+      },
+      required: ['variableType'],
+    },
+  },
+
+  // === WORKFLOW GUIDES ===
+  {
+    name: 'gtm_list_workflows',
+    description: `List all available workflow guides for common GTM setup tasks.
+
+**Available Workflows:**
+- \`setup_ga4\`: Complete GA4 setup with pageview tracking
+- \`setup_conversion_tracking\`: Google Ads conversion tracking
+- \`setup_form_tracking\`: Form submission tracking with GA4
+- \`setup_scroll_tracking\`: Scroll depth tracking
+- \`setup_link_click_tracking\`: Link click tracking
+- \`setup_ecommerce_tracking\`: Complete e-commerce tracking with GA4`,
+    inputSchema: {
+      type: 'object',
+      properties: {},
+      required: [],
+    },
+  },
+  {
+    name: 'gtm_get_workflow',
+    description: `Get detailed workflow guide with step-by-step instructions.
+
+**Returns:**
+- List of steps with tool calls and parameters
+- Prerequisites
+- Estimated time`,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workflowId: {
+          type: 'string',
+          enum: ['setup_ga4', 'setup_conversion_tracking', 'setup_form_tracking', 'setup_scroll_tracking', 'setup_link_click_tracking', 'setup_ecommerce_tracking'],
+          description: 'Workflow ID',
+        },
+        measurementId: {
+          type: 'string',
+          description: 'GA4 Measurement ID (optional, for placeholder replacement)',
+        },
+      },
+      required: ['workflowId'],
+    },
+  },
+
+  // === SEARCH ===
+  {
+    name: 'gtm_search_entities',
+    description: `Search for tags, triggers, or variables across a workspace.
+
+**Query Examples:**
+- \`analytics\` - Find entities containing "analytics"
+- \`type:gaawe\` - Find all GA4 tags
+- \`type:pageview\` - Find all pageview triggers
+- Empty query - List all entities
+
+**Filters:**
+- \`type:xxx\` - Filter by type (e.g., type:gaawe, type:pageview)
+- Regular text - Search in names`,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workspacePath: {
+          type: 'string',
+          description: 'Workspace path',
+        },
+        query: {
+          type: 'string',
+          description: 'Search query (e.g., "analytics" or "type:gaawe")',
+        },
+        entityType: {
+          type: 'string',
+          enum: ['all', 'tags', 'triggers', 'variables'],
+          default: 'all',
+          description: 'Entity type to search',
+        },
+      },
+      required: ['workspacePath', 'query'],
+    },
+  },
+
+  // === BEST PRACTICES ===
+  {
+    name: 'gtm_check_best_practices',
+    description: `Analyze a workspace for GTM best practices and provide recommendations.
+
+**Checks:**
+- Tags without firing triggers
+- Paused tags
+- Duplicate names
+- Variable naming conventions
+- Missing GA4 configuration
+- Deprecated Universal Analytics tags
+
+**Returns:**
+- Score (0-100)
+- List of issues with severity (error/warning/info)
+- Recommendations for improvement`,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workspacePath: {
+          type: 'string',
+          description: 'Workspace path',
+        },
+      },
+      required: ['workspacePath'],
     },
   },
 
@@ -893,7 +1102,13 @@ const TOOLS: Tool[] = [
   // === CLIENTS (Server-Side GTM) ===
   {
     name: 'gtm_list_clients',
-    description: 'List all clients in a Server-Side GTM workspace',
+    description: `List all clients in a Server-Side GTM workspace.
+
+**⚠️ SERVER-SIDE ONLY**
+Clients are only available in Server containers (usageContext: 'server').
+Use \`gtm_get_container_info\` to check your container type.
+
+**Purpose:** Clients receive and process incoming HTTP requests in Server-Side GTM.`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -907,7 +1122,9 @@ const TOOLS: Tool[] = [
   },
   {
     name: 'gtm_get_client',
-    description: 'Get full details of a specific client',
+    description: `Get full details of a specific client.
+
+**⚠️ SERVER-SIDE ONLY**`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -921,7 +1138,18 @@ const TOOLS: Tool[] = [
   },
   {
     name: 'gtm_create_client',
-    description: 'Create a new client in a Server-Side container',
+    description: `Create a new client in a Server-Side container.
+
+**⚠️ SERVER-SIDE ONLY**
+Clients are only available in Server containers.
+
+**Common Client Types:**
+- \`gaaw_client\`: GA4 Web Client - receives GA4 measurement protocol hits
+- \`adwords_client\`: Google Ads Client
+- \`facebook_client\`: Facebook Conversions API Client
+- \`custom\`: Custom client for specific needs
+
+**Priority:** Lower numbers run first (e.g., priority 1 runs before priority 10)`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -951,7 +1179,9 @@ const TOOLS: Tool[] = [
   },
   {
     name: 'gtm_delete_client',
-    description: 'Delete a client (DESTRUCTIVE)',
+    description: `Delete a client (DESTRUCTIVE).
+
+**⚠️ SERVER-SIDE ONLY**`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -967,7 +1197,13 @@ const TOOLS: Tool[] = [
   // === TRANSFORMATIONS (Server-Side GTM) ===
   {
     name: 'gtm_list_transformations',
-    description: 'List all transformations in a Server-Side GTM workspace',
+    description: `List all transformations in a Server-Side GTM workspace.
+
+**⚠️ SERVER-SIDE ONLY**
+Transformations are only available in Server containers (usageContext: 'server').
+Use \`gtm_get_container_info\` to check your container type.
+
+**Purpose:** Transformations modify or enrich data before tags fire.`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -981,7 +1217,9 @@ const TOOLS: Tool[] = [
   },
   {
     name: 'gtm_get_transformation',
-    description: 'Get full details of a specific transformation',
+    description: `Get full details of a specific transformation.
+
+**⚠️ SERVER-SIDE ONLY**`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -995,7 +1233,16 @@ const TOOLS: Tool[] = [
   },
   {
     name: 'gtm_create_transformation',
-    description: 'Create a new transformation in a Server-Side container',
+    description: `Create a new transformation in a Server-Side container.
+
+**⚠️ SERVER-SIDE ONLY**
+Transformations are only available in Server containers.
+
+**Purpose:** Modify or enrich event data before tags process it.
+**Use Cases:**
+- PII redaction
+- Data enrichment
+- Event transformation`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -1021,7 +1268,9 @@ const TOOLS: Tool[] = [
   },
   {
     name: 'gtm_delete_transformation',
-    description: 'Delete a transformation (DESTRUCTIVE)',
+    description: `Delete a transformation (DESTRUCTIVE).
+
+**⚠️ SERVER-SIDE ONLY**`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -1597,7 +1846,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_delete_tag': {
         const { tagPath } = args as { tagPath: string };
-        result = { deleted: await tags.deleteTag(tagPath), path: tagPath };
+        const deleteResult = await tags.deleteTag(tagPath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: tagPath };
+        } else {
+          result = deleteResult;
+        }
         break;
       }
 
@@ -1640,7 +1894,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_delete_trigger': {
         const { triggerPath } = args as { triggerPath: string };
-        result = { deleted: await triggers.deleteTrigger(triggerPath), path: triggerPath };
+        const deleteResult = await triggers.deleteTrigger(triggerPath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: triggerPath };
+        } else {
+          result = deleteResult;
+        }
         break;
       }
 
@@ -1679,7 +1938,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_delete_variable': {
         const { variablePath } = args as { variablePath: string };
-        result = { deleted: await variables.deleteVariable(variablePath), path: variablePath };
+        const deleteResult = await variables.deleteVariable(variablePath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: variablePath };
+        } else {
+          result = deleteResult;
+        }
         break;
       }
 
@@ -1748,7 +2012,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_delete_template': {
         const { templatePath } = args as { templatePath: string };
-        result = { deleted: await templates.deleteTemplate(templatePath), path: templatePath };
+        const deleteResult = await templates.deleteTemplate(templatePath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: templatePath };
+        } else {
+          result = deleteResult;
+        }
         break;
       }
 
@@ -1793,7 +2062,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_publish_version': {
         const { versionPath } = args as { versionPath: string };
-        result = { published: await versions.publishVersion(versionPath), path: versionPath };
+        const publishResult = await versions.publishVersion(versionPath);
+        if (publishResult && typeof publishResult === 'object' && 'published' in publishResult) {
+          result = { ...(publishResult as { published: boolean }), path: versionPath };
+        } else {
+          result = publishResult;
+        }
         break;
       }
 
@@ -1940,7 +2214,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_delete_client': {
         const { clientPath } = args as { clientPath: string };
-        result = { deleted: await clients.deleteClient(clientPath), path: clientPath };
+        const deleteResult = await clients.deleteClient(clientPath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: clientPath };
+        } else {
+          result = deleteResult;
+        }
         break;
       }
 
@@ -1974,7 +2253,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_delete_transformation': {
         const { transformationPath } = args as { transformationPath: string };
-        result = { deleted: await transformations.deleteTransformation(transformationPath), path: transformationPath };
+        const deleteResult = await transformations.deleteTransformation(transformationPath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: transformationPath };
+        } else {
+          result = deleteResult;
+        }
         break;
       }
 
@@ -2010,7 +2294,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_delete_zone': {
         const { zonePath } = args as { zonePath: string };
-        result = { deleted: await zones.deleteZone(zonePath), path: zonePath };
+        const deleteResult = await zones.deleteZone(zonePath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: zonePath };
+        } else {
+          result = deleteResult;
+        }
         break;
       }
 
@@ -2103,7 +2392,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_delete_user_permission': {
         const { permissionPath } = args as { permissionPath: string };
-        result = { deleted: await userPermissions.deleteUserPermission(permissionPath), path: permissionPath };
+        const deleteResult = await userPermissions.deleteUserPermission(permissionPath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: permissionPath };
+        } else {
+          result = deleteResult;
+        }
         break;
       }
 
@@ -2135,7 +2429,70 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case 'gtm_delete_gtag_config': {
         const { gtagConfigPath } = args as { gtagConfigPath: string };
-        result = { deleted: await gtagConfig.deleteGtagConfig(gtagConfigPath), path: gtagConfigPath };
+        const deleteResult = await gtagConfig.deleteGtagConfig(gtagConfigPath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: gtagConfigPath };
+        } else {
+          result = deleteResult;
+        }
+        break;
+      }
+
+      // === TAG HELPERS ===
+      case 'gtm_get_tag_parameters': {
+        const { tagType } = args as { tagType: string };
+        result = getTagTypeInfo(tagType);
+        if (!result) {
+          result = {
+            error: 'Unknown tag type',
+            availableTypes: getAllTagTypes()
+          };
+        }
+        break;
+      }
+
+      case 'gtm_list_tag_types': {
+        result = getAllTagTypes();
+        break;
+      }
+
+      // === VARIABLE HELPERS ===
+      case 'gtm_get_variable_parameters': {
+        const { variableType } = args as { variableType: string };
+        result = getVariableParameters(variableType);
+        break;
+      }
+
+      // === WORKFLOW GUIDES ===
+      case 'gtm_list_workflows': {
+        result = getAllWorkflows();
+        break;
+      }
+
+      case 'gtm_get_workflow': {
+        const { workflowId, measurementId } = args as { workflowId: string; measurementId?: string };
+        result = customizeWorkflow(workflowId, measurementId);
+        if (!result) {
+          result = { error: 'Unknown workflow', availableWorkflows: getAllWorkflows() };
+        }
+        break;
+      }
+
+      // === SEARCH ===
+      case 'gtm_search_entities': {
+        const { workspacePath: wsPath, query, entityType } = args as {
+          workspacePath: string;
+          query: string;
+          entityType?: 'all' | 'tags' | 'triggers' | 'variables';
+        };
+        result = await searchEntities(wsPath, { query, entityType: entityType || 'all', caseSensitive: false });
+        break;
+      }
+
+      // === BEST PRACTICES ===
+      case 'gtm_check_best_practices': {
+        const { workspacePath: wsPath } = args as { workspacePath: string };
+        result = await checkBestPractices(wsPath);
         break;
       }
 

@@ -4,6 +4,7 @@
 
 import { tagmanager_v2 } from 'googleapis';
 import { getTagManagerClient, gtmApiCall } from '../utils/gtm-client.js';
+import { handleApiError, ApiError } from '../utils/error-handler.js';
 
 export interface FolderSummary {
   folderId: string;
@@ -71,7 +72,7 @@ export async function createFolder(
   workspacePath: string,
   name: string,
   notes?: string
-): Promise<FolderSummary | null> {
+): Promise<FolderSummary | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -91,8 +92,7 @@ export async function createFolder(
       path: folder.path || '',
     };
   } catch (error) {
-    console.error('Error creating folder:', error);
-    return null;
+    return handleApiError(error, 'createFolder', { workspacePath, name, notes });
   }
 }
 
@@ -103,7 +103,7 @@ export async function updateFolder(
   folderPath: string,
   name: string,
   fingerprint: string
-): Promise<FolderSummary | null> {
+): Promise<FolderSummary | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -123,15 +123,14 @@ export async function updateFolder(
       path: folder.path || '',
     };
   } catch (error) {
-    console.error('Error updating folder:', error);
-    return null;
+    return handleApiError(error, 'updateFolder', { folderPath, name, fingerprint });
   }
 }
 
 /**
  * Delete a folder (DESTRUCTIVE!)
  */
-export async function deleteFolder(folderPath: string): Promise<boolean> {
+export async function deleteFolder(folderPath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -140,17 +139,16 @@ export async function deleteFolder(folderPath: string): Promise<boolean> {
         path: folderPath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting folder:', error);
-    return false;
+    return handleApiError(error, 'deleteFolder', { folderPath });
   }
 }
 
 /**
  * Get all entities in a folder
  */
-export async function getFolderEntities(folderPath: string): Promise<FolderEntities | null> {
+export async function getFolderEntities(folderPath: string): Promise<FolderEntities | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -167,8 +165,7 @@ export async function getFolderEntities(folderPath: string): Promise<FolderEntit
       variables: result.variable?.map((v) => v.name || '') || [],
     };
   } catch (error) {
-    console.error('Error getting folder entities:', error);
-    return null;
+    return handleApiError(error, 'getFolderEntities', { folderPath });
   }
 }
 
@@ -183,7 +180,7 @@ export async function moveEntitiesToFolder(
     triggerId?: string[];
     variableId?: string[];
   }
-): Promise<boolean> {
+): Promise<{ moved: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -195,9 +192,8 @@ export async function moveEntitiesToFolder(
         variableId: entityIds.variableId,
       })
     );
-    return true;
+    return { moved: true };
   } catch (error) {
-    console.error('Error moving entities to folder:', error);
-    return false;
+    return handleApiError(error, 'moveEntitiesToFolder', { folderPath, entityIds });
   }
 }

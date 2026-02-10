@@ -4,6 +4,7 @@
 
 import { tagmanager_v2 } from 'googleapis';
 import { getTagManagerClient, gtmApiCall } from '../utils/gtm-client.js';
+import { handleApiError, ApiError } from '../utils/error-handler.js';
 
 export interface VersionSummary {
   versionId: string;
@@ -155,7 +156,7 @@ export async function createVersion(
   workspacePath: string,
   name: string,
   notes?: string
-): Promise<VersionSummary | null> {
+): Promise<VersionSummary | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -170,7 +171,13 @@ export async function createVersion(
     );
 
     const version = result.containerVersion;
-    if (!version) return null;
+    if (!version) {
+      return {
+        code: 'NO_VERSION',
+        message: 'Version creation succeeded but no version data returned',
+        suggestions: ['Try creating the version again', 'Check workspace status for pending changes'],
+      };
+    }
 
     return {
       versionId: version.containerVersionId || '',
@@ -179,15 +186,14 @@ export async function createVersion(
       description: version.description || undefined,
     };
   } catch (error) {
-    console.error('Error creating version:', error);
-    return null;
+    return handleApiError(error, 'createVersion', { workspacePath, name, notes });
   }
 }
 
 /**
  * Publish a version
  */
-export async function publishVersion(versionPath: string): Promise<boolean> {
+export async function publishVersion(versionPath: string): Promise<{ published: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -196,17 +202,16 @@ export async function publishVersion(versionPath: string): Promise<boolean> {
         path: versionPath,
       })
     );
-    return true;
+    return { published: true };
   } catch (error) {
-    console.error('Error publishing version:', error);
-    return false;
+    return handleApiError(error, 'publishVersion', { versionPath });
   }
 }
 
 /**
  * Delete a version (DESTRUCTIVE!)
  */
-export async function deleteVersion(versionPath: string): Promise<boolean> {
+export async function deleteVersion(versionPath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -215,17 +220,16 @@ export async function deleteVersion(versionPath: string): Promise<boolean> {
         path: versionPath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting version:', error);
-    return false;
+    return handleApiError(error, 'deleteVersion', { versionPath });
   }
 }
 
 /**
  * Undelete a version
  */
-export async function undeleteVersion(versionPath: string): Promise<VersionSummary | null> {
+export async function undeleteVersion(versionPath: string): Promise<VersionSummary | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -242,8 +246,7 @@ export async function undeleteVersion(versionPath: string): Promise<VersionSumma
       description: version.description || undefined,
     };
   } catch (error) {
-    console.error('Error undeleting version:', error);
-    return null;
+    return handleApiError(error, 'undeleteVersion', { versionPath });
   }
 }
 

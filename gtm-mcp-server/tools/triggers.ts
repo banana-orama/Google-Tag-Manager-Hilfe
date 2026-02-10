@@ -136,7 +136,7 @@ export async function updateTrigger(
     parentFolderId: string;
   }>,
   fingerprint: string
-): Promise<TriggerDetails | null> {
+): Promise<TriggerDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -160,15 +160,14 @@ export async function updateTrigger(
       fingerprint: trigger.fingerprint || undefined,
     };
   } catch (error) {
-    console.error('Error updating trigger:', error);
-    return null;
+    return handleApiError(error, 'updateTrigger', { triggerPath, triggerConfig, fingerprint });
   }
 }
 
 /**
  * Delete a trigger (DESTRUCTIVE!)
  */
-export async function deleteTrigger(triggerPath: string): Promise<boolean> {
+export async function deleteTrigger(triggerPath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -177,10 +176,9 @@ export async function deleteTrigger(triggerPath: string): Promise<boolean> {
         path: triggerPath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting trigger:', error);
-    return false;
+    return handleApiError(error, 'deleteTrigger', { triggerPath });
   }
 }
 

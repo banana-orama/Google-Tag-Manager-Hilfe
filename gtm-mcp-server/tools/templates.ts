@@ -4,6 +4,7 @@
 
 import { tagmanager_v2 } from 'googleapis';
 import { getTagManagerClient, gtmApiCall } from '../utils/gtm-client.js';
+import { handleApiError, ApiError } from '../utils/error-handler.js';
 
 export interface TemplateSummary {
   templateId: string;
@@ -87,7 +88,7 @@ export async function createTemplate(
     name: string;
     templateData: string;
   }
-): Promise<TemplateDetails | null> {
+): Promise<TemplateDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -106,8 +107,7 @@ export async function createTemplate(
       templateData: template.templateData || undefined,
     };
   } catch (error) {
-    console.error('Error creating template:', error);
-    return null;
+    return handleApiError(error, 'createTemplate', templateConfig);
   }
 }
 
@@ -123,7 +123,7 @@ export async function importTemplateFromGallery(
     version: string;
     signature?: string;
   }
-): Promise<TemplateDetails | null> {
+): Promise<TemplateDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -151,8 +151,7 @@ export async function importTemplateFromGallery(
       } : undefined,
     };
   } catch (error) {
-    console.error('Error importing template from gallery:', error);
-    return null;
+    return handleApiError(error, 'importTemplateFromGallery', { galleryReference });
   }
 }
 
@@ -166,7 +165,7 @@ export async function updateTemplate(
     templateData: string;
   }>,
   fingerprint: string
-): Promise<TemplateDetails | null> {
+): Promise<TemplateDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -186,15 +185,14 @@ export async function updateTemplate(
       templateData: template.templateData || undefined,
     };
   } catch (error) {
-    console.error('Error updating template:', error);
-    return null;
+    return handleApiError(error, 'updateTemplate', { templateConfig, fingerprint });
   }
 }
 
 /**
  * Delete a template (DESTRUCTIVE!)
  */
-export async function deleteTemplate(templatePath: string): Promise<boolean> {
+export async function deleteTemplate(templatePath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -203,17 +201,16 @@ export async function deleteTemplate(templatePath: string): Promise<boolean> {
         path: templatePath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting template:', error);
-    return false;
+    return handleApiError(error, 'deleteTemplate', { templatePath });
   }
 }
 
 /**
  * Revert template changes in workspace
  */
-export async function revertTemplate(templatePath: string): Promise<TemplateDetails | null> {
+export async function revertTemplate(templatePath: string): Promise<TemplateDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -224,7 +221,13 @@ export async function revertTemplate(templatePath: string): Promise<TemplateDeta
     );
 
     const template = result.template as tagmanager_v2.Schema$CustomTemplate | undefined;
-    if (!template) return null;
+    if (!template) {
+      return {
+        code: 'NO_TEMPLATE',
+        message: 'Revert succeeded but no template data returned',
+        suggestions: ['Try reverting the template again', 'Check if template exists in workspace'],
+      };
+    }
 
     return {
       templateId: template.templateId || '',
@@ -234,8 +237,7 @@ export async function revertTemplate(templatePath: string): Promise<TemplateDeta
       templateData: template.templateData || undefined,
     };
   } catch (error) {
-    console.error('Error reverting template:', error);
-    return null;
+    return handleApiError(error, 'revertTemplate', { templatePath });
   }
 }
 

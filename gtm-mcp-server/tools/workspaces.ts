@@ -4,6 +4,7 @@
 
 import { tagmanager_v2 } from 'googleapis';
 import { getTagManagerClient, gtmApiCall } from '../utils/gtm-client.js';
+import { handleApiError, ApiError } from '../utils/error-handler.js';
 
 export interface WorkspaceSummary {
   workspaceId: string;
@@ -80,7 +81,7 @@ export async function createWorkspace(
   containerPath: string,
   name: string,
   description?: string
-): Promise<WorkspaceSummary | null> {
+): Promise<WorkspaceSummary | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -101,15 +102,14 @@ export async function createWorkspace(
       description: workspace.description || undefined,
     };
   } catch (error) {
-    console.error('Error creating workspace:', error);
-    return null;
+    return handleApiError(error, 'createWorkspace', { containerPath, name, description });
   }
 }
 
 /**
  * Delete a workspace (DESTRUCTIVE!)
  */
-export async function deleteWorkspace(workspacePath: string): Promise<boolean> {
+export async function deleteWorkspace(workspacePath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -118,17 +118,16 @@ export async function deleteWorkspace(workspacePath: string): Promise<boolean> {
         path: workspacePath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting workspace:', error);
-    return false;
+    return handleApiError(error, 'deleteWorkspace', { workspacePath });
   }
 }
 
 /**
  * Get workspace status (changes, conflicts)
  */
-export async function getWorkspaceStatus(workspacePath: string): Promise<WorkspaceStatus | null> {
+export async function getWorkspaceStatus(workspacePath: string): Promise<WorkspaceStatus | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -163,15 +162,14 @@ export async function getWorkspaceStatus(workspacePath: string): Promise<Workspa
       changeCount,
     };
   } catch (error) {
-    console.error('Error getting workspace status:', error);
-    return null;
+    return handleApiError(error, 'getWorkspaceStatus', { workspacePath });
   }
 }
 
 /**
  * Sync workspace with latest container version
  */
-export async function syncWorkspace(workspacePath: string): Promise<boolean> {
+export async function syncWorkspace(workspacePath: string): Promise<{ synced: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -180,9 +178,8 @@ export async function syncWorkspace(workspacePath: string): Promise<boolean> {
         path: workspacePath,
       })
     );
-    return true;
+    return { synced: true };
   } catch (error) {
-    console.error('Error syncing workspace:', error);
-    return false;
+    return handleApiError(error, 'syncWorkspace', { workspacePath });
   }
 }

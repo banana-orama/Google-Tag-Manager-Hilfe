@@ -126,7 +126,7 @@ export async function updateVariable(
     parentFolderId: string;
   }>,
   fingerprint: string
-): Promise<VariableDetails | null> {
+): Promise<VariableDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -148,15 +148,14 @@ export async function updateVariable(
       fingerprint: variable.fingerprint || undefined,
     };
   } catch (error) {
-    console.error('Error updating variable:', error);
-    return null;
+    return handleApiError(error, 'updateVariable', { variablePath, variableConfig, fingerprint });
   }
 }
 
 /**
  * Delete a variable (DESTRUCTIVE!)
  */
-export async function deleteVariable(variablePath: string): Promise<boolean> {
+export async function deleteVariable(variablePath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -165,10 +164,9 @@ export async function deleteVariable(variablePath: string): Promise<boolean> {
         path: variablePath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting variable:', error);
-    return false;
+    return handleApiError(error, 'deleteVariable', { variablePath });
   }
 }
 

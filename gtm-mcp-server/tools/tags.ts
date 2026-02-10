@@ -139,7 +139,7 @@ export async function updateTag(
     parentFolderId: string;
   }>,
   fingerprint: string
-): Promise<TagDetails | null> {
+): Promise<TagDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -164,15 +164,14 @@ export async function updateTag(
       fingerprint: tag.fingerprint || undefined,
     };
   } catch (error) {
-    console.error('Error updating tag:', error);
-    return null;
+    return handleApiError(error, 'updateTag', { tagPath, tagConfig, fingerprint });
   }
 }
 
 /**
  * Delete a tag (DESTRUCTIVE!)
  */
-export async function deleteTag(tagPath: string): Promise<boolean> {
+export async function deleteTag(tagPath: string): Promise<{ deleted: boolean } | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -181,17 +180,16 @@ export async function deleteTag(tagPath: string): Promise<boolean> {
         path: tagPath,
       })
     );
-    return true;
+    return { deleted: true };
   } catch (error) {
-    console.error('Error deleting tag:', error);
-    return false;
+    return handleApiError(error, 'deleteTag', { tagPath });
   }
 }
 
 /**
  * Revert tag changes in workspace
  */
-export async function revertTag(tagPath: string): Promise<TagDetails | null> {
+export async function revertTag(tagPath: string): Promise<TagDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
@@ -202,7 +200,13 @@ export async function revertTag(tagPath: string): Promise<TagDetails | null> {
     );
 
     const tag = result.tag;
-    if (!tag) return null;
+    if (!tag) {
+      return {
+        code: 'NO_TAG',
+        message: 'Revert succeeded but no tag data returned',
+        suggestions: ['Try reverting the tag again', 'Check if tag exists in workspace'],
+      };
+    }
 
     return {
       tagId: tag.tagId || '',
@@ -217,8 +221,7 @@ export async function revertTag(tagPath: string): Promise<TagDetails | null> {
       fingerprint: tag.fingerprint || undefined,
     };
   } catch (error) {
-    console.error('Error reverting tag:', error);
-    return null;
+    return handleApiError(error, 'revertTag', { tagPath });
   }
 }
 
