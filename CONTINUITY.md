@@ -181,8 +181,11 @@ Done:
     - `facebook-tag`, `fb-tag`, `facebook-leads-tag`, `facebook-offline-conversion-tag`
     - `linkedin-tag`
     - `microsoft-capi-tag`, `microsoft-ads-offline-conversion-tag`
-  - Added idempotent enrichment behavior to avoid duplicate optional parameters.
-  - Fixed registry upsert semantics to dedupe by `owner/repository` (not accumulating duplicate entries across runs).
+- Added idempotent enrichment behavior to avoid duplicate optional parameters.
+- Fixed registry upsert semantics to dedupe by `owner/repository` (not accumulating duplicate entries across runs).
+- Committed local changes:
+  - commit `2b92112`
+  - message: `Add template registry with stape verification and priority enrichment`
 
 Now:
 - Implementation complete for requested scope:
