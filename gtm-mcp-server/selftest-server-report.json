@@ -1,0 +1,2925 @@
+
+> gtm-mcp-server@1.0.0 selftest
+> npm run -s build && node dist/scripts/selftest.js
+
+{
+  "accountId": "572865630",
+  "containerPath": "accounts/572865630/containers/208950707",
+  "workspacePath": "accounts/572865630/containers/208950707/workspaces/16",
+  "isServerContainer": true,
+  "mode": "write_new",
+  "delayMs": 400,
+  "results": [
+    {
+      "name": "mcp_list_tools",
+      "status": "pass",
+      "details": {
+        "count": 102
+      }
+    },
+    {
+      "name": "gtm_status",
+      "status": "pass",
+      "details": {
+        "authenticated": true,
+        "hasCredentials": true,
+        "hasValidTokens": true,
+        "rateLimits": {
+          "dailyCount": 0,
+          "dailyLimit": 10000,
+          "queueLength": 0
+        },
+        "credentialsPath": "/Users/tobias_batke/.gtm-mcp/client_secrets.json"
+      }
+    },
+    {
+      "name": "gtm_list_accounts",
+      "status": "pass",
+      "details": [
+        {
+          "accountId": "572865630",
+          "name": "Eigene Websites",
+          "path": "accounts/572865630"
+        },
+        {
+          "accountId": "4540457445",
+          "name": "Wandtattoos.de",
+          "path": "accounts/4540457445"
+        },
+        {
+          "accountId": "6002441718",
+          "name": "ROOQ GmbH",
+          "path": "accounts/6002441718"
+        },
+        {
+          "accountId": "6050884951",
+          "name": "LeMerle",
+          "path": "accounts/6050884951"
+        },
+        {
+          "accountId": "6315161703",
+          "name": "GAM Medical ES",
+          "path": "accounts/6315161703"
+        },
+        {
+          "accountId": "6235742511",
+          "name": "bkp GmbH",
+          "path": "accounts/6235742511"
+        },
+        {
+          "accountId": "6204082799",
+          "name": "GAM Medical Germany",
+          "path": "accounts/6204082799"
+        },
+        {
+          "accountId": "6326054341",
+          "name": "Cozy Heaven",
+          "path": "accounts/6326054341"
+        },
+        {
+          "accountId": "6003255881",
+          "name": "Logistik XTRA GmbH",
+          "path": "accounts/6003255881"
+        },
+        {
+          "accountId": "6000872213",
+          "name": "Dog Fit Shop",
+          "path": "accounts/6000872213"
+        },
+        {
+          "accountId": "6221819844",
+          "name": "Smarli",
+          "path": "accounts/6221819844"
+        },
+        {
+          "accountId": "6001971228",
+          "name": "ETW",
+          "path": "accounts/6001971228"
+        },
+        {
+          "accountId": "6001235965",
+          "name": "gesund24h.de",
+          "path": "accounts/6001235965"
+        },
+        {
+          "accountId": "6244059618",
+          "name": "Kinderstellar",
+          "path": "accounts/6244059618"
+        },
+        {
+          "accountId": "566453661",
+          "name": "Proveon",
+          "path": "accounts/566453661"
+        },
+        {
+          "accountId": "350250869",
+          "name": "www.sonderpreis-baumarkt.de",
+          "path": "accounts/350250869"
+        },
+        {
+          "accountId": "6014006380",
+          "name": "Myofficebrand",
+          "path": "accounts/6014006380"
+        },
+        {
+          "accountId": "4701138060",
+          "name": "Wandtattoo.de",
+          "path": "accounts/4701138060"
+        },
+        {
+          "accountId": "6142113348",
+          "name": "Medicross",
+          "path": "accounts/6142113348"
+        },
+        {
+          "accountId": "6208943407",
+          "name": "guterrat Gesundheitsprodukte",
+          "path": "accounts/6208943407"
+        },
+        {
+          "accountId": "6072541372",
+          "name": "HollyDent",
+          "path": "accounts/6072541372"
+        },
+        {
+          "accountId": "365208277",
+          "name": "PHOS",
+          "path": "accounts/365208277"
+        },
+        {
+          "accountId": "6319206708",
+          "name": "Futura",
+          "path": "accounts/6319206708"
+        },
+        {
+          "accountId": "2326724817",
+          "name": "RADIO 21",
+          "path": "accounts/2326724817"
+        },
+        {
+          "accountId": "1310374479",
+          "name": "L-mobile solutions",
+          "path": "accounts/1310374479"
+        },
+        {
+          "accountId": "4703172658",
+          "name": "Bali Bracelets",
+          "path": "accounts/4703172658"
+        },
+        {
+          "accountId": "6248215444",
+          "name": "NEBU-TEC",
+          "path": "accounts/6248215444"
+        },
+        {
+          "accountId": "6236718037",
+          "name": "Smart City System Parking Solutions GmbH",
+          "path": "accounts/6236718037"
+        },
+        {
+          "accountId": "6225592186",
+          "name": "Fotokistebodensee",
+          "path": "accounts/6225592186"
+        },
+        {
+          "accountId": "6000123300",
+          "name": "More in Common",
+          "path": "accounts/6000123300"
+        },
+        {
+          "accountId": "6001883125",
+          "name": "prethis.com",
+          "path": "accounts/6001883125"
+        },
+        {
+          "accountId": "6125952160",
+          "name": "Universal Clean",
+          "path": "accounts/6125952160"
+        },
+        {
+          "accountId": "6260641851",
+          "name": "Futura Berlin GmbH",
+          "path": "accounts/6260641851"
+        },
+        {
+          "accountId": "6073640915",
+          "name": "Gam Medical",
+          "path": "accounts/6073640915"
+        },
+        {
+          "accountId": "6083188446",
+          "name": "BB Onlinemarketing Gbr",
+          "path": "accounts/6083188446"
+        },
+        {
+          "accountId": "2358111260",
+          "name": "Adveniat e.V.",
+          "path": "accounts/2358111260"
+        },
+        {
+          "accountId": "3613365022",
+          "name": "Michael Geyer Photography",
+          "path": "accounts/3613365022"
+        },
+        {
+          "accountId": "4379821715",
+          "name": "Quick-Lohn",
+          "path": "accounts/4379821715"
+        }
+      ]
+    },
+    {
+      "name": "gtm_get_account",
+      "status": "pass",
+      "details": {
+        "path": "accounts/572865630",
+        "accountId": "572865630",
+        "name": "Eigene Websites",
+        "fingerprint": "1532191856482",
+        "tagManagerUrl": "https://tagmanager.google.com/#/admin/accounts/572865630?apiLink=account",
+        "features": {
+          "supportUserPermissions": true,
+          "supportMultipleContainers": true
+        }
+      }
+    },
+    {
+      "name": "gtm_list_containers",
+      "status": "pass",
+      "details": [
+        {
+          "containerId": "9499384",
+          "name": "tobiasbatke.com",
+          "publicId": "GTM-WKVBZG3",
+          "path": "accounts/572865630/containers/9499384",
+          "usageContext": [
+            "web"
+          ],
+          "accountId": "572865630"
+        },
+        {
+          "containerId": "208950707",
+          "name": "Stape.io - tobiasbatke.com",
+          "publicId": "GTM-KX4X75JJ",
+          "path": "accounts/572865630/containers/208950707",
+          "usageContext": [
+            "server"
+          ],
+          "accountId": "572865630"
+        },
+        {
+          "containerId": "243018951",
+          "name": "Test Container WEB",
+          "publicId": "GTM-KPGV9LDP",
+          "path": "accounts/572865630/containers/243018951",
+          "usageContext": [
+            "web"
+          ],
+          "accountId": "572865630"
+        }
+      ]
+    },
+    {
+      "name": "gtm_lookup_container",
+      "status": "skip",
+      "details": "Skipped: GTM_TEST_CONTAINER_PUBLIC_ID not set"
+    },
+    {
+      "name": "gtm_get_container",
+      "status": "pass",
+      "details": {
+        "containerId": "208950707",
+        "name": "Stape.io - tobiasbatke.com",
+        "publicId": "GTM-KX4X75JJ",
+        "path": "accounts/572865630/containers/208950707",
+        "usageContext": [
+          "server"
+        ],
+        "accountId": "572865630",
+        "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/572865630/containers/208950707/workspaces?apiLink=container",
+        "features": {
+          "supportUserPermissions": true,
+          "supportEnvironments": true,
+          "supportWorkspaces": true,
+          "supportGtagConfigs": false,
+          "supportBuiltInVariables": true,
+          "supportClients": true,
+          "supportFolders": true,
+          "supportTags": true,
+          "supportTemplates": true,
+          "supportTriggers": true,
+          "supportVariables": true,
+          "supportVersions": true,
+          "supportZones": true,
+          "supportTransformations": true
+        }
+      }
+    },
+    {
+      "name": "gate_create_container",
+      "status": "pass",
+      "details": {
+        "error": "Confirmation required",
+        "errorType": "CONFIRMATION_REQUIRED",
+        "tool": "gtm_create_container",
+        "action": "create_container",
+        "help": "Re-run the tool call with {\"confirm\": true} to proceed."
+      }
+    },
+    {
+      "name": "gate_delete_container",
+      "status": "pass",
+      "details": {
+        "error": "Confirmation required",
+        "errorType": "CONFIRMATION_REQUIRED",
+        "tool": "gtm_delete_container",
+        "action": "delete_container",
+        "help": "Re-run the tool call with {\"confirm\": true} to proceed."
+      }
+    },
+    {
+      "name": "gtm_list_workspaces",
+      "status": "pass",
+      "details": [
+        {
+          "workspaceId": "14",
+          "name": "Default Workspace",
+          "path": "accounts/572865630/containers/208950707/workspaces/14"
+        }
+      ]
+    },
+    {
+      "name": "create_workspace",
+      "status": "pass",
+      "details": {
+        "workspaceId": "16",
+        "name": "MCP Selftest 2026-02-11T10-15-39-662Z",
+        "path": "accounts/572865630/containers/208950707/workspaces/16",
+        "description": "Created by MCP selftest"
+      }
+    },
+    {
+      "name": "gtm_get_workspace",
+      "status": "pass",
+      "details": {
+        "workspaceId": "16",
+        "name": "MCP Selftest 2026-02-11T10-15-39-662Z",
+        "path": "accounts/572865630/containers/208950707/workspaces/16",
+        "description": "Created by MCP selftest"
+      }
+    },
+    {
+      "name": "gtm_get_workspace_status",
+      "status": "pass",
+      "details": {
+        "workspaceId": "16",
+        "name": "",
+        "hasChanges": false,
+        "mergeConflicts": false,
+        "changeCount": {
+          "tags": 0,
+          "triggers": 0,
+          "variables": 0,
+          "folders": 0
+        }
+      }
+    },
+    {
+      "name": "gate_delete_workspace",
+      "status": "pass",
+      "details": {
+        "error": "Confirmation required",
+        "errorType": "CONFIRMATION_REQUIRED",
+        "tool": "gtm_delete_workspace",
+        "action": "delete_workspace",
+        "help": "Re-run the tool call with {\"confirm\": true} to proceed."
+      }
+    },
+    {
+      "name": "gate_sync_workspace",
+      "status": "pass",
+      "details": {
+        "error": "Confirmation required",
+        "errorType": "CONFIRMATION_REQUIRED",
+        "tool": "gtm_sync_workspace",
+        "action": "sync_workspace",
+        "note": "This pulls latest container changes into the workspace.",
+        "help": "Re-run the tool call with {\"confirm\": true} to proceed."
+      }
+    },
+    {
+      "name": "mode",
+      "status": "pass",
+      "details": {
+        "mode": "write_new",
+        "writeAllowed": true
+      }
+    },
+    {
+      "name": "workspace_write_probe",
+      "status": "pass",
+      "details": {
+        "workspacePath": "accounts/572865630/containers/208950707/workspaces/16"
+      }
+    },
+    {
+      "name": "gtm_list_tags",
+      "status": "pass",
+      "details": {
+        "summary": {
+          "total": 4,
+          "byType": {
+            "sgtmadscl": 1,
+            "cvt_5TP8W": 1,
+            "sgtmadsct": 1,
+            "sgtmgaaw": 1
+          },
+          "paused": 0,
+          "withoutTriggers": []
+        },
+        "tags": [
+          {
+            "tagId": "26",
+            "name": "Conversion Linker",
+            "type": "sgtmadscl",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/tags/26",
+            "firingTriggerId": [
+              "22"
+            ]
+          },
+          {
+            "tagId": "31",
+            "name": "FB - PageView",
+            "type": "cvt_5TP8W",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/tags/31",
+            "firingTriggerId": [
+              "22"
+            ]
+          },
+          {
+            "tagId": "37",
+            "name": "GADS - Purchase Conversion",
+            "type": "sgtmadsct",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/tags/37",
+            "firingTriggerId": [
+              "36"
+            ]
+          },
+          {
+            "tagId": "25",
+            "name": "GA4 - All Events",
+            "type": "sgtmgaaw",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/tags/25",
+            "firingTriggerId": [
+              "24"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "gtm_list_triggers",
+      "status": "pass",
+      "details": {
+        "summary": {
+          "total": 9,
+          "byType": {
+            "always": 1,
+            "customEvent": 8
+          }
+        },
+        "triggers": [
+          {
+            "triggerId": "43",
+            "name": "MCP Selftest Always 2026-02-11T10-06-51-418Z Updated",
+            "type": "always",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/43",
+            "folderId": "41"
+          },
+          {
+            "triggerId": "22",
+            "name": "GA4 - page_view",
+            "type": "customEvent",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/22"
+          },
+          {
+            "triggerId": "36",
+            "name": "GA4 - purchase",
+            "type": "customEvent",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/36"
+          },
+          {
+            "triggerId": "24",
+            "name": "All Events",
+            "type": "customEvent",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/24"
+          },
+          {
+            "triggerId": "14",
+            "name": "click",
+            "type": "customEvent",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/14"
+          },
+          {
+            "triggerId": "16",
+            "name": "video",
+            "type": "customEvent",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/16"
+          },
+          {
+            "triggerId": "12",
+            "name": "scroll",
+            "type": "customEvent",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/12"
+          },
+          {
+            "triggerId": "10",
+            "name": "web_vitals",
+            "type": "customEvent",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/10"
+          },
+          {
+            "triggerId": "9",
+            "name": "Google Analytics Optout",
+            "type": "customEvent",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/9"
+          }
+        ]
+      }
+    },
+    {
+      "name": "gtm_list_variables",
+      "status": "pass",
+      "details": {
+        "summary": {
+          "total": 10,
+          "byType": {
+            "r": 1,
+            "c": 5,
+            "ed": 3,
+            "sgtmk": 1
+          }
+        },
+        "variables": [
+          {
+            "variableId": "42",
+            "name": "MCP Selftest Random Updated 2026-02-11T10-06-51-418Z",
+            "type": "r",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/42",
+            "folderId": "41"
+          },
+          {
+            "variableId": "28",
+            "name": "FB - API Access Token",
+            "type": "c",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/28"
+          },
+          {
+            "variableId": "29",
+            "name": "FB - Pixel ID",
+            "type": "c",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/29"
+          },
+          {
+            "variableId": "30",
+            "name": "ed - event_id",
+            "type": "ed",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/30"
+          },
+          {
+            "variableId": "32",
+            "name": "GADS - Conversion ID",
+            "type": "c",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/32"
+          },
+          {
+            "variableId": "33",
+            "name": "GADS - Conversionlabel",
+            "type": "c",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/33"
+          },
+          {
+            "variableId": "34",
+            "name": "ed - value",
+            "type": "ed",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/34"
+          },
+          {
+            "variableId": "35",
+            "name": "ed - currency",
+            "type": "ed",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/35"
+          },
+          {
+            "variableId": "8",
+            "name": "Cookie - borlabs-cookie",
+            "type": "sgtmk",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/8"
+          },
+          {
+            "variableId": "6",
+            "name": "GA4 - Property ID",
+            "type": "c",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/variables/6"
+          }
+        ]
+      }
+    },
+    {
+      "name": "gtm_list_folders",
+      "status": "pass",
+      "details": [
+        {
+          "folderId": "41",
+          "name": "MCP Selftest Renamed 2026-02-11T10-06-51-418Z",
+          "path": "accounts/572865630/containers/208950707/workspaces/16/folders/41",
+          "fingerprint": "1770804423480"
+        }
+      ]
+    },
+    {
+      "name": "gtm_list_templates",
+      "status": "pass",
+      "details": {
+        "total": 4,
+        "templates": [
+          {
+            "templateId": "27",
+            "name": "Facebook Conversion API",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/templates/27"
+          },
+          {
+            "templateId": "20",
+            "name": "GA4 Advanced",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/templates/20"
+          },
+          {
+            "templateId": "18",
+            "name": "PiwikPro",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/templates/18"
+          },
+          {
+            "templateId": "4",
+            "name": "Data Client",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/templates/4"
+          }
+        ]
+      }
+    },
+    {
+      "name": "gtm_get_container_info",
+      "status": "pass",
+      "details": {
+        "accountId": "572865630",
+        "containerId": "208950707",
+        "name": "Stape.io - tobiasbatke.com",
+        "publicId": "GTM-KX4X75JJ",
+        "usageContext": [
+          "server"
+        ],
+        "supportedFeatures": {
+          "clients": true,
+          "transformations": true,
+          "zones": true,
+          "triggers": [
+            "always",
+            "customEvent",
+            "triggerGroup",
+            "init",
+            "consentInit",
+            "serverPageview"
+          ],
+          "variables": [
+            "c",
+            "jsm",
+            "v",
+            "k",
+            "aev",
+            "r",
+            "smm",
+            "f",
+            "ev",
+            "fn",
+            "d",
+            "j",
+            "ejs"
+          ]
+        },
+        "capabilities": {
+          "containerType": "server",
+          "usageContext": [
+            "server"
+          ],
+          "hasClients": true,
+          "hasTransformations": true,
+          "hasWebTriggers": false,
+          "hasServerTriggers": true,
+          "supportedTriggerTypes": [
+            "always",
+            "customEvent",
+            "triggerGroup",
+            "init",
+            "consentInit",
+            "serverPageview"
+          ],
+          "supportedVariableTypes": [
+            "c",
+            "jsm",
+            "v",
+            "k",
+            "aev",
+            "r",
+            "smm",
+            "f",
+            "ev",
+            "fn",
+            "d",
+            "j",
+            "ejs"
+          ],
+          "notes": [
+            "This is a Server container",
+            "Clients and Transformations are available",
+            "Only server trigger types are supported (always, customEvent, triggerGroup)"
+          ]
+        }
+      }
+    },
+    {
+      "name": "gtm_validate_trigger_config",
+      "status": "pass",
+      "details": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "suggestions": [
+          "Configuration looks good! You can create the trigger now."
+        ],
+        "example": {
+          "validTemplate": {
+            "type": "pageview",
+            "name": "All Pages",
+            "filter": [],
+            "description": "Fires on all page views (no filter = all pages)",
+            "containerType": "web"
+          },
+          "conditionFormat": {
+            "correct": {
+              "type": "contains",
+              "parameter": [
+                {
+                  "key": "arg0",
+                  "type": "template",
+                  "value": "{{Page URL}}"
+                },
+                {
+                  "key": "arg1",
+                  "type": "template",
+                  "value": "/checkout"
+                }
+              ]
+            },
+            "note": "Use arg0 and arg1 with parameter array (API v2 format)"
+          }
+        }
+      }
+    },
+    {
+      "name": "gtm_get_trigger_template",
+      "status": "pass",
+      "details": {
+        "type": "customEvent",
+        "name": "Custom Event",
+        "customEventFilter": [
+          {
+            "type": "equals",
+            "parameter": [
+              {
+                "key": "arg0",
+                "type": "template",
+                "value": "{{_event}}"
+              },
+              {
+                "key": "arg1",
+                "type": "template",
+                "value": "my_event"
+              }
+            ]
+          }
+        ],
+        "description": "Fires when dataLayer.push({ event: \"my_event\" }) is called. Change \"my_event\" to your event name.",
+        "containerType": "both"
+      }
+    },
+    {
+      "name": "gtm_list_tag_types",
+      "status": "pass",
+      "details": [
+        {
+          "type": "html",
+          "displayName": "Custom HTML",
+          "category": "custom",
+          "description": "Inject custom HTML or JavaScript code into pages"
+        },
+        {
+          "type": "gaawe",
+          "displayName": "GA4 Event",
+          "category": "analytics",
+          "description": "Send events to Google Analytics 4"
+        },
+        {
+          "type": "googtag",
+          "displayName": "Google tag (gtag.js)",
+          "category": "analytics",
+          "description": "Google tag configuration for GA4, Ads, etc."
+        },
+        {
+          "type": "awct",
+          "displayName": "Google Ads Conversion Tracking",
+          "category": "advertising",
+          "description": "Track Google Ads conversions"
+        },
+        {
+          "type": "sp",
+          "displayName": "Google Ads Remarketing",
+          "category": "advertising",
+          "description": "Google Ads remarketing tag"
+        },
+        {
+          "type": "ua",
+          "displayName": "Universal Analytics",
+          "category": "analytics",
+          "description": "Universal Analytics tracking (deprecated - use GA4 instead)"
+        },
+        {
+          "type": "flc",
+          "displayName": "Floodlight Counter",
+          "category": "advertising",
+          "description": "Google Marketing Platform Floodlight Counter tag"
+        }
+      ]
+    },
+    {
+      "name": "gtm_get_tag_parameters",
+      "status": "pass",
+      "details": {
+        "type": "html",
+        "displayName": "Custom HTML",
+        "category": "custom",
+        "description": "Inject custom HTML or JavaScript code into pages",
+        "containerCompatibility": [
+          "web"
+        ],
+        "parameters": {
+          "required": [
+            {
+              "key": "html",
+              "type": "template",
+              "required": true,
+              "description": "HTML/JavaScript code to inject",
+              "example": "<script>console.log(\"Hello\");</script>"
+            }
+          ],
+          "optional": [
+            {
+              "key": "supportsDocumentWrite",
+              "type": "boolean",
+              "required": false,
+              "description": "Allow document.write()",
+              "example": "false",
+              "defaultValue": "false"
+            },
+            {
+              "key": "useIframe",
+              "type": "boolean",
+              "required": false,
+              "description": "Render in iframe",
+              "example": "false",
+              "defaultValue": "false"
+            }
+          ]
+        },
+        "example": {
+          "name": "Custom HTML Tag",
+          "type": "html",
+          "parameter": [
+            {
+              "key": "html",
+              "type": "template",
+              "value": "<script>console.log(\"test\");</script>"
+            }
+          ],
+          "firingTriggerId": [
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "gtm_get_variable_parameters",
+      "status": "pass",
+      "details": {
+        "type": "r",
+        "parameters": {
+          "required": [],
+          "optional": [
+            {
+              "key": "min",
+              "type": "integer",
+              "required": false,
+              "description": "Minimum value",
+              "example": "0"
+            },
+            {
+              "key": "max",
+              "type": "integer",
+              "required": false,
+              "description": "Maximum value",
+              "example": "100"
+            }
+          ]
+        },
+        "example": {
+          "name": "Random Number",
+          "type": "r",
+          "parameter": []
+        }
+      }
+    },
+    {
+      "name": "gtm_list_workflows",
+      "status": "pass",
+      "details": [
+        {
+          "id": "setup_ga4",
+          "name": "GA4 Basic Setup",
+          "description": "Set up Google Analytics 4 tracking with pageviews and basic events",
+          "containerType": "web"
+        },
+        {
+          "id": "setup_conversion_tracking",
+          "name": "Google Ads Conversion Tracking",
+          "description": "Set up conversion tracking for Google Ads campaigns",
+          "containerType": "web"
+        },
+        {
+          "id": "setup_form_tracking",
+          "name": "Form Submission Tracking",
+          "description": "Track form submissions with GA4 events",
+          "containerType": "web"
+        },
+        {
+          "id": "setup_scroll_tracking",
+          "name": "Scroll Depth Tracking",
+          "description": "Track how far users scroll on pages",
+          "containerType": "web"
+        },
+        {
+          "id": "setup_link_click_tracking",
+          "name": "Link Click Tracking",
+          "description": "Track clicks on internal and external links",
+          "containerType": "web"
+        },
+        {
+          "id": "setup_ecommerce_tracking",
+          "name": "E-Commerce Tracking (GA4)",
+          "description": "Complete e-commerce tracking with purchase events and product data",
+          "containerType": "web"
+        }
+      ]
+    },
+    {
+      "name": "gtm_get_workflow",
+      "status": "pass",
+      "details": {
+        "id": "setup_ga4",
+        "name": "GA4 Basic Setup",
+        "description": "Set up Google Analytics 4 tracking with pageviews and basic events",
+        "prerequisites": [
+          "GA4 Property must exist in Google Analytics",
+          "Measurement ID must be available (G-XXXXXXXXXX)",
+          "Container must be a Web container"
+        ],
+        "estimatedTime": "10-15 minutes",
+        "containerType": "web",
+        "steps": [
+          {
+            "step": 1,
+            "action": "Create Google tag (gtag.js)",
+            "tool": "gtm_create_tag",
+            "description": "Creates the Google tag configuration for GA4",
+            "parameters": {
+              "type": "googtag",
+              "name": "Google tag - GA4",
+              "parameter": [
+                {
+                  "key": "tagId",
+                  "type": "template",
+                  "value": "G-XXXXXXXXXX"
+                }
+              ]
+            },
+            "notes": [
+              "Replace YOUR_MEASUREMENT_ID with your actual GA4 Measurement ID (e.g., G-XXXXXXXXXX)",
+              "This tag should fire on all pages"
+            ]
+          },
+          {
+            "step": 2,
+            "action": "Create All Pages Trigger",
+            "tool": "gtm_create_trigger",
+            "description": "Creates a trigger that fires on all page views",
+            "parameters": {
+              "type": "pageview",
+              "name": "All Pages",
+              "filter": []
+            },
+            "notes": [
+              "No filter = fires on all pages",
+              "This is the standard initialization trigger"
+            ]
+          },
+          {
+            "step": 3,
+            "action": "Link Trigger to Tag",
+            "tool": "gtm_create_tag",
+            "description": "Update the tag with the trigger ID",
+            "notes": [
+              "Get the triggerId from step 2",
+              "Add it to firingTriggerId array",
+              "Save and test in preview mode"
+            ]
+          },
+          {
+            "step": 4,
+            "action": "Test in Preview Mode",
+            "tool": "gtm_get_workspace_status",
+            "description": "Check workspace status and test the setup",
+            "notes": [
+              "Open GTM Preview mode",
+              "Navigate to your website",
+              "Verify GA4 tag fires on page load",
+              "Check GA4 Real-Time reports"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "gtm_search_entities",
+      "status": "pass",
+      "details": [
+        {
+          "type": "trigger",
+          "id": "43",
+          "name": "MCP Selftest Always 2026-02-11T10-06-51-418Z Updated",
+          "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/43",
+          "additionalInfo": {
+            "type": "always"
+          },
+          "matchReason": "Name contains: \"mcp\""
+        },
+        {
+          "type": "variable",
+          "id": "42",
+          "name": "MCP Selftest Random Updated 2026-02-11T10-06-51-418Z",
+          "path": "accounts/572865630/containers/208950707/workspaces/16/variables/42",
+          "additionalInfo": {
+            "type": "r"
+          },
+          "matchReason": "Name contains: \"mcp\""
+        },
+        {
+          "type": "folder",
+          "id": "41",
+          "name": "MCP Selftest Renamed 2026-02-11T10-06-51-418Z",
+          "path": "accounts/572865630/containers/208950707/workspaces/16/folders/41",
+          "matchReason": "Name contains: \"mcp\""
+        }
+      ]
+    },
+    {
+      "name": "gtm_check_best_practices",
+      "status": "pass",
+      "details": {
+        "score": 98,
+        "issues": [
+          {
+            "severity": "info",
+            "type": "missing_analytics",
+            "message": "No analytics configuration found",
+            "recommendation": "Consider adding GA4 tracking for analytics insights"
+          }
+        ],
+        "recommendations": [
+          "Add GA4 configuration tag for analytics tracking",
+          "Add analytics tracking for better insights"
+        ],
+        "summary": {
+          "totalIssues": 1,
+          "errors": 0,
+          "warnings": 0,
+          "info": 1
+        },
+        "stats": {
+          "tags": {
+            "total": 4,
+            "paused": 0,
+            "withoutTriggers": 0
+          },
+          "triggers": {
+            "total": 9
+          },
+          "variables": {
+            "total": 10
+          },
+          "folders": {
+            "total": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "gtm_analyze_container",
+      "status": "pass",
+      "details": {
+        "container": "Stape.io - tobiasbatke.com",
+        "publicId": "GTM-KX4X75JJ",
+        "usageContext": [
+          "server"
+        ],
+        "tags": {
+          "total": 4,
+          "byType": {
+            "sgtmgaaw": 1,
+            "sgtmadscl": 1,
+            "cvt_5TP8W": 1,
+            "sgtmadsct": 1
+          },
+          "paused": 0,
+          "withoutTriggers": []
+        },
+        "triggers": {
+          "total": 8,
+          "byType": {
+            "customEvent": 8
+          }
+        },
+        "variables": {
+          "total": 9,
+          "byType": {
+            "c": 5,
+            "sgtmk": 1,
+            "ed": 3
+          }
+        },
+        "folders": 0,
+        "clients": 1
+      }
+    },
+    {
+      "name": "gtm_list_built_in_variables",
+      "status": "pass",
+      "details": [
+        {
+          "name": "Client Name",
+          "type": "clientName",
+          "path": "accounts/572865630/containers/208950707/workspaces/16/built_in_variables"
+        },
+        {
+          "name": "Event Name",
+          "type": "eventName",
+          "path": "accounts/572865630/containers/208950707/workspaces/16/built_in_variables"
+        }
+      ]
+    },
+    {
+      "name": "gtm_create_folder",
+      "status": "pass",
+      "details": {
+        "folderId": "47",
+        "name": "MCP Selftest 2026-02-11T10-17-03-682Z",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/folders/47",
+        "fingerprint": "1770805027728"
+      }
+    },
+    {
+      "name": "gtm_get_folder",
+      "status": "pass",
+      "details": {
+        "folderId": "47",
+        "name": "MCP Selftest 2026-02-11T10-17-03-682Z",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/folders/47",
+        "fingerprint": "1770805027728"
+      }
+    },
+    {
+      "name": "gtm_update_folder",
+      "status": "pass",
+      "details": {
+        "folderId": "47",
+        "name": "MCP Selftest Renamed 2026-02-11T10-17-03-682Z",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/folders/47",
+        "fingerprint": "1770805035795"
+      }
+    },
+    {
+      "name": "gtm_get_folder_entities",
+      "status": "pass",
+      "details": {
+        "folderId": "47",
+        "tags": [],
+        "triggers": [],
+        "variables": []
+      }
+    },
+    {
+      "name": "gtm_create_variable",
+      "status": "pass",
+      "details": {
+        "variableId": "48",
+        "name": "MCP Selftest Random 2026-02-11T10-17-03-682Z",
+        "type": "r",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/variables/48",
+        "fingerprint": "1770805043743"
+      }
+    },
+    {
+      "name": "gtm_get_variable",
+      "status": "pass",
+      "details": {
+        "variableId": "48",
+        "name": "MCP Selftest Random 2026-02-11T10-17-03-682Z",
+        "type": "r",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/variables/48",
+        "fingerprint": "1770805043743"
+      }
+    },
+    {
+      "name": "gtm_update_variable",
+      "status": "pass",
+      "details": {
+        "variableId": "48",
+        "name": "MCP Selftest Random Updated 2026-02-11T10-17-03-682Z",
+        "type": "r",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/variables/48",
+        "fingerprint": "1770805059839"
+      }
+    },
+    {
+      "name": "gtm_create_trigger",
+      "status": "pass",
+      "details": {
+        "triggerId": "49",
+        "name": "MCP Selftest Always 2026-02-11T10-17-03-682Z",
+        "type": "always",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/49",
+        "fingerprint": "1770805063798"
+      }
+    },
+    {
+      "name": "gtm_get_trigger",
+      "status": "pass",
+      "details": {
+        "triggerId": "49",
+        "name": "MCP Selftest Always 2026-02-11T10-17-03-682Z",
+        "type": "always",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/49",
+        "fingerprint": "1770805063798"
+      }
+    },
+    {
+      "name": "gtm_update_trigger",
+      "status": "pass",
+      "details": {
+        "triggerId": "49",
+        "name": "MCP Selftest Always 2026-02-11T10-17-03-682Z Updated",
+        "type": "always",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/triggers/49",
+        "fingerprint": "1770805079817"
+      }
+    },
+    {
+      "name": "gtm_create_tag",
+      "status": "skip",
+      "details": "Skipped: server container"
+    },
+    {
+      "name": "gtm_get_tag",
+      "status": "skip",
+      "details": "Skipped: tag not created"
+    },
+    {
+      "name": "gtm_update_tag",
+      "status": "skip",
+      "details": "Skipped: tag not created"
+    },
+    {
+      "name": "gtm_revert_tag",
+      "status": "skip",
+      "details": "Skipped: tag not created"
+    },
+    {
+      "name": "gtm_move_entities_to_folder",
+      "status": "pass",
+      "details": {
+        "moved": true
+      }
+    },
+    {
+      "name": "gtm_create_zone",
+      "status": "skip",
+      "details": "Skipped: zone tests are not applicable for server container workflow"
+    },
+    {
+      "name": "gtm_get_zone",
+      "status": "skip",
+      "details": "Skipped: zone not created (server container)"
+    },
+    {
+      "name": "gtm_update_zone",
+      "status": "skip",
+      "details": "Skipped: zone not created (server container)"
+    },
+    {
+      "name": "gtm_list_environments",
+      "status": "pass",
+      "details": [
+        {
+          "environmentId": "1",
+          "name": "Live",
+          "type": "live",
+          "path": "accounts/572865630/containers/208950707/environments/1",
+          "authorizationCode": "xnIcKbI030EhO7n9_pIxCw"
+        },
+        {
+          "environmentId": "2",
+          "name": "Latest",
+          "type": "latest",
+          "path": "accounts/572865630/containers/208950707/environments/2",
+          "authorizationCode": "ZbxfvN3Lm1UH2O2oO55jpQ"
+        },
+        {
+          "environmentId": "3",
+          "name": "Preview Environment 2 2025-03-18 072405",
+          "type": "workspace",
+          "path": "accounts/572865630/containers/208950707/environments/3",
+          "authorizationCode": "EEXRzdvk5QTHyaTQkws_ow"
+        }
+      ]
+    },
+    {
+      "name": "gtm_create_environment",
+      "status": "pass",
+      "details": {
+        "environmentId": "50",
+        "name": "MCP Selftest Env 2026-02-11T10-17-03-682Z",
+        "type": "",
+        "path": "accounts/572865630/containers/208950707/environments/50",
+        "authorizationCode": "y9ltk1BL5MtJA6ZhzzkFgQ",
+        "description": "Created by MCP selftest",
+        "fingerprint": "1770805091608",
+        "enableDebug": true
+      }
+    },
+    {
+      "name": "gtm_get_environment",
+      "status": "pass",
+      "details": {
+        "environmentId": "50",
+        "name": "MCP Selftest Env 2026-02-11T10-17-03-682Z",
+        "type": "",
+        "path": "accounts/572865630/containers/208950707/environments/50",
+        "authorizationCode": "y9ltk1BL5MtJA6ZhzzkFgQ",
+        "description": "Created by MCP selftest",
+        "fingerprint": "1770805091608",
+        "authorizationTimestamp": "2026-02-11T10:18:11.608Z",
+        "containerId": "208950707",
+        "enableDebug": true
+      }
+    },
+    {
+      "name": "gtm_update_environment",
+      "status": "pass",
+      "details": null
+    },
+    {
+      "name": "gtm_reauthorize_environment",
+      "status": "pass",
+      "details": {
+        "environmentId": "50",
+        "name": "MCP Selftest Env 2026-02-11T10-17-03-682Z",
+        "type": "",
+        "path": "accounts/572865630/containers/208950707/environments/50",
+        "authorizationCode": "6F1YrZk3twkqa-fzPoxs2A",
+        "authorizationTimestamp": "2026-02-11T10:18:23.613Z"
+      }
+    },
+    {
+      "name": "gtm_list_destinations",
+      "status": "pass",
+      "details": []
+    },
+    {
+      "name": "gtm_get_destination",
+      "status": "skip",
+      "details": "Skipped: no destinations found"
+    },
+    {
+      "name": "gtm_link_destination",
+      "status": "skip",
+      "details": "Skipped: set GTM_SELFTEST_DESTINATION_ID to enable"
+    },
+    {
+      "name": "gtm_list_gtag_configs",
+      "status": "pass",
+      "details": []
+    },
+    {
+      "name": "gtm_create_gtag_config",
+      "status": "pass",
+      "details": null
+    },
+    {
+      "name": "gtm_get_gtag_config",
+      "status": "pass",
+      "details": null
+    },
+    {
+      "name": "gtm_update_gtag_config",
+      "status": "pass",
+      "details": null
+    },
+    {
+      "name": "gtm_import_template_from_gallery",
+      "status": "skip",
+      "details": "Skipped: set GTM_SELFTEST_TEMPLATE_GALLERY_OWNER/REPO/VERSION to enable (gallery refs are not stable by default)"
+    },
+    {
+      "name": "gtm_list_clients",
+      "status": "pass",
+      "details": {
+        "summary": {
+          "total": 1,
+          "byType": {
+            "gaaw_client": 1
+          }
+        },
+        "clients": [
+          {
+            "clientId": "23",
+            "name": "GA4 Client",
+            "type": "gaaw_client",
+            "path": "accounts/572865630/containers/208950707/workspaces/16/clients/23"
+          }
+        ]
+      }
+    },
+    {
+      "name": "gtm_get_client_seed",
+      "status": "skip",
+      "details": "Skipped: no existing client available as seed"
+    },
+    {
+      "name": "gtm_create_client",
+      "status": "pass",
+      "details": {
+        "clientId": "51",
+        "name": "MCP Selftest Client 2026-02-11T10-17-03-682Z",
+        "type": "gaaw_client",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/clients/51",
+        "fingerprint": "1770805131781",
+        "priority": 100
+      }
+    },
+    {
+      "name": "gtm_get_client",
+      "status": "pass",
+      "details": {
+        "clientId": "51",
+        "name": "MCP Selftest Client 2026-02-11T10-17-03-682Z",
+        "type": "gaaw_client",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/clients/51",
+        "fingerprint": "1770805131781",
+        "priority": 100
+      }
+    },
+    {
+      "name": "gtm_update_client",
+      "status": "pass",
+      "details": {
+        "clientId": "51",
+        "name": "MCP Selftest Client Updated 2026-02-11T10-17-03-682Z",
+        "type": "gaaw_client",
+        "path": "accounts/572865630/containers/208950707/workspaces/16/clients/51",
+        "fingerprint": "1770805143838",
+        "priority": 100
+      }
+    },
+    {
+      "name": "gtm_delete_client",
+      "status": "pass",
+      "details": {
+        "deleted": true,
+        "path": "accounts/572865630/containers/208950707/workspaces/16/clients/51"
+      }
+    },
+    {
+      "name": "gtm_list_transformations",
+      "status": "pass",
+      "details": []
+    },
+    {
+      "name": "gtm_get_transformation_seed",
+      "status": "skip",
+      "details": "Skipped: no existing transformation available as seed"
+    },
+    {
+      "name": "gtm_create_transformation",
+      "status": "skip",
+      "details": {
+        "code": 500,
+        "message": "Experienced an internal error.",
+        "errorType": "UNKNOWN",
+        "details": {
+          "code": 500,
+          "message": "Experienced an internal error.",
+          "errors": [
+            {
+              "message": "Experienced an internal error.",
+              "domain": "global",
+              "reason": "backendError"
+            }
+          ],
+          "status": "INTERNAL"
+        },
+        "help": "An unexpected error occurred. Check the error details for more information.",
+        "suggestions": [
+          "Check the error details for specific information",
+          "Try the operation with validated parameters",
+          "Use helper tools like gtm_validate_trigger_config"
+        ],
+        "example": null
+      }
+    },
+    {
+      "name": "gtm_get_transformation",
+      "status": "skip",
+      "details": "Skipped: transformation not created"
+    },
+    {
+      "name": "gtm_update_transformation",
+      "status": "skip",
+      "details": "Skipped: transformation not created"
+    },
+    {
+      "name": "gtm_delete_transformation",
+      "status": "skip",
+      "details": "Skipped: transformation not created"
+    },
+    {
+      "name": "gtm_list_versions",
+      "status": "pass",
+      "details": [
+        {
+          "versionId": "1",
+          "path": "accounts/572865630/containers/208950707/versions/1"
+        },
+        {
+          "versionId": "2",
+          "name": "Serverside Page_view",
+          "path": "accounts/572865630/containers/208950707/versions/2"
+        },
+        {
+          "versionId": "3",
+          "name": "GA Optout Regel eingebaut",
+          "path": "accounts/572865630/containers/208950707/versions/3"
+        },
+        {
+          "versionId": "4",
+          "name": "Schreibfehler korrigiert borlabs-cookie",
+          "path": "accounts/572865630/containers/208950707/versions/4"
+        },
+        {
+          "versionId": "5",
+          "name": "Cookievalue korrektur",
+          "path": "accounts/572865630/containers/208950707/versions/5"
+        },
+        {
+          "versionId": "6",
+          "name": "Web Vitals ergänzt",
+          "path": "accounts/572865630/containers/208950707/versions/6"
+        },
+        {
+          "versionId": "7",
+          "name": "Scroll Added",
+          "path": "accounts/572865630/containers/208950707/versions/7"
+        },
+        {
+          "versionId": "8",
+          "name": "GA4 video & click",
+          "path": "accounts/572865630/containers/208950707/versions/8"
+        },
+        {
+          "versionId": "9",
+          "name": "piwik pro update",
+          "path": "accounts/572865630/containers/208950707/versions/9"
+        },
+        {
+          "versionId": "10",
+          "name": "Umstellung uaf GA4 Client Tag",
+          "path": "accounts/572865630/containers/208950707/versions/10"
+        },
+        {
+          "versionId": "11",
+          "name": "Simplify GA4 Setup all events",
+          "path": "accounts/572865630/containers/208950707/versions/11"
+        },
+        {
+          "versionId": "12",
+          "name": "Tracking anhand consent signal",
+          "path": "accounts/572865630/containers/208950707/versions/12"
+        },
+        {
+          "versionId": "13",
+          "path": "accounts/572865630/containers/208950707/versions/13"
+        },
+        {
+          "versionId": "14",
+          "name": "MCP Selftest Version 2026-02-11T10-06-51-418Z",
+          "path": "accounts/572865630/containers/208950707/versions/14"
+        }
+      ]
+    },
+    {
+      "name": "gtm_get_latest_version_header",
+      "status": "pass",
+      "details": {
+        "versionId": "14",
+        "name": "MCP Selftest Version 2026-02-11T10-06-51-418Z",
+        "path": "accounts/572865630/containers/208950707/versions/14"
+      }
+    },
+    {
+      "name": "gtm_get_live_version",
+      "status": "pass",
+      "details": {
+        "versionId": "13",
+        "counts": {
+          "tags": 4,
+          "triggers": 8,
+          "variables": 9,
+          "folders": 0,
+          "clients": 1
+        },
+        "tagTypes": {
+          "sgtmgaaw": 1,
+          "sgtmadscl": 1,
+          "cvt_5TP8W": 1,
+          "sgtmadsct": 1
+        },
+        "triggerTypes": {
+          "customEvent": 8
+        },
+        "variableTypes": {
+          "c": 5,
+          "sgtmk": 1,
+          "ed": 3
+        }
+      }
+    },
+    {
+      "name": "gtm_create_version",
+      "status": "pass",
+      "details": {
+        "versionId": "15",
+        "name": "MCP Selftest Version 2026-02-11T10-17-03-682Z",
+        "path": "accounts/572865630/containers/208950707/versions/15",
+        "description": "Created by MCP selftest"
+      }
+    },
+    {
+      "name": "gtm_get_version",
+      "status": "pass",
+      "details": {
+        "versionId": "15",
+        "name": "MCP Selftest Version 2026-02-11T10-17-03-682Z",
+        "counts": {
+          "tags": 4,
+          "triggers": 10,
+          "variables": 11,
+          "folders": 2,
+          "clients": 1
+        },
+        "tagTypes": {
+          "sgtmgaaw": 1,
+          "sgtmadscl": 1,
+          "cvt_5TP8W": 1,
+          "sgtmadsct": 1
+        },
+        "triggerTypes": {
+          "customEvent": 8,
+          "always": 2
+        },
+        "variableTypes": {
+          "c": 5,
+          "sgtmk": 1,
+          "ed": 3,
+          "r": 2
+        }
+      }
+    },
+    {
+      "name": "gtm_export_version",
+      "status": "pass",
+      "details": {
+        "exportFormatVersion": 2,
+        "exportTime": "2026-02-11T10:20:06.195Z",
+        "containerVersion": {
+          "path": "accounts/572865630/containers/208950707/versions/15",
+          "accountId": "572865630",
+          "containerId": "208950707",
+          "containerVersionId": "15",
+          "name": "MCP Selftest Version 2026-02-11T10-17-03-682Z",
+          "container": {
+            "path": "accounts/572865630/containers/208950707",
+            "accountId": "572865630",
+            "containerId": "208950707",
+            "name": "Stape.io - tobiasbatke.com",
+            "publicId": "GTM-KX4X75JJ",
+            "usageContext": [
+              "server"
+            ],
+            "fingerprint": "1742307839417",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/572865630/containers/208950707/workspaces?apiLink=container",
+            "features": {
+              "supportUserPermissions": true,
+              "supportEnvironments": true,
+              "supportWorkspaces": true,
+              "supportGtagConfigs": false,
+              "supportBuiltInVariables": true,
+              "supportClients": true,
+              "supportFolders": true,
+              "supportTags": true,
+              "supportTemplates": true,
+              "supportTriggers": true,
+              "supportVariables": true,
+              "supportVersions": true,
+              "supportZones": true,
+              "supportTransformations": true
+            },
+            "tagIds": [
+              "GTM-KX4X75JJ"
+            ],
+            "taggingServerUrls": [
+              "https://stats.tobiasbatke.com"
+            ]
+          },
+          "tag": [
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "tagId": "25",
+              "name": "GA4 - All Events",
+              "type": "sgtmgaaw",
+              "parameter": [
+                {
+                  "type": "boolean",
+                  "key": "redactVisitorIp",
+                  "value": "true"
+                },
+                {
+                  "type": "template",
+                  "key": "epToIncludeDropdown",
+                  "value": "all"
+                },
+                {
+                  "type": "template",
+                  "key": "upToIncludeDropdown",
+                  "value": "all"
+                },
+                {
+                  "type": "template",
+                  "key": "measurementId",
+                  "value": "{{GA4 - Property ID}}"
+                }
+              ],
+              "fingerprint": "1751547951774",
+              "firingTriggerId": [
+                "24"
+              ],
+              "tagFiringOption": "oncePerEvent",
+              "monitoringMetadata": {
+                "type": "map"
+              },
+              "consentSettings": {
+                "consentStatus": "notSet"
+              }
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "tagId": "26",
+              "name": "Conversion Linker",
+              "type": "sgtmadscl",
+              "parameter": [
+                {
+                  "type": "boolean",
+                  "key": "enableLinkerParams",
+                  "value": "false"
+                },
+                {
+                  "type": "boolean",
+                  "key": "enableCookieOverrides",
+                  "value": "false"
+                }
+              ],
+              "fingerprint": "1763844148506",
+              "firingTriggerId": [
+                "22"
+              ],
+              "tagFiringOption": "oncePerEvent",
+              "monitoringMetadata": {
+                "type": "map"
+              },
+              "consentSettings": {
+                "consentStatus": "notSet"
+              }
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "tagId": "31",
+              "name": "FB - PageView",
+              "type": "cvt_5TP8W",
+              "parameter": [
+                {
+                  "type": "template",
+                  "key": "logType",
+                  "value": "debug"
+                },
+                {
+                  "type": "template",
+                  "key": "adStorageConsent",
+                  "value": "optional"
+                },
+                {
+                  "type": "template",
+                  "key": "eventNameStandard",
+                  "value": "PageView"
+                },
+                {
+                  "type": "boolean",
+                  "key": "generateFbp",
+                  "value": "true"
+                },
+                {
+                  "type": "boolean",
+                  "key": "overrideCookieDomain",
+                  "value": "false"
+                },
+                {
+                  "type": "template",
+                  "key": "accessToken",
+                  "value": "{{FB - API Access Token}}"
+                },
+                {
+                  "type": "boolean",
+                  "key": "useAppSecretProof",
+                  "value": "false"
+                },
+                {
+                  "type": "template",
+                  "key": "inheritEventName",
+                  "value": "override"
+                },
+                {
+                  "type": "template",
+                  "key": "actionSource",
+                  "value": "website"
+                },
+                {
+                  "type": "template",
+                  "key": "pixelId",
+                  "value": "{{FB - Pixel ID}}"
+                },
+                {
+                  "type": "boolean",
+                  "key": "useHttpOnlyCookie",
+                  "value": "false"
+                },
+                {
+                  "type": "template",
+                  "key": "itemIdKey"
+                },
+                {
+                  "type": "boolean",
+                  "key": "useOptimisticScenario",
+                  "value": "false"
+                },
+                {
+                  "type": "template",
+                  "key": "bigQueryLogType",
+                  "value": "no"
+                },
+                {
+                  "type": "template",
+                  "key": "eventName",
+                  "value": "standard"
+                },
+                {
+                  "type": "list",
+                  "key": "serverEventDataList",
+                  "list": [
+                    {
+                      "type": "map",
+                      "map": [
+                        {
+                          "type": "template",
+                          "key": "name",
+                          "value": "event_id"
+                        },
+                        {
+                          "type": "template",
+                          "key": "value",
+                          "value": "{{ed - event_id}}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "boolean",
+                  "key": "enableMultipixelSetup",
+                  "value": "false"
+                },
+                {
+                  "type": "boolean",
+                  "key": "enableEventEnhancement",
+                  "value": "true"
+                }
+              ],
+              "fingerprint": "1763844318388",
+              "firingTriggerId": [
+                "22"
+              ],
+              "tagFiringOption": "oncePerEvent",
+              "monitoringMetadata": {
+                "type": "map"
+              },
+              "consentSettings": {
+                "consentStatus": "notSet"
+              }
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "tagId": "37",
+              "name": "GADS - Purchase Conversion",
+              "type": "sgtmadsct",
+              "parameter": [
+                {
+                  "type": "boolean",
+                  "key": "enableNewCustomerReporting",
+                  "value": "false"
+                },
+                {
+                  "type": "boolean",
+                  "key": "enableConversionLinker",
+                  "value": "true"
+                },
+                {
+                  "type": "boolean",
+                  "key": "enableProductReporting",
+                  "value": "false"
+                },
+                {
+                  "type": "template",
+                  "key": "conversionValue",
+                  "value": "{{ed - value}}"
+                },
+                {
+                  "type": "template",
+                  "key": "conversionId",
+                  "value": "{{GADS - Conversion ID}}"
+                },
+                {
+                  "type": "template",
+                  "key": "currencyCode",
+                  "value": "{{ed - currency}}"
+                },
+                {
+                  "type": "template",
+                  "key": "conversionLabel",
+                  "value": "{{GADS - Conversionlabel}}"
+                },
+                {
+                  "type": "boolean",
+                  "key": "rdp",
+                  "value": "false"
+                }
+              ],
+              "fingerprint": "1763844463843",
+              "firingTriggerId": [
+                "36"
+              ],
+              "tagFiringOption": "oncePerEvent",
+              "monitoringMetadata": {
+                "type": "map"
+              },
+              "consentSettings": {
+                "consentStatus": "notSet"
+              }
+            }
+          ],
+          "trigger": [
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "9",
+              "name": "Google Analytics Optout",
+              "type": "customEvent",
+              "customEventFilter": [
+                {
+                  "type": "matchRegex",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{_event}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": ".*"
+                    }
+                  ]
+                }
+              ],
+              "filter": [
+                {
+                  "type": "contains",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{Cookie - borlabs-cookie}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": "google-analytics"
+                    },
+                    {
+                      "type": "boolean",
+                      "key": "negate",
+                      "value": "true"
+                    }
+                  ]
+                }
+              ],
+              "fingerprint": "1742309462366"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "10",
+              "name": "web_vitals",
+              "type": "customEvent",
+              "customEventFilter": [
+                {
+                  "type": "equals",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{_event}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": "web_vitals"
+                    }
+                  ]
+                }
+              ],
+              "fingerprint": "1742309525489"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "12",
+              "name": "scroll",
+              "type": "customEvent",
+              "customEventFilter": [
+                {
+                  "type": "equals",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{_event}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": "scroll"
+                    }
+                  ]
+                }
+              ],
+              "fingerprint": "1742310217743"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "14",
+              "name": "click",
+              "type": "customEvent",
+              "customEventFilter": [
+                {
+                  "type": "equals",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{_event}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": "click"
+                    }
+                  ]
+                }
+              ],
+              "fingerprint": "1742310967284"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "16",
+              "name": "video",
+              "type": "customEvent",
+              "customEventFilter": [
+                {
+                  "type": "equals",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{_event}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": "video"
+                    }
+                  ]
+                }
+              ],
+              "fingerprint": "1742312273327"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "22",
+              "name": "GA4 - page_view",
+              "type": "customEvent",
+              "customEventFilter": [
+                {
+                  "type": "equals",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{_event}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": "page_view"
+                    }
+                  ]
+                }
+              ],
+              "filter": [
+                {
+                  "type": "contains",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{Client Name}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": "GA4"
+                    }
+                  ]
+                }
+              ],
+              "fingerprint": "1763844145369"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "24",
+              "name": "All Events",
+              "type": "customEvent",
+              "customEventFilter": [
+                {
+                  "type": "matchRegex",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{_event}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": ".*"
+                    }
+                  ]
+                }
+              ],
+              "fingerprint": "1742394467819"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "36",
+              "name": "GA4 - purchase",
+              "type": "customEvent",
+              "customEventFilter": [
+                {
+                  "type": "equals",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{_event}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": "purchase"
+                    }
+                  ]
+                }
+              ],
+              "filter": [
+                {
+                  "type": "contains",
+                  "parameter": [
+                    {
+                      "type": "template",
+                      "key": "arg0",
+                      "value": "{{Client Name}}"
+                    },
+                    {
+                      "type": "template",
+                      "key": "arg1",
+                      "value": "GA4"
+                    }
+                  ]
+                }
+              ],
+              "fingerprint": "1763844447657"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "43",
+              "name": "MCP Selftest Always 2026-02-11T10-06-51-418Z Updated",
+              "type": "always",
+              "fingerprint": "1770804470963",
+              "parentFolderId": "41"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "triggerId": "49",
+              "name": "MCP Selftest Always 2026-02-11T10-17-03-682Z Updated",
+              "type": "always",
+              "fingerprint": "1770805083646",
+              "parentFolderId": "47"
+            }
+          ],
+          "variable": [
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "6",
+              "name": "GA4 - Property ID",
+              "type": "c",
+              "parameter": [
+                {
+                  "type": "template",
+                  "key": "value",
+                  "value": "G-NFPCRGZ1V2"
+                }
+              ],
+              "fingerprint": "1742309013700",
+              "formatValue": {}
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "8",
+              "name": "Cookie - borlabs-cookie",
+              "type": "sgtmk",
+              "parameter": [
+                {
+                  "type": "boolean",
+                  "key": "decodeCookie",
+                  "value": "true"
+                },
+                {
+                  "type": "template",
+                  "key": "name",
+                  "value": "borlabs-cookie"
+                }
+              ],
+              "fingerprint": "1742309411022",
+              "formatValue": {}
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "28",
+              "name": "FB - API Access Token",
+              "type": "c",
+              "parameter": [
+                {
+                  "type": "template",
+                  "key": "value",
+                  "value": "INPUTHERE"
+                }
+              ],
+              "fingerprint": "1763844216393",
+              "formatValue": {}
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "29",
+              "name": "FB - Pixel ID",
+              "type": "c",
+              "parameter": [
+                {
+                  "type": "template",
+                  "key": "value",
+                  "value": "INPUTHERE"
+                }
+              ],
+              "fingerprint": "1763844236168",
+              "formatValue": {}
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "30",
+              "name": "ed - event_id",
+              "type": "ed",
+              "parameter": [
+                {
+                  "type": "boolean",
+                  "key": "setDefaultValue",
+                  "value": "false"
+                },
+                {
+                  "type": "template",
+                  "key": "keyPath",
+                  "value": "event_id"
+                }
+              ],
+              "fingerprint": "1763844294640",
+              "formatValue": {}
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "32",
+              "name": "GADS - Conversion ID",
+              "type": "c",
+              "parameter": [
+                {
+                  "type": "template",
+                  "key": "value",
+                  "value": "INPUTHERE"
+                }
+              ],
+              "fingerprint": "1763844363943",
+              "formatValue": {}
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "33",
+              "name": "GADS - Conversionlabel",
+              "type": "c",
+              "parameter": [
+                {
+                  "type": "template",
+                  "key": "value",
+                  "value": "INPUTHERE"
+                }
+              ],
+              "fingerprint": "1763844388717",
+              "formatValue": {}
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "34",
+              "name": "ed - value",
+              "type": "ed",
+              "parameter": [
+                {
+                  "type": "boolean",
+                  "key": "setDefaultValue",
+                  "value": "false"
+                },
+                {
+                  "type": "template",
+                  "key": "keyPath",
+                  "value": "value"
+                }
+              ],
+              "fingerprint": "1763844404383",
+              "formatValue": {}
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "35",
+              "name": "ed - currency",
+              "type": "ed",
+              "parameter": [
+                {
+                  "type": "boolean",
+                  "key": "setDefaultValue",
+                  "value": "false"
+                },
+                {
+                  "type": "template",
+                  "key": "keyPath",
+                  "value": "currency"
+                }
+              ],
+              "fingerprint": "1763844422377",
+              "formatValue": {}
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "42",
+              "name": "MCP Selftest Random Updated 2026-02-11T10-06-51-418Z",
+              "type": "r",
+              "fingerprint": "1770804470962",
+              "parentFolderId": "41"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "variableId": "48",
+              "name": "MCP Selftest Random Updated 2026-02-11T10-17-03-682Z",
+              "type": "r",
+              "fingerprint": "1770805083645",
+              "parentFolderId": "47"
+            }
+          ],
+          "folder": [
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "folderId": "41",
+              "name": "MCP Selftest Renamed 2026-02-11T10-06-51-418Z",
+              "fingerprint": "1770804423480"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "folderId": "47",
+              "name": "MCP Selftest Renamed 2026-02-11T10-17-03-682Z",
+              "fingerprint": "1770805035795"
+            }
+          ],
+          "client": [
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "clientId": "23",
+              "name": "GA4 Client",
+              "type": "gaaw_client",
+              "parameter": [
+                {
+                  "type": "template",
+                  "key": "cookieDomain",
+                  "value": "auto"
+                },
+                {
+                  "type": "template",
+                  "key": "cookieMaxAgeInSec",
+                  "value": "63072000"
+                },
+                {
+                  "type": "boolean",
+                  "key": "activateGtagSupport",
+                  "value": "false"
+                },
+                {
+                  "type": "boolean",
+                  "key": "activateDefaultPaths",
+                  "value": "true"
+                },
+                {
+                  "type": "template",
+                  "key": "cookiePath",
+                  "value": "/"
+                },
+                {
+                  "type": "boolean",
+                  "key": "migrateFromJsClientId",
+                  "value": "false"
+                },
+                {
+                  "type": "template",
+                  "key": "cookieManagement",
+                  "value": "server"
+                },
+                {
+                  "type": "template",
+                  "key": "cookieName",
+                  "value": "FPID"
+                }
+              ],
+              "fingerprint": "1742394013528"
+            }
+          ],
+          "builtInVariable": [
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "type": "eventName",
+              "name": "Event Name"
+            },
+            {
+              "accountId": "572865630",
+              "containerId": "208950707",
+              "type": "clientName",
+              "name": "Client Name"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "gate_publish_version",
+      "status": "pass",
+      "details": {
+        "error": "Confirmation required",
+        "errorType": "CONFIRMATION_REQUIRED",
+        "tool": "gtm_publish_version",
+        "action": "publish_version",
+        "note": "This makes the version live in the container.",
+        "help": "Re-run the tool call with {\"confirm\": true} to proceed."
+      }
+    },
+    {
+      "name": "gtm_delete_version",
+      "status": "skip",
+      "details": {
+        "code": 400,
+        "message": "Returned an error response for your request.",
+        "errorType": "UNKNOWN",
+        "details": {
+          "code": 400,
+          "message": "Returned an error response for your request.",
+          "errors": [
+            {
+              "message": "Returned an error response for your request.",
+              "domain": "global",
+              "reason": "badRequest"
+            }
+          ],
+          "status": "INVALID_ARGUMENT"
+        },
+        "help": "An unexpected error occurred. Check the error details for more information.",
+        "suggestions": [
+          "Check the error details for specific information",
+          "Try the operation with validated parameters",
+          "Use helper tools like gtm_validate_trigger_config"
+        ],
+        "example": null
+      }
+    },
+    {
+      "name": "gtm_undelete_version",
+      "status": "pass",
+      "details": {
+        "versionId": "15",
+        "name": "MCP Selftest Version 2026-02-11T10-17-03-682Z",
+        "path": "accounts/572865630/containers/208950707/versions/15",
+        "description": "Created by MCP selftest"
+      }
+    },
+    {
+      "name": "gtm_enable_built_in_variables",
+      "status": "pass",
+      "details": []
+    },
+    {
+      "name": "gtm_disable_built_in_variables",
+      "status": "pass",
+      "details": {
+        "disabled": false,
+        "types": [
+          "EVENT"
+        ]
+      }
+    },
+    {
+      "name": "gtm_revert_built_in_variable",
+      "status": "pass",
+      "details": {
+        "reverted": false,
+        "type": "EVENT"
+      }
+    },
+    {
+      "name": "gtm_list_user_permissions",
+      "status": "pass",
+      "details": [
+        {
+          "path": "accounts/572865630/user_permissions/12937491252075622238",
+          "emailAddress": "tobias.batke@gmail.com",
+          "accountId": "572865630"
+        }
+      ]
+    },
+    {
+      "name": "gtm_create_user_permission",
+      "status": "skip",
+      "details": "Skipped: GTM_SELFTEST_RISKY=false"
+    },
+    {
+      "name": "gtm_update_user_permission",
+      "status": "skip",
+      "details": "Skipped: GTM_SELFTEST_RISKY=false"
+    },
+    {
+      "name": "gtm_delete_user_permission",
+      "status": "skip",
+      "details": "Skipped: GTM_SELFTEST_RISKY=false"
+    }
+  ],
+  "cleanup": [
+    {
+      "name": "cleanup_workspace_submitted",
+      "status": "skip",
+      "details": "Skipped entity deletions after create_version because GTM marks workspace as submitted"
+    },
+    {
+      "name": "cleanup_delete_environment",
+      "status": "pass",
+      "details": {
+        "deleted": true,
+        "path": "accounts/572865630/containers/208950707/environments/50"
+      }
+    },
+    {
+      "name": "cleanup_delete_workspace",
+      "status": "pass",
+      "details": {
+        "code": 500,
+        "message": "Experienced an internal error.",
+        "errorType": "UNKNOWN",
+        "details": {
+          "code": 500,
+          "message": "Experienced an internal error.",
+          "errors": [
+            {
+              "message": "Experienced an internal error.",
+              "domain": "global",
+              "reason": "backendError"
+            }
+          ],
+          "status": "INTERNAL"
+        },
+        "help": "An unexpected error occurred. Check the error details for more information.",
+        "suggestions": [
+          "Check the error details for specific information",
+          "Try the operation with validated parameters",
+          "Use helper tools like gtm_validate_trigger_config"
+        ],
+        "example": null
+      }
+    }
+  ],
+  "serverStderr": [
+    "      origin: 'https://tagmanager.googleapis.com',",
+    "      protocol: 'https:',",
+    "      username: '',",
+    "      password: '',",
+    "      host: 'tagmanager.googleapis.com',",
+    "      hostname: 'tagmanager.googleapis.com',",
+    "      port: '',",
+    "      pathname: '/tagmanager/v2/accounts/572865630/containers/208950707/workspaces/16/built_in_variables',",
+    "      search: '?type=EVENT',",
+    "      searchParams: URLSearchParams { 'type' => 'EVENT' },",
+    "      hash: ''",
+    "    },",
+    "    method: 'POST',",
+    "    apiVersion: '',",
+    "    userAgentDirectives: [ [Object] ],",
+    "    paramsSerializer: [Function (anonymous)],",
+    "    headers: Headers {",
+    "      'accept-encoding': 'gzip',",
+    "      authorization: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',",
+    "      'user-agent': 'google-api-nodejs-client/8.0.1 (gzip)',",
+    "      'x-goog-api-client': 'gdcl/8.0.1 gl-node/25.2.1'",
+    "    },",
+    "    params: { type: [Array] },",
+    "    validateStatus: [Function (anonymous)],",
+    "    retry: true,",
+    "    responseType: 'unknown',",
+    "    errorRedactor: [Function: defaultErrorRedactor],",
+    "    retryConfig: {",
+    "      currentRetryAttempt: 0,",
+    "      retry: 3,",
+    "      httpMethodsToRetry: [Array],",
+    "      noResponseRetries: 2,",
+    "      retryDelayMultiplier: 2,",
+    "      timeOfFirstRequest: 1770805218674,",
+    "      totalTimeout: 9007199254740991,",
+    "      maxRetryDelay: 9007199254740991,",
+    "      statusCodesToRetry: [Array]",
+    "    }",
+    "  },",
+    "  response: Response {",
+    "    size: 0,",
+    "    data: { error: [Object] },",
+    "GTM API transient error, retrying in 1074ms (attempt 1/2)",
+    "",
+    "GTM API transient error, retrying in 2082ms (attempt 2/2)",
+    "",
+    "Error deleting built-in variables: GaxiosError: Experienced an internal error.",
+    "    at Gaxios._request (/Users/tobias_batke/Documents/Google Tag Manager Hilfe/gtm-mcp-server/node_modules/gaxios/build/cjs/src/gaxios.js:155:23)",
+    "    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)",
+    "    at async OAuth2Client.requestAsync (/Users/tobias_batke/Documents/Google Tag Manager Hilfe/gtm-mcp-server/node_modules/google-auth-library/build/src/auth/oauth2client.js:463:20)",
+    "    at async createAPIRequestAsync (/Users/tobias_batke/Documents/Google Tag Manager Hilfe/gtm-mcp-server/node_modules/googleapis-common/build/src/apirequest.js:308:25) {",
+    "  config: {",
+    "    url: URL {",
+    "      href: 'https://tagmanager.googleapis.com/tagmanager/v2/accounts/572865630/containers/208950707/workspaces/16?type=EVENT',",
+    "      origin: 'https://tagmanager.googleapis.com',",
+    "      protocol: 'https:',",
+    "      username: '',",
+    "      password: '',",
+    "      host: 'tagmanager.googleapis.com',",
+    "      hostname: 'tagmanager.googleapis.com',",
+    "      port: '',",
+    "      pathname: '/tagmanager/v2/accounts/572865630/containers/208950707/workspaces/16',",
+    "      search: '?type=EVENT',",
+    "      searchParams: URLSearchParams { 'type' => 'EVENT' },",
+    "      hash: ''",
+    "    },",
+    "    method: 'DELETE',",
+    "    apiVersion: '',",
+    "    userAgentDirectives: [ [Object] ],",
+    "    paramsSerializer: [Function (anonymous)],",
+    "    headers: Headers {",
+    "      'accept-encoding': 'gzip',",
+    "      authorization: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',",
+    "      'user-agent': 'google-api-nodejs-client/8.0.1 (gzip)',",
+    "      'x-goog-api-client': 'gdcl/8.0.1 gl-node/25.2.1'",
+    "    },",
+    "    params: { type: [Array] },",
+    "    validateStatus: [Function (anonymous)],",
+    "    retry: true,",
+    "    responseType: 'unknown',",
+    "    errorRedactor: [Function: defaultErrorRedactor],",
+    "    retryConfig: {",
+    "      currentRetryAttempt: 3,",
+    "      retry: 3,",
+    "      httpMethodsToRetry: [Array],",
+    "      noResponseRetries: 2,",
+    "      retryDelayMultiplier: 2,",
+    "      timeOfFirstRequest: 1770805235552,",
+    "      totalTimeout: 9007199254740991,",
+    "      maxRetryDelay: 9007199254740991,",
+    "      statusCodesToRetry: [Array]",
+    "    }",
+    "  },",
+    "  response: Response {",
+    "    size: 0,",
+    "    data: { error: [Object] },",
+    "Error reverting built-in variable: GaxiosError: Workspace is already submitted.",
+    "    at Gaxios._request (/Users/tobias_batke/Documents/Google Tag Manager Hilfe/gtm-mcp-server/node_modules/gaxios/build/cjs/src/gaxios.js:155:23)",
+    "    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)",
+    "    at async OAuth2Client.requestAsync (/Users/tobias_batke/Documents/Google Tag Manager Hilfe/gtm-mcp-server/node_modules/google-auth-library/build/src/auth/oauth2client.js:463:20)",
+    "    at async createAPIRequestAsync (/Users/tobias_batke/Documents/Google Tag Manager Hilfe/gtm-mcp-server/node_modules/googleapis-common/build/src/apirequest.js:308:25) {",
+    "  config: {",
+    "    url: URL {",
+    "      href: 'https://tagmanager.googleapis.com/tagmanager/v2/accounts/572865630/containers/208950707/workspaces/16/built_in_variables:revert?type=EVENT',",
+    "      origin: 'https://tagmanager.googleapis.com',",
+    "      protocol: 'https:',",
+    "      username: '',",
+    "      password: '',",
+    "      host: 'tagmanager.googleapis.com',",
+    "      hostname: 'tagmanager.googleapis.com',",
+    "      port: '',",
+    "      pathname: '/tagmanager/v2/accounts/572865630/containers/208950707/workspaces/16/built_in_variables:revert',",
+    "      search: '?type=EVENT',",
+    "      searchParams: URLSearchParams { 'type' => 'EVENT' },",
+    "      hash: ''",
+    "    },",
+    "    method: 'POST',",
+    "    apiVersion: '',",
+    "    userAgentDirectives: [ [Object] ],",
+    "    paramsSerializer: [Function (anonymous)],",
+    "    headers: Headers {",
+    "      'accept-encoding': 'gzip',",
+    "      authorization: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',",
+    "      'user-agent': 'google-api-nodejs-client/8.0.1 (gzip)',",
+    "      'x-goog-api-client': 'gdcl/8.0.1 gl-node/25.2.1'",
+    "    },",
+    "    params: { type: 'EVENT' },",
+    "    validateStatus: [Function (anonymous)],",
+    "    retry: true,",
+    "    responseType: 'unknown',",
+    "    errorRedactor: [Function: defaultErrorRedactor],",
+    "    retryConfig: {",
+    "      currentRetryAttempt: 0,",
+    "      retry: 3,",
+    "      httpMethodsToRetry: [Array],",
+    "      noResponseRetries: 2,",
+    "      retryDelayMultiplier: 2,",
+    "      timeOfFirstRequest: 1770805240420,",
+    "      totalTimeout: 9007199254740991,",
+    "      maxRetryDelay: 9007199254740991,",
+    "      statusCodesToRetry: [Array]",
+    "    }",
+    "  },",
+    "  response: Response {",
+    "    size: 0,",
+    "    data: { error: [Object] },",
+    "GTM API transient error, retrying in 1142ms (attempt 1/2)",
+    "",
+    "GTM API transient error, retrying in 2297ms (attempt 2/2)",
+    "",
+    "Error in deleteWorkspace: GaxiosError: Experienced an internal error.",
+    "    at Gaxios._request (/Users/tobias_batke/Documents/Google Tag Manager Hilfe/gtm-mcp-server/node_modules/gaxios/build/cjs/src/gaxios.js:155:23)",
+    "    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)",
+    "    at async OAuth2Client.requestAsync (/Users/tobias_batke/Documents/Google Tag Manager Hilfe/gtm-mcp-server/node_modules/google-auth-library/build/src/auth/oauth2client.js:463:20)",
+    "    at async createAPIRequestAsync (/Users/tobias_batke/Documents/Google Tag Manager Hilfe/gtm-mcp-server/node_modules/googleapis-common/build/src/apirequest.js:308:25) {",
+    "  config: {",
+    "    url: URL {",
+    "      href: 'https://tagmanager.googleapis.com/tagmanager/v2/accounts/572865630/containers/208950707/workspaces/16',",
+    "      origin: 'https://tagmanager.googleapis.com',",
+    "      protocol: 'https:',",
+    "      username: '',",
+    "      password: '',",
+    "      host: 'tagmanager.googleapis.com',",
+    "      hostname: 'tagmanager.googleapis.com',",
+    "      port: '',",
+    "      pathname: '/tagmanager/v2/accounts/572865630/containers/208950707/workspaces/16',",
+    "      search: '',",
+    "      searchParams: URLSearchParams {},",
+    "      hash: ''",
+    "    },",
+    "    method: 'DELETE',",
+    "    apiVersion: '',",
+    "    userAgentDirectives: [ [Object] ],",
+    "    headers: Headers {",
+    "      'accept-encoding': 'gzip',",
+    "      authorization: '<<REDACTED> - See `errorRedactor` option in `gaxios` for configuration>.',",
+    "      'user-agent': 'google-api-nodejs-client/8.0.1 (gzip)',",
+    "      'x-goog-api-client': 'gdcl/8.0.1 gl-node/25.2.1'",
+    "    },",
+    "    validateStatus: [Function (anonymous)],",
+    "    retry: true,",
+    "    responseType: 'unknown',",
+    "    errorRedactor: [Function: defaultErrorRedactor],",
+    "    retryConfig: {",
+    "      currentRetryAttempt: 3,",
+    "      retry: 3,",
+    "      httpMethodsToRetry: [Array],",
+    "      noResponseRetries: 2,",
+    "      retryDelayMultiplier: 2,",
+    "      timeOfFirstRequest: 1770805264928,",
+    "      totalTimeout: 9007199254740991,",
+    "      maxRetryDelay: 9007199254740991,",
+    "      statusCodesToRetry: [Array]",
+    "    }",
+    "  },",
+    "  response: Response {",
+    "    size: 0,",
+    "    data: { error: [Object] },",
+    "    config: {",
+    "      url: URL {},"
+  ]
+}
