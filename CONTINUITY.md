@@ -144,10 +144,13 @@ Done:
   - `pass=76`, `fail=0`, `skip=20`.
   - Template import/get/update/revert pass; client CRUD pass.
   - Transformation create still returns GTM API `500 backendError` across tested types and is reported as skip.
+- Generated tool-by-tool status table (all 102 MCP tools) in `GTM_MCP_LEARNINGS.md` from latest clean WEB/SERVER selftest reports.
+- Committed and pushed changes to `origin/main`:
+  - commit `c1ffd38`
+  - branch update `763734c..c1ffd38`
 
 Now:
-- Generate and publish tool-by-tool status matrix in `GTM_MCP_LEARNINGS.md` based on latest clean WEB/SERVER selftest reports.
-- Commit and push the validated changes to `main`.
+- Await user feedback / next requested hardening step (remaining API limitation: server transformation create backendError).
 
 Next:
 - Optional: add a focused transformation diagnostic helper (captures tried types + raw GTM response bundle) for future regression checks.
