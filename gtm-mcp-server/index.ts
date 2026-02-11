@@ -22,6 +22,7 @@ import { initTagManagerClient } from './utils/gtm-client.js';
 import { rateLimiter } from './utils/rate-limiter.js';
 import { getTriggerTemplate, validateTriggerConfigFull, getVariableParameters } from './utils/llm-helpers.js';
 import { getContainerInfo } from './utils/container-validator.js';
+import { preflightTemplateBasedCreate, TemplateReference } from './utils/template-registry.js';
 import { getTagTypeInfo, getAllTagTypes, validateTagParameters } from './utils/tag-helpers.js';
 import { getWorkflow, getAllWorkflows, customizeWorkflow } from './utils/workflow-guides.js';
 import { searchEntities, formatSearchResults } from './utils/search.js';
@@ -76,6 +77,18 @@ const GTM_PARAMETER_SCHEMA: Record<string, unknown> = {
   },
   required: ['key', 'type'],
   additionalProperties: true,
+};
+
+const TEMPLATE_REFERENCE_SCHEMA: Record<string, unknown> = {
+  type: 'object',
+  description: 'Optional template registry reference. If provided, type/parameters are validated against template-registry.json.',
+  properties: {
+    owner: { type: 'string', description: 'Template gallery owner (e.g., stape-io)' },
+    repository: { type: 'string', description: 'Template gallery repository' },
+    version: { type: 'string', description: 'Optional SHA/version pin' },
+  },
+  required: ['owner', 'repository'],
+  additionalProperties: false,
 };
 
 // Define all available tools
@@ -338,7 +351,7 @@ const TOOLS: Tool[] = [
   },
   {
     name: 'gtm_create_tag',
-    description: 'Create a new tag',
+    description: 'Create a new tag. For template-based types, prefer templateReference to resolve/validate against template registry.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -352,8 +365,9 @@ const TOOLS: Tool[] = [
         },
         type: {
           type: 'string',
-          description: 'Tag type (e.g., gaawe, html, awct)',
+          description: 'Tag type (e.g., gaawe, html, awct). Optional if templateReference resolves it.',
         },
+        templateReference: TEMPLATE_REFERENCE_SCHEMA,
         firingTriggerId: {
           type: 'array',
           items: { type: 'string' },
@@ -373,7 +387,7 @@ const TOOLS: Tool[] = [
           items: GTM_PARAMETER_SCHEMA,
         },
       },
-      required: ['workspacePath', 'name', 'type'],
+      required: ['workspacePath', 'name'],
     },
   },
   {
@@ -718,8 +732,9 @@ Preferred: use parameter array with arg0/arg1 (API v2 format)
         },
         type: {
           type: 'string',
-          description: 'Variable type (e.g., c, jsm, v, aev, k, f, r, smm)',
+          description: 'Variable type (e.g., c, jsm, v, aev, k, f, r, smm). Optional if templateReference resolves it.',
         },
+        templateReference: TEMPLATE_REFERENCE_SCHEMA,
         parameter: {
           type: 'array',
           description: `Variable parameters (GTM API v2 Parameter[]).
@@ -741,7 +756,7 @@ Preferred: use parameter array with arg0/arg1 (API v2 format)
           items: GTM_PARAMETER_SCHEMA,
         },
       },
-      required: ['workspacePath', 'name', 'type'],
+      required: ['workspacePath', 'name'],
     },
   },
   {
@@ -1519,8 +1534,9 @@ You can also use custom client template IDs (for gallery/custom templates).`,
         },
         type: {
           type: 'string',
-          description: 'Client type/template ID (e.g., gaaw_client)',
+          description: 'Client type/template ID (e.g., gaaw_client). Optional if templateReference resolves it.',
         },
+        templateReference: TEMPLATE_REFERENCE_SCHEMA,
         parameter: {
           type: 'array',
           description: 'Client parameters (GTM API v2 Parameter[])',
@@ -1531,7 +1547,7 @@ You can also use custom client template IDs (for gallery/custom templates).`,
           description: 'Client priority (lower runs first)',
         },
       },
-      required: ['workspacePath', 'name', 'type'],
+      required: ['workspacePath', 'name'],
     },
   },
 
@@ -1638,15 +1654,16 @@ Use a valid transformation template/type available in your container.
         },
         type: {
           type: 'string',
-          description: 'Transformation type/template ID available in your server container',
+          description: 'Transformation type/template ID available in your server container. Optional if templateReference resolves it.',
         },
+        templateReference: TEMPLATE_REFERENCE_SCHEMA,
         parameter: {
           type: 'array',
           description: 'Transformation parameters (GTM API v2 Parameter[])',
           items: GTM_PARAMETER_SCHEMA,
         },
       },
-      required: ['workspacePath', 'name', 'type'],
+      required: ['workspacePath', 'name'],
     },
   },
   {
@@ -2377,18 +2394,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'gtm_create_tag': {
-        const { workspacePath, name: tagName, type, firingTriggerId, parameter } = args as {
+        const { workspacePath, name: tagName, type, firingTriggerId, parameter, templateReference } = args as {
           workspacePath: string;
           name: string;
           type: string;
           firingTriggerId?: string[];
           parameter?: unknown[];
+          templateReference?: TemplateReference;
         };
+        const tagPreflight = await preflightTemplateBasedCreate({
+          workspacePath,
+          entityKind: 'tag',
+          type,
+          parameter: parameter as tagmanager_v2.Schema$Parameter[] | undefined,
+          templateReference,
+        });
+        if (!tagPreflight.ok) {
+          result = tagPreflight.error;
+          break;
+        }
         result = await tags.createTag(workspacePath, {
           name: tagName,
-          type,
+          type: tagPreflight.type,
           firingTriggerId,
-          parameter: parameter as tagmanager_v2.Schema$Parameter[] | undefined,
+          parameter: tagPreflight.parameter,
         });
         break;
       }
@@ -2513,16 +2542,28 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'gtm_create_variable': {
-        const { workspacePath, name: varName, type, parameter } = args as {
+        const { workspacePath, name: varName, type, parameter, templateReference } = args as {
           workspacePath: string;
           name: string;
           type: string;
           parameter?: unknown[];
+          templateReference?: TemplateReference;
         };
-        result = await variables.createVariable(workspacePath, {
-          name: varName,
+        const variablePreflight = await preflightTemplateBasedCreate({
+          workspacePath,
+          entityKind: 'variable',
           type,
           parameter: parameter as tagmanager_v2.Schema$Parameter[] | undefined,
+          templateReference,
+        });
+        if (!variablePreflight.ok) {
+          result = variablePreflight.error;
+          break;
+        }
+        result = await variables.createVariable(workspacePath, {
+          name: varName,
+          type: variablePreflight.type,
+          parameter: variablePreflight.parameter,
         });
         break;
       }
@@ -2890,17 +2931,29 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'gtm_create_client': {
-        const { workspacePath, name: clientName, type, parameter, priority } = args as {
+        const { workspacePath, name: clientName, type, parameter, priority, templateReference } = args as {
           workspacePath: string;
           name: string;
           type: string;
           parameter?: unknown[];
           priority?: number;
+          templateReference?: TemplateReference;
         };
-        result = await clients.createClient(workspacePath, {
-          name: clientName,
+        const clientPreflight = await preflightTemplateBasedCreate({
+          workspacePath,
+          entityKind: 'client',
           type,
           parameter: parameter as tagmanager_v2.Schema$Parameter[] | undefined,
+          templateReference,
+        });
+        if (!clientPreflight.ok) {
+          result = clientPreflight.error;
+          break;
+        }
+        result = await clients.createClient(workspacePath, {
+          name: clientName,
+          type: clientPreflight.type,
+          parameter: clientPreflight.parameter,
           priority,
         });
         break;
@@ -2941,16 +2994,28 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'gtm_create_transformation': {
-        const { workspacePath, name: transformationName, type, parameter } = args as {
+        const { workspacePath, name: transformationName, type, parameter, templateReference } = args as {
           workspacePath: string;
           name: string;
           type: string;
           parameter?: unknown[];
+          templateReference?: TemplateReference;
         };
-        result = await transformations.createTransformation(workspacePath, {
-          name: transformationName,
+        const transformationPreflight = await preflightTemplateBasedCreate({
+          workspacePath,
+          entityKind: 'transformation',
           type,
           parameter: parameter as tagmanager_v2.Schema$Parameter[] | undefined,
+          templateReference,
+        });
+        if (!transformationPreflight.ok) {
+          result = transformationPreflight.error;
+          break;
+        }
+        result = await transformations.createTransformation(workspacePath, {
+          name: transformationName,
+          type: transformationPreflight.type,
+          parameter: transformationPreflight.parameter,
         });
         break;
       }

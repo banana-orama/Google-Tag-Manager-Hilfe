@@ -8,7 +8,10 @@
     "auth": "npm run build && node dist/auth/setup.js",
     "start": "node dist/index.js",
     "dev": "tsx index.ts",
-    "selftest": "npm run -s build && node dist/scripts/selftest.js"
+    "selftest": "npm run -s build && node dist/scripts/selftest.js",
+    "template-registry:seed": "npm run -s build && node dist/scripts/seed-template-registry.js",
+    "template-registry:validate": "npm run -s build && node dist/scripts/validate-template-registry.js",
+    "template-registry:enrich-priority": "npm run -s build && node dist/scripts/enrich-priority-templates.js"
   },
   "keywords": ["gtm", "google-tag-manager", "mcp", "model-context-protocol"],
   "author": "",

@@ -5,6 +5,13 @@
 import { tagmanager_v2 } from 'googleapis';
 import { getTagManagerClient, gtmApiCall } from '../utils/gtm-client.js';
 import { handleApiError, ApiError } from '../utils/error-handler.js';
+import {
+  loadTemplateRegistry,
+  saveTemplateRegistry,
+  upsertRegistryEntry,
+  TemplateRegistryEntry,
+} from '../utils/template-registry.js';
+import { getContainerInfo } from '../utils/container-validator.js';
 
 export interface TemplateSummary {
   templateId: string;
@@ -128,6 +135,7 @@ export async function importTemplateFromGallery(
   }
 ): Promise<TemplateDetails | ApiError> {
   const tagmanager = getTagManagerClient();
+  const containerPath = workspacePath.replace(/\/workspaces\/[^/]+$/, '');
 
   try {
     const response = await gtmApiCall(() =>
@@ -139,6 +147,33 @@ export async function importTemplateFromGallery(
         gallerySha: galleryReference.version || undefined,
       })
     );
+
+    // Keep template registry in sync with successful imports for deterministic LLM usage.
+    try {
+      const containerInfo = await getContainerInfo(containerPath);
+      const usage = (containerInfo.usageContext || []).map((v) => String(v).toLowerCase());
+      const containerContext = usage.includes('server') ? 'SERVER' : usage.includes('web') ? 'WEB' : 'UNKNOWN';
+      const registry = await loadTemplateRegistry();
+      const entry: TemplateRegistryEntry = {
+        owner: galleryReference.owner,
+        repository: galleryReference.repository,
+        sha: galleryReference.version || undefined,
+        containerContext: containerContext as TemplateRegistryEntry['containerContext'],
+        entityKind: 'unknown',
+        type: response.templateId || undefined,
+        requiredParameters: [],
+        optionalParameters: [],
+        defaults: {},
+        examplePayload: {},
+        status: 'verified',
+        lastVerifiedAt: new Date().toISOString(),
+        verificationNote: `Imported successfully via GTM API v2 into ${workspacePath}`,
+      };
+      upsertRegistryEntry(registry, entry);
+      await saveTemplateRegistry(registry);
+    } catch {
+      // Registry update failure should not fail template import.
+    }
 
     return {
       templateId: response.templateId || '',
@@ -155,6 +190,28 @@ export async function importTemplateFromGallery(
       } : undefined,
     };
   } catch (error) {
+    try {
+      const registry = await loadTemplateRegistry();
+      const entry: TemplateRegistryEntry = {
+        owner: galleryReference.owner,
+        repository: galleryReference.repository,
+        sha: galleryReference.version || undefined,
+        containerContext: 'UNKNOWN',
+        entityKind: 'unknown',
+        requiredParameters: [],
+        optionalParameters: [],
+        defaults: {},
+        examplePayload: {},
+        status: 'broken',
+        lastVerifiedAt: new Date().toISOString(),
+        verificationNote: `Import failed: ${String((error as any)?.message || 'unknown error')}`,
+      };
+      upsertRegistryEntry(registry, entry);
+      await saveTemplateRegistry(registry);
+    } catch {
+      // Registry write errors are non-fatal for tool response.
+    }
+
     const msg = String((error as any)?.message ?? '').toLowerCase();
     if (msg.includes('duplicate name')) {
       try {

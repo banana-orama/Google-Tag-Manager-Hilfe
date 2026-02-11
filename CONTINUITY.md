@@ -3,6 +3,7 @@ Goal (incl. success criteria):
   - Tool list + descriptions must be complete, accurate, and LLM-friendly.
   - Error handling: actionable errors, validation, safe defaults, rate-limit/backoff where needed.
   - Verify every tool works end-to-end against a dedicated GTM test container/workspace.
+- Implement API-only Template Registry workflow so LLMs can deterministically resolve template types/required parameters without guessing.
 - User acceptance target: "alles auf grün" for MCP selftest coverage against GTM API v2 behavior (allowing explicit documented skips for container-permission/API limitations).
 - Maintain previously completed `gtm-optimizer` improvements (see Done).
 
@@ -16,6 +17,7 @@ Constraints/Assumptions:
 - GTM testing should use accountId `572865630`.
 - For test runs: use a dedicated WEB test container in that account; do NOT publish versions.
 - Explicit user constraint: account `572865630`; use WEB test container; no publish.
+- Explicit user constraint (2026-02-11): implement plan for API-only template registry and seed with `stape-io` owner templates.
 
 Key decisions:
 - Rename settings folder from "_Einstellungen" to "Einstellungen" in SSG generator.
@@ -28,13 +30,15 @@ Key decisions:
 - Add Stape templates (Facebook, LinkedIn, Microsoft Ads) embedded as base64 and include customTemplate in SSG export.
 - Adjust SSG mapping to keep 1:1 tags (no dedupe) and only create GA4 base tag when GA4 tags are selected.
 - For `gtm-mcp-server`: prioritize correctness and clarity of tool contracts over breadth; every exposed tool must be tested end-to-end before considering the server "ready".
+- Keep solution API-only (no GTM UI fallback steps in runtime workflow).
+- Introduce curated registry files in repo for template metadata + verification status.
 
 State:
-- Focus shifted to `gtm-mcp-server` audit + docs + full tool test pass against GTM test container.
-- User requested full server-side validation run and consolidated function status report (works / limited / not working).
-- User now requested deeper API-v2 correction for: server transformations, template gallery import (web+server), and trigger custom filter acceptance.
-- User requested next execution step: create dedicated WEB container for WEB-template gallery import tests, then verify/fix server transformation creation until workable.
-- User now requested: generate a tool-by-tool status table, then push changes to `main`.
+- Focus shifted to implementing Template Registry plan end-to-end in `gtm-mcp-server`:
+  - registry schema + data file
+  - runtime lookup/validation before template-based create flows
+  - seed workflow to discover/verify `stape-io` templates
+  - deterministic error messages for missing/broken registry entries
 
 Done:
 - Created initial CONTINUITY.md ledger.
@@ -148,14 +152,51 @@ Done:
 - Committed and pushed changes to `origin/main`:
   - commit `c1ffd38`
   - branch update `763734c..c1ffd38`
+- Implemented Template Registry foundation in `gtm-mcp-server`:
+  - Added `config/template-registry.json` and `config/template-registry.schema.json`.
+  - Added runtime utility `utils/template-registry.ts` with lookup/upsert/persistence and preflight validation for template-based create flows.
+  - Added seed script `scripts/seed-template-registry.ts` (owner discovery via GitHub API, optional GTM verification).
+  - Added validation script `scripts/validate-template-registry.ts`.
+  - Added package scripts: `template-registry:seed`, `template-registry:validate`.
+- Integrated preflight into runtime create handlers in `index.ts`:
+  - `gtm_create_tag`, `gtm_create_variable`, `gtm_create_client`, `gtm_create_transformation` now accept optional `templateReference` and run template-registry preflight.
+  - Added server-side safety guard to block known web-only types when creating without template reference.
+- Integrated registry status updates into template import flow:
+  - `tools/templates.ts` now upserts `verified` on successful gallery import and `broken` on failed import attempts.
+- Seeded initial registry list for owner `stape-io`:
+  - `182` repositories discovered and written as `candidate` entries (no-verify run).
+- Validation/build results:
+  - `npm run -s build` ✅
+  - `npm run -s template-registry:validate` ✅ (`Template registry is valid: 182 entries`)
+- Implemented full verification + enrichment flow:
+  - Added fresh verification workspaces:
+    - WEB: `accounts/572865630/containers/243351242/workspaces/7`
+    - SERVER: `accounts/572865630/containers/208950707/workspaces/20`
+  - Ran full owner verification for `stape-io` against both workspaces.
+  - Registry now contains one deduplicated entry per repository (`182` total) with status split:
+    - `verified`: `118`
+    - `broken`: `64`
+  - Added and executed priority enrichment script for Facebook/LinkedIn/Microsoft templates.
+  - Priority templates now enriched and verified (sample):
+    - `facebook-tag`, `fb-tag`, `facebook-leads-tag`, `facebook-offline-conversion-tag`
+    - `linkedin-tag`
+    - `microsoft-capi-tag`, `microsoft-ads-offline-conversion-tag`
+  - Added idempotent enrichment behavior to avoid duplicate optional parameters.
+  - Fixed registry upsert semantics to dedupe by `owner/repository` (not accumulating duplicate entries across runs).
 
 Now:
-- Await user feedback / next requested hardening step (remaining API limitation: server transformation create backendError).
+- Implementation complete for requested scope:
+  - full `stape-io` verification run
+  - priority template enrichment
+  - build/registry validation green
+- Ready to commit and push.
 
 Next:
-- Optional: add a focused transformation diagnostic helper (captures tried types + raw GTM response bundle) for future regression checks.
+- Commit and push changes.
+- Optional follow-up: add workspace auto-provision + cleanup to seed script for fully self-contained verification runs.
 
 Open questions (UNCONFIRMED if needed):
+- Should seed verification script automatically create and optionally delete temporary verification workspaces per run?
 - Should tests create temporary resources and clean them up, or operate read-only where possible?
  - Is there also a dedicated SERVER test container to use in accountId `572865630` (later), or should we provision one?
 - Is there any parallel automation/process calling GTM API that could still trigger 429 during full selftests? (UNCONFIRMED)
@@ -168,6 +209,10 @@ Open questions (UNCONFIRMED if needed):
 Working set (files/ids/commands):
 - CONTINUITY.md
 - gtm-mcp-server/index.ts
+- gtm-mcp-server/config/template-registry.json
+- gtm-mcp-server/config/template-registry.schema.json
+- gtm-mcp-server/utils/template-registry.ts
+- gtm-mcp-server/scripts/seed-template-registry.ts
 - gtm-mcp-server/SECURITY.md
 - gtm-mcp-server/package.json
 - gtm-mcp-server/scripts/selftest.ts

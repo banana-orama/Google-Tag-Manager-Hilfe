@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GTM Template Registry",
+  "type": "object",
+  "required": ["version", "updatedAt", "entries"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "parameterDef": {
+      "type": "object",
+      "required": ["key"],
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "enum": ["template", "boolean", "integer", "list", "map", "triggerReference", "tagReference"]
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "owner",
+        "repository",
+        "containerContext",
+        "entityKind",
+        "requiredParameters",
+        "optionalParameters",
+        "defaults",
+        "examplePayload",
+        "status",
+        "lastVerifiedAt",
+        "verificationNote"
+      ],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha": {
+          "type": "string",
+          "minLength": 1
+        },
+        "containerContext": {
+          "type": "string",
+          "enum": ["WEB", "SERVER", "AMP", "IOS", "ANDROID", "UNKNOWN"]
+        },
+        "entityKind": {
+          "type": "string",
+          "enum": ["tag", "variable", "client", "transformation", "unknown"]
+        },
+        "type": {
+          "type": "string"
+        },
+        "requiredParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/parameterDef"
+          }
+        },
+        "optionalParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/parameterDef"
+          }
+        },
+        "defaults": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["string", "number", "boolean"]
+          }
+        },
+        "examplePayload": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "status": {
+          "type": "string",
+          "enum": ["verified", "candidate", "broken", "unknown"]
+        },
+        "lastVerifiedAt": {
+          "type": "string"
+        },
+        "verificationNote": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
