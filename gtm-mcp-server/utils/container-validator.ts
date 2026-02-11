@@ -36,7 +36,7 @@ export interface ContainerInfo {
 
 const containerInfoCache = new Map<string, ContainerInfo>();
 
-// Web trigger types (lowercase, API v2 compliant)
+// Web trigger types (camelCase, API v2 compliant)
 const WEB_TRIGGER_TYPES = [
   'pageview', 'domReady', 'windowLoaded',
   'click', 'linkClick', 'formSubmission',
@@ -51,7 +51,7 @@ const WEB_TRIGGER_TYPES = [
   'ampClick', 'ampTimer', 'ampScroll', 'ampVisibility'
 ];
 
-// Server trigger types (lowercase, API v2 compliant)
+// Server trigger types (camelCase, API v2 compliant)
 const SERVER_TRIGGER_TYPES = [
   'always', 'customEvent', 'triggerGroup',
   'init', 'consentInit', 'serverPageview'
@@ -64,10 +64,11 @@ const COMMON_VARIABLE_TYPES = ['c', 'jsm', 'v', 'k', 'aev', 'r', 'smm', 'f', 'ev
 const MOBILE_VARIABLE_TYPES = ['en', 'dn'];
 
 export function getContainerCapabilities(usageContext: string[]): ContainerCapabilities {
-  const isServer = usageContext.includes('server');
-  const isWeb = usageContext.includes('web');
-  const isMobile = usageContext.includes('ios') || usageContext.includes('android');
-  const isAmp = usageContext.includes('amp');
+  const uc = usageContext.map((u) => String(u).toLowerCase());
+  const isServer = uc.includes('server');
+  const isWeb = uc.includes('web');
+  const isMobile = uc.includes('ios') || uc.includes('android');
+  const isAmp = uc.includes('amp');
 
   const notes: string[] = [];
   
@@ -87,11 +88,9 @@ export function getContainerCapabilities(usageContext: string[]): ContainerCapab
     notes.push('Firebase triggers are available');
   }
 
-  const containerType = isServer ? 'server' : isWeb ? 'web' : isAmp ? 'amp' : isMobile ? usageContext[0] : 'web';
-
   return {
-    containerType: isServer ? 'server' : isWeb ? 'web' : isAmp ? 'amp' : isMobile ? usageContext[0] as 'ios' | 'android' : 'web',
-    usageContext,
+    containerType: isServer ? 'server' : isWeb ? 'web' : isAmp ? 'amp' : isMobile ? (uc[0] as 'ios' | 'android') : 'web',
+    usageContext: uc,
     hasClients: isServer,
     hasTransformations: isServer,
     hasWebTriggers: isWeb || isAmp,
@@ -134,46 +133,72 @@ export async function getContainerInfo(containerPath: string): Promise<Container
     capabilities,
   };
 
+  containerInfoCache.clear();
   containerInfoCache.set(containerPath, info);
   return info;
 }
 
-// Helper to normalize trigger type (accept both UPPERCASE and lowercase)
-function normalizeTriggerType(type: string): string {
-  // Map UPPERCASE to lowercase for API v2 compliance
+// Helper to normalize trigger type (accept both camelCase, UPPERCASE, lowercase, and snake_case)
+// GTM API v2 uses camelCase trigger types
+export function normalizeTriggerType(type: string): string {
+  const lower = type.toLowerCase();
+
+  // Map lowercase variations to proper camelCase
+  // Include all possible case variations to prevent issues
   const typeMap: Record<string, string> = {
-    'PAGEVIEW': 'pageview',
-    'DOM_READY': 'domReady',
-    'WINDOW_LOADED': 'windowLoaded',
-    'CLICK': 'click',
-    'LINK_CLICK': 'linkClick',
-    'FORM_SUBMISSION': 'formSubmission',
-    'CUSTOM_EVENT': 'customEvent',
-    'TIMER': 'timer',
-    'SCROLL_DEPTH': 'scrollDepth',
-    'ELEMENT_VISIBILITY': 'elementVisibility',
-    'JS_ERROR': 'jsError',
-    'HISTORY_CHANGE': 'historyChange',
-    'YOU_TUBE_VIDEO': 'youTubeVideo',
-    'FIREBASE_APP_EXCEPTION': 'firebaseAppException',
-    'FIREBASE_APP_UPDATE': 'firebaseAppUpdate',
-    'FIREBASE_CAMPAIGN': 'firebaseCampaign',
-    'FIREBASE_FIRST_OPEN': 'firebaseFirstOpen',
-    'FIREBASE_IN_APP_PURCHASE': 'firebaseInAppPurchase',
-    'FIREBASE_NOTIFICATION_DISMISS': 'firebaseNotificationDismiss',
-    'FIREBASE_NOTIFICATION_FOREGROUND': 'firebaseNotificationForeground',
-    'FIREBASE_NOTIFICATION_OPEN': 'firebaseNotificationOpen',
-    'FIREBASE_NOTIFICATION_RECEIVE': 'firebaseNotificationReceive',
-    'FIREBASE_OS_UPDATE': 'firebaseOsUpdate',
-    'FIREBASE_SESSION_START': 'firebaseSessionStart',
-    'FIREBASE_USER_ENGAGEMENT': 'firebaseUserEngagement',
-    'AMP_CLICK': 'ampClick',
-    'AMP_TIMER': 'ampTimer',
-    'AMP_SCROLL': 'ampScroll',
-    'AMP_VISIBILITY': 'ampVisibility',
+    // Exact camelCase matches (most common)
+    'pageview': 'pageview',
+    'domready': 'domReady',
+    'dom_ready': 'domReady',
+    'windowloaded': 'windowLoaded',
+    'window_loaded': 'windowLoaded',
+    'click': 'click',
+    'linkclick': 'linkClick',
+    'link_click': 'linkClick',
+    'formsubmission': 'formSubmission',
+    'form_submission': 'formSubmission',
+    'customevent': 'customEvent',
+    'custom_event': 'customEvent',
+    'customEvent': 'customEvent',
+    'timer': 'timer',
+    'scrolldepth': 'scrollDepth',
+    'scroll_depth': 'scrollDepth',
+    'elementvisibility': 'elementVisibility',
+    'element_visibility': 'elementVisibility',
+    'jserror': 'jsError',
+    'js_error': 'jsError',
+    'historychange': 'historyChange',
+    'history_change': 'historyChange',
+    'youtubevideo': 'youTubeVideo',
+    'youtube_video': 'youTubeVideo',
+    'firebaseappexception': 'firebaseAppException',
+    'firebaseappupdate': 'firebaseAppUpdate',
+    'firebasecampaign': 'firebaseCampaign',
+    'firebasefirstopen': 'firebaseFirstOpen',
+    'firebaseinapppurchase': 'firebaseInAppPurchase',
+    'firebasenotificationdismiss': 'firebaseNotificationDismiss',
+    'firebasenotificationforeground': 'firebaseNotificationForeground',
+    'firebasenotificationopen': 'firebaseNotificationOpen',
+    'firebasenotificationreceive': 'firebaseNotificationReceive',
+    'firebaseosupdate': 'firebaseOsUpdate',
+    'firebasesessionstart': 'firebaseSessionStart',
+    'firebaseuserengagement': 'firebaseUserEngagement',
+    'ampclick': 'ampClick',
+    'amptimer': 'ampTimer',
+    'ampscroll': 'ampScroll',
+    'ampvisibility': 'ampVisibility',
+    'always': 'always',
+    'triggergroup': 'triggerGroup',
+    'trigger_group': 'triggerGroup',
+    'init': 'init',
+    'consentinit': 'consentInit',
+    'consent_init': 'consentInit',
+    'serverpageview': 'serverPageview',
+    'server_pageview': 'serverPageview',
   };
 
-  return typeMap[type] || type.toLowerCase();
+  // Always return camelCase for GTM API v2 compatibility
+  return typeMap[lower] || type;
 }
 
 export async function validateTriggerConfig(
@@ -195,10 +220,17 @@ export async function validateTriggerConfig(
   const containerInfo = await getContainerInfo(containerPath);
   const normalizedType = normalizeTriggerType(config.type);
 
-  // Check if trigger type is supported for this container
-  if (!containerInfo.supportedFeatures.triggers.includes(normalizedType)) {
-    const isServerOnly = SERVER_TRIGGER_TYPES.includes(normalizedType);
-    const isWebOnly = WEB_TRIGGER_TYPES.includes(normalizedType);
+  // Check if trigger type is supported for this container type
+  // Note: Only validate if we're NOT in a server container, as server containers may have custom trigger types
+  const isServer = containerInfo.capabilities.containerType === 'server';
+
+  // Check if type is valid (directly use normalizedType from function)
+  const isWebValid = WEB_TRIGGER_TYPES.some(t => t.toLowerCase() === normalizedType.toLowerCase());
+  const isServerValid = SERVER_TRIGGER_TYPES.some(t => t.toLowerCase() === normalizedType.toLowerCase());
+
+  if (!isServer && !isWebValid) {
+    const isServerOnly = SERVER_TRIGGER_TYPES.some(t => t.toLowerCase() === normalizedType.toLowerCase());
+    const isWebOnly = WEB_TRIGGER_TYPES.some(t => t.toLowerCase() === normalizedType.toLowerCase());
 
     let help = '';
     let suggestions: string[] = [];
@@ -243,64 +275,7 @@ export async function validateTriggerConfig(
     };
   }
 
-  // Validate customEvent filter format (should use parameter array with arg0/arg1)
-  if (config.customEventFilter && Array.isArray(config.customEventFilter)) {
-    for (let i = 0; i < config.customEventFilter.length; i++) {
-      const filter = config.customEventFilter[i];
-      // Check if using old format (direct arg1/arg2) vs new format (parameter array)
-      if (filter.arg1 !== undefined && filter.arg2 !== undefined && !filter.parameter) {
-        return {
-          code: 'INVALID_FILTER_FORMAT',
-          message: `customEventFilter at index ${i} uses deprecated format`,
-          errorType: 'FILTER_FORMAT_DEPRECATED',
-          help: 'Conditions should use "parameter" array with arg0/arg1 keys (API v2 format)',
-          suggestions: [
-            'Use parameter array with key/type/value objects',
-            'Replace arg1/arg2 with parameter array containing arg0 and arg1',
-          ],
-          example: {
-            incorrect: { type: 'equals', arg1: '{{Event}}', arg2: 'purchase' },
-            correct: {
-              type: 'equals',
-              parameter: [
-                { key: 'arg0', type: 'template', value: '{{Event}}' },
-                { key: 'arg1', type: 'template', value: 'purchase' },
-              ],
-            },
-          },
-        };
-      }
-    }
-  }
-
-  // Validate filter format
-  if (config.filter && Array.isArray(config.filter)) {
-    for (let i = 0; i < config.filter.length; i++) {
-      const filter = config.filter[i];
-      if (filter.arg1 !== undefined && filter.arg2 !== undefined && !filter.parameter) {
-        return {
-          code: 'INVALID_FILTER_FORMAT',
-          message: `filter at index ${i} uses deprecated format`,
-          errorType: 'FILTER_FORMAT_DEPRECATED',
-          help: 'Conditions should use "parameter" array with arg0/arg1 keys (API v2 format)',
-          suggestions: [
-            'Use parameter array with key/type/value objects',
-            'Replace arg1/arg2 with parameter array containing arg0 and arg1',
-          ],
-          example: {
-            incorrect: { type: 'contains', arg1: '{{Page URL}}', arg2: '/checkout' },
-            correct: {
-              type: 'contains',
-              parameter: [
-                { key: 'arg0', type: 'template', value: '{{Page URL}}' },
-                { key: 'arg1', type: 'template', value: '/checkout' },
-              ],
-            },
-          },
-        };
-      }
-    }
-  }
+  // Legacy arg1/arg2 filter formats are accepted and normalized in trigger tool handlers.
 
   return null;
 }

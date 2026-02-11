@@ -4,7 +4,7 @@
  */
 
 import { ApiError } from './error-handler.js';
-import { WEB_TRIGGER_TYPES, SERVER_TRIGGER_TYPES } from './container-validator.js';
+import { WEB_TRIGGER_TYPES, SERVER_TRIGGER_TYPES, normalizeTriggerType } from './container-validator.js';
 
 export interface TriggerTemplate {
   type: string;
@@ -65,14 +65,14 @@ const triggerTemplates: Record<string, TriggerTemplate> = {
   CUSTOM_EVENT_PURCHASE: {
     type: 'customEvent',
     name: 'Purchase Event',
-    customEventFilter: [createCondition('equals', '{{Event}}', 'purchase')],
+    customEventFilter: [createCondition('equals', '{{_event}}', 'purchase')],
     description: 'Fires when a custom event named "purchase" is pushed to the data layer',
     containerType: 'both',
   },
   CUSTOM_EVENT_GENERIC: {
     type: 'customEvent',
     name: 'Custom Event',
-    customEventFilter: [createCondition('equals', '{{Event}}', 'my_event')],
+    customEventFilter: [createCondition('equals', '{{_event}}', 'my_event')],
     description: 'Fires when dataLayer.push({ event: "my_event" }) is called. Change "my_event" to your event name.',
     containerType: 'both',
   },
@@ -120,7 +120,7 @@ const triggerTemplates: Record<string, TriggerTemplate> = {
   SERVER_CUSTOM: {
     type: 'customEvent',
     name: 'Custom Server Event',
-    customEventFilter: [createCondition('equals', '{{Event}}', 'my_server_event')],
+    customEventFilter: [createCondition('equals', '{{_event}}', 'my_server_event')],
     description: 'Fires when specific server event name matches. Change "my_server_event" to your event.',
     containerType: 'server',
   },
@@ -159,8 +159,8 @@ export function validateTriggerConfigFull(
     errors.push('Trigger name is required');
   }
 
-  // Normalize type to lowercase
-  const normalizedType = config.type?.toLowerCase();
+  // Normalize type to proper camelCase (API v2 format)
+  const normalizedType = normalizeTriggerType(config.type || '');
 
   // Check container type compatibility
   if (containerType === 'server') {
@@ -181,7 +181,7 @@ export function validateTriggerConfigFull(
       if (!config.customEventFilter) {
         warnings.push('CUSTOM_EVENT triggers typically need customEventFilter');
         suggestions.push('Add customEventFilter to specify which events to match');
-        suggestions.push('Example: customEventFilter: [{ type: "equals", parameter: [{ key: "arg0", value: "{{Event}}" }, { key: "arg1", value: "my_event" }] }]');
+        suggestions.push('Example: customEventFilter: [{ type: "equals", parameter: [{ key: "arg0", value: "{{_event}}" }, { key: "arg1", value: "my_event" }] }]');
       }
     }
   }
@@ -191,10 +191,10 @@ export function validateTriggerConfigFull(
     if (!Array.isArray(filters)) return;
     
     filters.forEach((cond: any, index: number) => {
-      // Check for deprecated direct arg1/arg2 format
+      // Legacy direct arg1/arg2 format is accepted and normalized by trigger tool handlers.
       if (cond.arg1 !== undefined && cond.arg2 !== undefined && !cond.parameter) {
-        errors.push(`${filterName}[${index}] uses deprecated format with direct arg1/arg2`);
-        suggestions.push('Use parameter array with arg0/arg1 keys (API v2 format)');
+        warnings.push(`${filterName}[${index}] uses legacy arg1/arg2 format and will be normalized`);
+        suggestions.push('Preferred: use parameter array with arg0/arg1 keys (API v2 format)');
       }
       
       // Check for correct parameter format

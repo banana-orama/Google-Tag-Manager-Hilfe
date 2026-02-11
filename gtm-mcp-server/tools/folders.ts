@@ -10,6 +10,7 @@ export interface FolderSummary {
   folderId: string;
   name: string;
   path: string;
+  fingerprint?: string;
 }
 
 export interface FolderEntities {
@@ -39,6 +40,7 @@ export async function listFolders(workspacePath: string): Promise<FolderSummary[
     folderId: folder.folderId || '',
     name: folder.name || '',
     path: folder.path || '',
+    fingerprint: folder.fingerprint || undefined,
   }));
 }
 
@@ -59,6 +61,7 @@ export async function getFolder(folderPath: string): Promise<FolderSummary | nul
       folderId: folder.folderId || '',
       name: folder.name || '',
       path: folder.path || '',
+      fingerprint: folder.fingerprint || undefined,
     };
   } catch (error) {
     return null;
@@ -90,6 +93,7 @@ export async function createFolder(
       folderId: folder.folderId || '',
       name: folder.name || '',
       path: folder.path || '',
+      fingerprint: folder.fingerprint || undefined,
     };
   } catch (error) {
     return handleApiError(error, 'createFolder', { workspacePath, name, notes });
@@ -121,6 +125,7 @@ export async function updateFolder(
       folderId: folder.folderId || '',
       name: folder.name || '',
       path: folder.path || '',
+      fingerprint: folder.fingerprint || undefined,
     };
   } catch (error) {
     return handleApiError(error, 'updateFolder', { folderPath, name, fingerprint });

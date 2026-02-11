@@ -132,22 +132,52 @@ export async function updateTag(
   tagPath: string,
   tagConfig: Partial<{
     name: string;
+    type: string;
     parameter: tagmanager_v2.Schema$Parameter[];
     firingTriggerId: string[];
     blockingTriggerId: string[];
     paused: boolean;
     parentFolderId: string;
+    notes: string;
   }>,
   fingerprint: string
 ): Promise<TagDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
+    // GTM tag update requires preserving essential fields (type/parameter) for many tag types.
+    const current = await gtmApiCall(() =>
+      tagmanager.accounts.containers.workspaces.tags.get({
+        path: tagPath,
+      })
+    );
+
+    const requestBody: tagmanager_v2.Schema$Tag = {
+      name: tagConfig.name ?? current.name ?? undefined,
+      type: tagConfig.type ?? current.type ?? undefined,
+      parameter: tagConfig.parameter ?? current.parameter ?? undefined,
+      firingTriggerId: tagConfig.firingTriggerId ?? current.firingTriggerId ?? undefined,
+      blockingTriggerId: tagConfig.blockingTriggerId ?? current.blockingTriggerId ?? undefined,
+      paused: tagConfig.paused ?? current.paused ?? undefined,
+      parentFolderId: tagConfig.parentFolderId ?? current.parentFolderId ?? undefined,
+      notes: tagConfig.notes ?? current.notes ?? undefined,
+    };
+
+    // Custom HTML tags require a non-empty `html` parameter value.
+    if (requestBody.type === 'html' && Array.isArray(current.parameter)) {
+      const hasHtml = (requestBody.parameter || []).some(
+        (p) => p?.key === 'html' && typeof p.value === 'string' && p.value.trim().length > 0
+      );
+      if (!hasHtml) {
+        requestBody.parameter = current.parameter;
+      }
+    }
+
     const tag = await gtmApiCall(() =>
       tagmanager.accounts.containers.workspaces.tags.update({
         path: tagPath,
         fingerprint,
-        requestBody: tagConfig,
+        requestBody,
       })
     );
 
@@ -201,11 +231,9 @@ export async function revertTag(tagPath: string): Promise<TagDetails | ApiError>
 
     const tag = result.tag;
     if (!tag) {
-      return {
-        code: 'NO_TAG',
-        message: 'Revert succeeded but no tag data returned',
-        suggestions: ['Try reverting the tag again', 'Check if tag exists in workspace'],
-      };
+      // The API may return an empty body if there were no pending changes for this tag.
+      // Treat this as a successful no-op revert.
+      return { reverted: true, path: tagPath } as any;
     }
 
     return {

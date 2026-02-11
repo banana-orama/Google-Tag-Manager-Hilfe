@@ -139,11 +139,26 @@ export async function updateClient(
   const tagmanager = getTagManagerClient();
 
   try {
+    const existing = await gtmApiCall(() =>
+      tagmanager.accounts.containers.workspaces.clients.get({
+        path: clientPath,
+      })
+    );
+
+    const mergedConfig = {
+      name: clientConfig.name ?? existing.name,
+      type: existing.type,
+      parameter: clientConfig.parameter ?? existing.parameter,
+      parentFolderId: clientConfig.parentFolderId ?? existing.parentFolderId,
+      priority: clientConfig.priority ?? existing.priority,
+      notes: clientConfig.notes ?? existing.notes,
+    };
+
     const client = await gtmApiCall(() =>
       tagmanager.accounts.containers.workspaces.clients.update({
         path: clientPath,
         fingerprint,
-        requestBody: clientConfig,
+        requestBody: mergedConfig,
       })
     );
 

@@ -94,10 +94,41 @@ export async function createVariable(
   const tagmanager = getTagManagerClient();
 
   try {
+    // Normalize/clean parameters so GTM API errors are more predictable.
+    const cleanedParams: tagmanager_v2.Schema$Parameter[] | undefined = (() => {
+      const params = variableConfig.parameter;
+      if (!params || params.length === 0) return undefined;
+
+      const out: tagmanager_v2.Schema$Parameter[] = [];
+      for (const p of params) {
+        if (!p || typeof p !== 'object') continue;
+        const key = (p as any).key;
+        const type = (p as any).type;
+
+        if (!key || typeof key !== 'string') continue;
+        if (!type || typeof type !== 'string') continue;
+
+        const entry: tagmanager_v2.Schema$Parameter = {
+          key,
+          type,
+        };
+
+        if ('value' in (p as any)) (entry as any).value = (p as any).value;
+        if ('list' in (p as any)) (entry as any).list = (p as any).list;
+        if ('map' in (p as any)) (entry as any).map = (p as any).map;
+
+        out.push(entry);
+      }
+      return out.length > 0 ? out : undefined;
+    })();
+
     const variable = await gtmApiCall(() =>
       tagmanager.accounts.containers.workspaces.variables.create({
         parent: workspacePath,
-        requestBody: variableConfig,
+        requestBody: {
+          ...variableConfig,
+          parameter: cleanedParams,
+        },
       })
     );
 
@@ -116,25 +147,60 @@ export async function createVariable(
 }
 
 /**
+ * Analyze variables and return summary
+ */
+export function analyzeVariableList(variables: VariableSummary[]): {
+  total: number;
+  byType: Record<string, number>;
+} {
+  const byType: Record<string, number> = {};
+
+  for (const variable of variables) {
+    byType[variable.type] = (byType[variable.type] || 0) + 1;
+  }
+
+  return {
+    total: variables.length,
+    byType,
+  };
+}
+
+/**
  * Update an existing variable
  */
 export async function updateVariable(
-  variablePath: string,
-  variableConfig: Partial<{
-    name: string;
-    parameter: tagmanager_v2.Schema$Parameter[];
-    parentFolderId: string;
-  }>,
-  fingerprint: string
-): Promise<VariableDetails | ApiError> {
+    variablePath: string,
+    variableConfig: Partial<{
+      name: string;
+      type: string;
+      parameter: tagmanager_v2.Schema$Parameter[];
+      parentFolderId: string;
+      notes: string;
+    }>,
+    fingerprint: string
+  ): Promise<VariableDetails | ApiError> {
   const tagmanager = getTagManagerClient();
 
   try {
+    const current = await gtmApiCall(() =>
+      tagmanager.accounts.containers.workspaces.variables.get({
+        path: variablePath,
+      })
+    );
+
+    const requestBody: tagmanager_v2.Schema$Variable = {
+      name: variableConfig.name ?? current.name ?? undefined,
+      type: variableConfig.type ?? current.type ?? undefined,
+      parameter: variableConfig.parameter ?? current.parameter ?? undefined,
+      parentFolderId: variableConfig.parentFolderId ?? current.parentFolderId ?? undefined,
+      notes: variableConfig.notes ?? current.notes ?? undefined,
+    };
+
     const variable = await gtmApiCall(() =>
       tagmanager.accounts.containers.workspaces.variables.update({
         path: variablePath,
         fingerprint,
-        requestBody: variableConfig,
+        requestBody,
       })
     );
 
@@ -168,23 +234,4 @@ export async function deleteVariable(variablePath: string): Promise<{ deleted: b
   } catch (error) {
     return handleApiError(error, 'deleteVariable', { variablePath });
   }
-}
-
-/**
- * Analyze variables and return summary
- */
-export function analyzeVariableList(variables: VariableSummary[]): {
-  total: number;
-  byType: Record<string, number>;
-} {
-  const byType: Record<string, number> = {};
-
-  for (const variable of variables) {
-    byType[variable.type] = (byType[variable.type] || 0) + 1;
-  }
-
-  return {
-    total: variables.length,
-    byType,
-  };
 }

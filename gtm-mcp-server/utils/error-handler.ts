@@ -16,6 +16,7 @@ export interface ApiError {
 type ErrorType = 
   | 'PARAMETER_MISSING_TYPE'
   | 'PARAMETER_INVALID_FORMAT'
+  | 'RATE_LIMITED'
   | 'TRIGGER_INVALID_TYPE'
   | 'TRIGGER_CONDITION_FORMAT'
   | 'CONTAINER_TYPE_MISMATCH'
@@ -58,6 +59,10 @@ export function handleApiError(
 
 function detectErrorType(apiError: any, operation: string): ErrorType {
   const message = apiError.message?.toLowerCase() || '';
+
+  if (apiError.code === 429 || message.includes('resource exhausted') || message.includes('ratelimit')) {
+    return 'RATE_LIMITED';
+  }
   
   if (message.includes('type') && message.includes('invalid')) {
     return 'PARAMETER_MISSING_TYPE';
@@ -102,6 +107,7 @@ function generateHelp(errorType: ErrorType, operation: string): string {
   const helpTexts: Record<ErrorType, string> = {
     PARAMETER_MISSING_TYPE: 'Each parameter must include a "type" field. Valid types: template, integer, boolean, list, map, triggerReference, tagReference.',
     PARAMETER_INVALID_FORMAT: 'Check the parameter format for this operation. All parameters need key, type, and value fields.',
+    RATE_LIMITED: 'The GTM API is rate-limiting this request (HTTP 429). Wait and retry with fewer/serialized requests.',
     TRIGGER_INVALID_TYPE: 'The trigger type is not supported by this container. Web and Server containers support different trigger types.',
     TRIGGER_CONDITION_FORMAT: 'Conditions should use "parameter" array with arg0/arg1 keys (API v2 format).',
     CONTAINER_TYPE_MISMATCH: 'This operation is only supported in specific container types. Check if you\'re using the right container type.',
@@ -127,6 +133,12 @@ function generateSuggestions(errorType: ErrorType, operation: string, apiError: 
       'Check if all required fields are present (key, type, value)',
       'Verify the parameter structure matches the expected format',
       'Use gtm_get_tag_parameters or gtm_get_variable_parameters for reference',
+    ],
+    RATE_LIMITED: [
+      'Wait 30-120 seconds and retry',
+      'Avoid parallel tool calls; run requests sequentially',
+      'If this persists, you may be hitting per-minute or per-project quota limits',
+      'Check whether other processes are also calling the GTM API with the same OAuth client',
     ],
     TRIGGER_INVALID_TYPE: [
       'Web containers support: pageview, click, formSubmission, customEvent, timer, scrollDepth, etc.',
@@ -229,14 +241,19 @@ function generateExample(errorType: ErrorType, params: any): ApiError['example']
     RESOURCE_NOT_FOUND: null,
     
     FILTER_FORMAT_DEPRECATED: {
-      deprecated: { type: 'equals', arg1: '{{Event}}', arg2: 'purchase' },
+      deprecated: { type: 'equals', arg1: '{{_event}}', arg2: 'purchase' },
       correct: {
         type: 'equals',
         parameter: [
-          { key: 'arg0', type: 'template', value: '{{Event}}' },
+          { key: 'arg0', type: 'template', value: '{{_event}}' },
           { key: 'arg1', type: 'template', value: 'purchase' },
         ],
       },
+    },
+
+    RATE_LIMITED: {
+      note: 'HTTP 429 from GTM API. Wait and retry later.',
+      exampleWaitSeconds: 60,
     },
     
     UNKNOWN: null,

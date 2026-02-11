@@ -15,6 +15,7 @@ export interface TemplateSummary {
 export interface TemplateDetails extends TemplateSummary {
   fingerprint?: string;
   templateData?: string;
+  revertedDeletedInBase?: boolean;
   galleryReference?: {
     host?: string;
     owner?: string;
@@ -95,7 +96,10 @@ export async function createTemplate(
     const template = await gtmApiCall(() =>
       tagmanager.accounts.containers.workspaces.templates.create({
         parent: workspacePath,
-        requestBody: templateConfig,
+        requestBody: {
+          name: templateConfig.name,
+          templateData: templateConfig.templateData,
+        },
       })
     );
 
@@ -117,10 +121,9 @@ export async function createTemplate(
 export async function importTemplateFromGallery(
   workspacePath: string,
   galleryReference: {
-    host: string;
     owner: string;
     repository: string;
-    version: string;
+    version?: string;
     signature?: string;
   }
 ): Promise<TemplateDetails | ApiError> {
@@ -128,11 +131,12 @@ export async function importTemplateFromGallery(
 
   try {
     const response = await gtmApiCall(() =>
-      tagmanager.accounts.containers.workspaces.templates.create({
+      tagmanager.accounts.containers.workspaces.templates.import_from_gallery({
         parent: workspacePath,
-        requestBody: {
-          galleryReference,
-        },
+        acknowledgePermissions: true,
+        galleryOwner: galleryReference.owner,
+        galleryRepository: galleryReference.repository,
+        gallerySha: galleryReference.version || undefined,
       })
     );
 
@@ -151,6 +155,30 @@ export async function importTemplateFromGallery(
       } : undefined,
     };
   } catch (error) {
+    const msg = String((error as any)?.message ?? '').toLowerCase();
+    if (msg.includes('duplicate name')) {
+      try {
+        const templates = await gtmApiCall(() =>
+          tagmanager.accounts.containers.workspaces.templates.list({
+            parent: workspacePath,
+          })
+        );
+        for (const item of templates.template || []) {
+          if (!item.path) continue;
+          const details = await getTemplate(item.path);
+          const gr = details?.galleryReference;
+          if (!gr) continue;
+          const ownerMatch = gr.owner === galleryReference.owner;
+          const repoMatch = gr.repository === galleryReference.repository;
+          const versionMatch = !galleryReference.version || gr.version === galleryReference.version;
+          if (ownerMatch && repoMatch && versionMatch) {
+            return details as TemplateDetails;
+          }
+        }
+      } catch {
+        // Fall through to default error handling below.
+      }
+    }
     return handleApiError(error, 'importTemplateFromGallery', { galleryReference });
   }
 }
@@ -169,11 +197,25 @@ export async function updateTemplate(
   const tagmanager = getTagManagerClient();
 
   try {
+    // GTM template update behaves like replace for required fields.
+    // Merge against current template to avoid dropping templateData.
+    const current = await gtmApiCall(() =>
+      tagmanager.accounts.containers.workspaces.templates.get({
+        path: templatePath,
+      })
+    );
+
+    const requestBody: tagmanager_v2.Schema$CustomTemplate = {
+      name: templateConfig.name ?? current.name ?? undefined,
+      templateData: templateConfig.templateData ?? current.templateData ?? undefined,
+      galleryReference: current.galleryReference ?? undefined,
+    };
+
     const template = await gtmApiCall(() =>
       tagmanager.accounts.containers.workspaces.templates.update({
         path: templatePath,
         fingerprint,
-        requestBody: templateConfig,
+        requestBody,
       })
     );
 
@@ -222,10 +264,12 @@ export async function revertTemplate(templatePath: string): Promise<TemplateDeta
 
     const template = result.template as tagmanager_v2.Schema$CustomTemplate | undefined;
     if (!template) {
+      // GTM v2 semantics: no template in response means it was deleted in base version.
       return {
-        code: 'NO_TEMPLATE',
-        message: 'Revert succeeded but no template data returned',
-        suggestions: ['Try reverting the template again', 'Check if template exists in workspace'],
+        templateId: '',
+        name: '',
+        path: templatePath,
+        revertedDeletedInBase: true,
       };
     }
 

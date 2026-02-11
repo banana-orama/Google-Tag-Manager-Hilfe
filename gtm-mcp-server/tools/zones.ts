@@ -7,6 +7,25 @@ import { tagmanager_v2 } from 'googleapis';
 import { getTagManagerClient, gtmApiCall } from '../utils/gtm-client.js';
 import { handleApiError, ApiError } from '../utils/error-handler.js';
 
+function ensureValidBoundary(boundary?: any): tagmanager_v2.Schema$ZoneBoundary | undefined {
+  if (!boundary) {
+    return undefined;
+  }
+
+  // Validate and structure boundary according to GTM API v2 spec
+  const result: tagmanager_v2.Schema$ZoneBoundary = {};
+
+  if (boundary.condition && Array.isArray(boundary.condition)) {
+    result.condition = boundary.condition;
+  }
+
+  if (boundary.customEvaluationTriggerId && Array.isArray(boundary.customEvaluationTriggerId)) {
+    result.customEvaluationTriggerId = boundary.customEvaluationTriggerId;
+  }
+
+  return result;
+}
+
 export interface ZoneSummary {
   zoneId: string;
   name: string;
@@ -80,7 +99,7 @@ export async function createZone(
   zoneConfig: {
     name: string;
     notes?: string;
-    boundary?: tagmanager_v2.Schema$ZoneBoundary;
+    boundary?: any;
     childContainer?: tagmanager_v2.Schema$ZoneChildContainer[];
     typeRestriction?: tagmanager_v2.Schema$ZoneTypeRestriction;
   }
@@ -88,10 +107,14 @@ export async function createZone(
   const tagmanager = getTagManagerClient();
 
   try {
+    const validatedBoundary = ensureValidBoundary(zoneConfig.boundary);
     const zone = await gtmApiCall(() =>
       tagmanager.accounts.containers.workspaces.zones.create({
         parent: workspacePath,
-        requestBody: zoneConfig,
+        requestBody: {
+          ...zoneConfig,
+          boundary: validatedBoundary,
+        },
       })
     );
 

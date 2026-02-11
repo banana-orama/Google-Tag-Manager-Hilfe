@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /**
- * OAuth2 Setup Script
+ * OAuth2 Setup Script with enhanced security
  * Run with: npm run auth
  */
 
 import open from 'open';
+import { randomBytes } from 'crypto';
 import {
   ensureConfigDir,
   loadCredentials,
@@ -12,15 +13,15 @@ import {
   getAuthUrl,
   getTokensFromCode,
   saveTokens,
-  startCallbackServer,
   getCredentialsPath,
   getConfigDir,
 } from './oauth.js';
+import { startSecureCallbackServer } from './callback-server.js';
 
 async function main() {
-  console.log('╔════════════════════════════════════════════════════════════╗');
-  console.log('║           GTM MCP Server - OAuth2 Setup                    ║');
-  console.log('╚════════════════════════════════════════════════════════════╝');
+  console.log('╔══════════════════════════════════════╗');
+  console.log('║           GTM MCP Server - Secure OAuth2 Setup          ║');
+  console.log('╚═════════════════════════════════════╝');
   console.log();
 
   // Ensure config directory exists
@@ -47,15 +48,16 @@ async function main() {
   console.log('✅ OAuth2 Credentials gefunden');
   console.log();
 
-  // Create OAuth2 client
+  // Create OAuth2 client with enhanced security
   const oauth2Client = createOAuth2Client(credentials);
 
-  // Start callback server
-  console.log('🌐 Starte lokalen OAuth2 Callback Server...');
-  const codePromise = startCallbackServer();
+  // Generate and open auth URL with CSRF protection
+  const expectedState = randomBytes(32).toString('base64url');
+  const authUrl = getAuthUrl(oauth2Client, expectedState);
+  console.log();
+  console.log('🌐 Starte sicheren OAuth2 Callback Server (mit CSRF-Schutz)...');
+  const codePromise = startSecureCallbackServer();
 
-  // Generate and open auth URL
-  const authUrl = getAuthUrl(oauth2Client);
   console.log();
   console.log('📱 Öffne Browser zur Authentifizierung...');
   console.log();
@@ -69,13 +71,21 @@ async function main() {
   try {
     // Wait for callback
     console.log('⏳ Warte auf Authentifizierung...');
-    const code = await codePromise;
+    const callback = await codePromise;
+    const code = callback.code;
+    if (!code) {
+      throw new Error('OAuth callback did not include a code.');
+    }
+    if (callback.state !== expectedState) {
+      throw new Error('OAuth state mismatch. Aborting (possible CSRF).');
+    }
 
     // Exchange code for tokens
     console.log('🔄 Tausche Authorization Code gegen Tokens...');
     const tokens = await getTokensFromCode(oauth2Client, code);
 
-    // Save tokens
+    // Save tokens securely
+    console.log('🔒 Speichere Tokens sicher (verschlüsselt)...');
     saveTokens(tokens);
 
     console.log();
@@ -83,7 +93,7 @@ async function main() {
     console.log('║              ✅ Authentifizierung erfolgreich!             ║');
     console.log('╚════════════════════════════════════════════════════════════╝');
     console.log();
-    console.log(`Tokens gespeichert in: ${getConfigDir()}/tokens.json`);
+    console.log(`Tokens gespeichert in: ${getConfigDir()}/tokens.encrypted (und ggf. ${getConfigDir()}/encryption.key)`);
     console.log();
     console.log('Du kannst den MCP Server jetzt starten mit:');
     console.log('   npm start');

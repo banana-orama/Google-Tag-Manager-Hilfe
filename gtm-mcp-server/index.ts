@@ -46,6 +46,38 @@ import * as destinations from './tools/destinations.js';
 import * as userPermissions from './tools/userPermissions.js';
 import * as gtagConfig from './tools/gtagConfig.js';
 
+// Shared JSON-schema snippets for LLM-friendly tool contracts.
+// Keep these permissive enough for future GTM types, but explicit enough for good prompting.
+const GTM_PARAMETER_SCHEMA: Record<string, unknown> = {
+  type: 'object',
+  description:
+    'GTM API v2 Parameter object. `type` is required by GTM for most operations. Use `value` for template/boolean/integer, `list` for list, and `map` for map parameters.',
+  properties: {
+    key: { type: 'string', description: 'Parameter key (e.g., "measurementId", "eventName", "html", "arg0", "arg1")' },
+    type: {
+      type: 'string',
+      description: 'Parameter type',
+      enum: ['template', 'boolean', 'integer', 'list', 'map', 'triggerReference', 'tagReference'],
+    },
+    value: {
+      description: 'Parameter value (for template/boolean/integer). For template, value is a string.',
+      anyOf: [{ type: 'string' }, { type: 'number' }, { type: 'boolean' }],
+    },
+    list: {
+      type: 'array',
+      description: 'Nested parameters when type="list"',
+      items: { type: 'object' },
+    },
+    map: {
+      type: 'array',
+      description: 'Nested parameters when type="map"',
+      items: { type: 'object' },
+    },
+  },
+  required: ['key', 'type'],
+  additionalProperties: true,
+};
+
 // Define all available tools
 const TOOLS: Tool[] = [
   // === STATUS ===
@@ -67,6 +99,20 @@ const TOOLS: Tool[] = [
       type: 'object',
       properties: {},
       required: [],
+    },
+  },
+  {
+    name: 'gtm_get_account',
+    description: 'Get full details of a specific GTM account',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        accountId: {
+          type: 'string',
+          description: 'GTM Account ID',
+        },
+      },
+      required: ['accountId'],
     },
   },
 
@@ -119,6 +165,10 @@ const TOOLS: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to create a new container.',
+        },
         accountId: {
           type: 'string',
           description: 'GTM Account ID',
@@ -133,7 +183,25 @@ const TOOLS: Tool[] = [
           description: 'Container type',
         },
       },
-      required: ['accountId', 'name', 'usageContext'],
+      required: ['accountId', 'name', 'usageContext', 'confirm'],
+    },
+  },
+  {
+    name: 'gtm_delete_container',
+    description: 'Delete a GTM container (DESTRUCTIVE - requires confirmation)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
+        containerPath: {
+          type: 'string',
+          description: 'Container path (e.g., accounts/123/containers/456)',
+        },
+      },
+      required: ['containerPath', 'confirm'],
     },
   },
 
@@ -172,6 +240,56 @@ const TOOLS: Tool[] = [
         },
       },
       required: ['containerPath', 'name'],
+    },
+  },
+  {
+    name: 'gtm_get_workspace',
+    description: 'Get details of a specific workspace',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workspacePath: {
+          type: 'string',
+          description: 'Workspace path',
+        },
+      },
+      required: ['workspacePath'],
+    },
+  },
+  {
+    name: 'gtm_delete_workspace',
+    description: 'Delete a workspace (DESTRUCTIVE - requires confirmation)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
+        workspacePath: {
+          type: 'string',
+          description: 'Workspace path to delete',
+        },
+      },
+      required: ['workspacePath', 'confirm'],
+    },
+  },
+  {
+    name: 'gtm_sync_workspace',
+    description: 'Sync a workspace with the latest container version (requires confirmation)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to sync the workspace.',
+        },
+        workspacePath: {
+          type: 'string',
+          description: 'Workspace path to sync',
+        },
+      },
+      required: ['workspacePath', 'confirm'],
     },
   },
   {
@@ -243,10 +361,47 @@ const TOOLS: Tool[] = [
         },
         parameter: {
           type: 'array',
-          description: 'Tag parameters',
+          description: `Tag parameters (GTM API v2 Parameter[]).
+
+**Example (GA4 Event tag):**
+\`\`\`json
+[
+  { "key": "measurementId", "type": "template", "value": "G-XXXXXXXXXX" },
+  { "key": "eventName", "type": "template", "value": "purchase" }
+]
+\`\`\``,
+          items: GTM_PARAMETER_SCHEMA,
         },
       },
       required: ['workspacePath', 'name', 'type'],
+    },
+  },
+  {
+    name: 'gtm_update_tag',
+    description: 'Update an existing tag (requires fingerprint from gtm_get_tag)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        tagPath: { type: 'string', description: 'Tag path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_tag (optimistic locking)' },
+        tagConfig: {
+          type: 'object',
+          description: 'Partial tag fields to update (name, parameter, firingTriggerId, blockingTriggerId, paused, parentFolderId)',
+          additionalProperties: true,
+        },
+      },
+      required: ['tagPath', 'fingerprint', 'tagConfig'],
+    },
+  },
+  {
+    name: 'gtm_revert_tag',
+    description: 'Revert tag changes in the current workspace',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        tagPath: { type: 'string', description: 'Tag path to revert' },
+      },
+      required: ['tagPath'],
     },
   },
   {
@@ -255,12 +410,16 @@ const TOOLS: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         tagPath: {
           type: 'string',
           description: 'Tag path to delete',
         },
       },
-      required: ['tagPath'],
+      required: ['tagPath', 'confirm'],
     },
   },
 
@@ -301,14 +460,14 @@ const TOOLS: Tool[] = [
 - **Web containers:** pageview, domReady, windowLoaded, click, linkClick, formSubmission, customEvent, timer, scrollDepth, elementVisibility, jsError, historyChange, youTubeVideo
 - **Server containers:** always, customEvent, triggerGroup, init, consentInit, serverPageview
 
-**⚠️ IMPORTANT: Condition Format (API v2)**
-All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
+**Condition Format (API v2 preferred)**
+Use \`parameter\` array with \`arg0\`/\`arg1\` keys:
 \`\`\`json
 {
   "type": "contains",
   "parameter": [
     { "key": "arg0", "type": "template", "value": "{{Page URL}}" },
-    { "key": "arg1", "type: "template", "value": "/checkout" }
+    { "key": "arg1", "type": "template", "value": "/checkout" }
   ]
 }
 \`\`\`
@@ -319,6 +478,8 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
 - \`filter\`: Trigger activation conditions (e.g., only on certain pages)
 - \`customEventFilter\`: ONLY for customEvent type triggers (matches data layer event name)
 - \`autoEventFilter\`: For auto-event triggers (element visibility, etc.)
+
+Legacy \`arg1\`/\`arg2\` syntax is accepted and normalized automatically.
 
 **Check compatibility:** Use \`gtm_get_container_info\` before creating triggers.`,
     inputSchema: {
@@ -352,7 +513,7 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
           type: 'array',
           description: `Trigger activation conditions.
 
-**CRITICAL: Use parameter array with arg0/arg1 (API v2 format)**
+Preferred: use parameter array with arg0/arg1 (API v2 format)
 \`\`\`json
 [{
   "type": "contains",
@@ -381,8 +542,11 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
                   required: ['key', 'type', 'value'],
                 },
               },
+              arg0: { type: 'string', description: 'Legacy left operand (auto-normalized to parameter arg0)' },
+              arg1: { type: 'string', description: 'Legacy operand (auto-normalized to parameter arg0/arg1)' },
+              arg2: { type: 'string', description: 'Legacy right operand (auto-normalized to parameter arg1)' },
             },
-            required: ['type', 'parameter'],
+            required: ['type'],
           },
         },
         customEventFilter: {
@@ -394,7 +558,7 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
 [{
   "type": "equals",
   "parameter": [
-    { "key": "arg0", "type": "template", "value": "{{Event}}" },
+    { "key": "arg0", "type": "template", "value": "{{_event}}" },
     { "key": "arg1", "type": "template", "value": "purchase" }
   ]
 }]
@@ -415,8 +579,11 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
                   required: ['key', 'type', 'value'],
                 },
               },
+              arg0: { type: 'string', description: 'Legacy left operand (auto-normalized to parameter arg0)' },
+              arg1: { type: 'string', description: 'Legacy operand (auto-normalized to parameter arg0/arg1)' },
+              arg2: { type: 'string', description: 'Legacy right operand (auto-normalized to parameter arg1)' },
             },
-            required: ['type', 'parameter'],
+            required: ['type'],
           },
         },
         autoEventFilter: {
@@ -438,8 +605,11 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
                   required: ['key', 'type', 'value'],
                 },
               },
+              arg0: { type: 'string', description: 'Legacy left operand (auto-normalized to parameter arg0)' },
+              arg1: { type: 'string', description: 'Legacy operand (auto-normalized to parameter arg0/arg1)' },
+              arg2: { type: 'string', description: 'Legacy right operand (auto-normalized to parameter arg1)' },
             },
-            required: ['type', 'parameter'],
+            required: ['type'],
           },
         },
         parentFolderId: {
@@ -451,17 +621,38 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
     },
   },
   {
+    name: 'gtm_update_trigger',
+    description: 'Update an existing trigger (requires fingerprint from gtm_get_trigger)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        triggerPath: { type: 'string', description: 'Trigger path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_trigger' },
+        triggerConfig: {
+          type: 'object',
+          description: 'Partial trigger fields to update (name, filter, customEventFilter, autoEventFilter, parentFolderId)',
+          additionalProperties: true,
+        },
+      },
+      required: ['triggerPath', 'fingerprint', 'triggerConfig'],
+    },
+  },
+  {
     name: 'gtm_delete_trigger',
     description: 'Delete a trigger (DESTRUCTIVE)',
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         triggerPath: {
           type: 'string',
           description: 'Trigger path to delete',
         },
       },
-      required: ['triggerPath'],
+      required: ['triggerPath', 'confirm'],
     },
   },
 
@@ -523,7 +714,7 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
         },
         name: {
           type: 'string',
-          description: 'Variable name (with {{}})',
+          description: 'Variable name (plain text, without {{}})',
         },
         type: {
           type: 'string',
@@ -531,35 +722,43 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
         },
         parameter: {
           type: 'array',
-          description: `Variable parameters as key-value pairs.
+          description: `Variable parameters (GTM API v2 Parameter[]).
 
 **Example format:**
 \`\`\`json
 [
-  { "key": "cookieName", "value": "_ga" }
+  { "key": "cookieName", "type": "template", "value": "_ga" }
 ]
 \`\`\`
 
 **Type-specific parameters:**
-- Constant (k): key="value", value="your fixed value"
-- Cookie (c): key="cookieName", value="cookie name"
+- Constant (k): key="value", type="template", value="your fixed value"
+- Cookie (c): key="cookieName", type="template", value="cookie name"
 - URL Variable (v): key="urlComponent" (path/query/fragment), key="queryKey" for query params
 - Data Layer (f): key="dataLayerName", value="variable name"
 - JavaScript Macro (jsm): key="javascript", value="function body"
 `,
-          items: {
-            type: 'object',
-            properties: {
-              key: { type: 'string', description: 'Parameter key' },
-              value: { type: 'string', description: 'Parameter value' },
-              type: { type: 'string', description: 'Parameter type (optional)' },
-              list: { type: 'boolean', description: 'Is this a list parameter (optional)' },
-            },
-            required: ['key', 'value'],
-          },
+          items: GTM_PARAMETER_SCHEMA,
         },
       },
       required: ['workspacePath', 'name', 'type'],
+    },
+  },
+  {
+    name: 'gtm_update_variable',
+    description: 'Update an existing variable (requires fingerprint from gtm_get_variable)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        variablePath: { type: 'string', description: 'Variable path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_variable' },
+        variableConfig: {
+          type: 'object',
+          description: 'Partial variable fields to update (name, parameter, parentFolderId)',
+          additionalProperties: true,
+        },
+      },
+      required: ['variablePath', 'fingerprint', 'variableConfig'],
     },
   },
   {
@@ -568,12 +767,16 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         variablePath: {
           type: 'string',
           description: 'Variable path to delete',
         },
       },
-      required: ['variablePath'],
+      required: ['variablePath', 'confirm'],
     },
   },
 
@@ -608,6 +811,76 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
         },
       },
       required: ['workspacePath', 'name'],
+    },
+  },
+  {
+    name: 'gtm_get_folder',
+    description: 'Get full details of a specific folder',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        folderPath: {
+          type: 'string',
+          description: 'Folder path',
+        },
+      },
+      required: ['folderPath'],
+    },
+  },
+  {
+    name: 'gtm_update_folder',
+    description: 'Update a folder name (requires fingerprint from gtm_get_folder)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        folderPath: { type: 'string', description: 'Folder path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_folder' },
+        name: { type: 'string', description: 'New folder name' },
+      },
+      required: ['folderPath', 'fingerprint', 'name'],
+    },
+  },
+  {
+    name: 'gtm_delete_folder',
+    description: 'Delete a folder (DESTRUCTIVE - requires confirmation)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        confirm: { type: 'boolean', description: 'Required. Must be true to perform the deletion.' },
+        folderPath: { type: 'string', description: 'Folder path to delete' },
+      },
+      required: ['folderPath', 'confirm'],
+    },
+  },
+  {
+    name: 'gtm_get_folder_entities',
+    description: 'Get tags/triggers/variables currently assigned to a folder',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        folderPath: { type: 'string', description: 'Folder path' },
+      },
+      required: ['folderPath'],
+    },
+  },
+  {
+    name: 'gtm_move_entities_to_folder',
+    description: 'Move tags/triggers/variables to a folder by IDs',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        folderPath: { type: 'string', description: 'Folder path' },
+        entityIds: {
+          type: 'object',
+          properties: {
+            tagId: { type: 'array', items: { type: 'string' } },
+            triggerId: { type: 'array', items: { type: 'string' } },
+            variableId: { type: 'array', items: { type: 'string' } },
+          },
+          additionalProperties: false,
+        },
+      },
+      required: ['folderPath', 'entityIds'],
     },
   },
 
@@ -664,7 +937,7 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
   },
   {
     name: 'gtm_import_template_from_gallery',
-    description: 'Import a template from the Community Template Gallery',
+    description: 'Import a template from the Community Template Gallery (API v2 templates:import_from_gallery)',
     inputSchema: {
       type: 'object',
       properties: {
@@ -674,22 +947,50 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
         },
         host: {
           type: 'string',
-          description: 'Gallery host (usually "github.com")',
+          description: 'Optional. Ignored by GTM API v2 import endpoint (kept for backward compatibility).',
         },
         owner: {
           type: 'string',
-          description: 'Repository owner/organization',
+          description: 'Gallery owner/organization',
         },
         repository: {
           type: 'string',
-          description: 'Repository name',
+          description: 'Gallery repository name',
         },
         version: {
           type: 'string',
-          description: 'Template version/tag',
+          description: 'Optional gallery SHA. If omitted, GTM imports latest gallery SHA.',
         },
       },
-      required: ['workspacePath', 'host', 'owner', 'repository', 'version'],
+      required: ['workspacePath', 'owner', 'repository'],
+    },
+  },
+  {
+    name: 'gtm_update_template',
+    description: 'Update a custom template (requires fingerprint from gtm_get_template)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        templatePath: { type: 'string', description: 'Template path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_template' },
+        templateConfig: {
+          type: 'object',
+          description: 'Partial template fields to update (name, templateData)',
+          additionalProperties: true,
+        },
+      },
+      required: ['templatePath', 'fingerprint', 'templateConfig'],
+    },
+  },
+  {
+    name: 'gtm_revert_template',
+    description: 'Revert template changes in workspace',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        templatePath: { type: 'string', description: 'Template path to revert' },
+      },
+      required: ['templatePath'],
     },
   },
   {
@@ -698,12 +999,16 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         templatePath: {
           type: 'string',
           description: 'Template path to delete',
         },
       },
-      required: ['templatePath'],
+      required: ['templatePath', 'confirm'],
     },
   },
 
@@ -718,6 +1023,17 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
           type: 'string',
           description: 'Container path',
         },
+      },
+      required: ['containerPath'],
+    },
+  },
+  {
+    name: 'gtm_get_latest_version_header',
+    description: 'Get the latest container version header (metadata only)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        containerPath: { type: 'string', description: 'Container path' },
       },
       required: ['containerPath'],
     },
@@ -773,17 +1089,45 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
     },
   },
   {
+    name: 'gtm_delete_version',
+    description: 'Delete a version (DESTRUCTIVE - requires confirmation)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        confirm: { type: 'boolean', description: 'Required. Must be true to perform the deletion.' },
+        versionPath: { type: 'string', description: 'Version path to delete' },
+      },
+      required: ['versionPath', 'confirm'],
+    },
+  },
+  {
+    name: 'gtm_undelete_version',
+    description: 'Undelete a deleted version (requires confirmation)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        confirm: { type: 'boolean', description: 'Required. Must be true to undelete the version.' },
+        versionPath: { type: 'string', description: 'Version path to undelete' },
+      },
+      required: ['versionPath', 'confirm'],
+    },
+  },
+  {
     name: 'gtm_publish_version',
     description: 'Publish a version (make it live) - IMPORTANT ACTION requires confirmation',
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to publish the version and make it live.',
+        },
         versionPath: {
           type: 'string',
           description: 'Version path to publish',
         },
       },
-      required: ['versionPath'],
+      required: ['versionPath', 'confirm'],
     },
   },
   {
@@ -1098,6 +1442,18 @@ All conditions use \`parameter\` array with \`arg0\`/\`arg1\` keys:
       required: ['workspacePath', 'types'],
     },
   },
+  {
+    name: 'gtm_revert_built_in_variable',
+    description: 'Revert built-in variable changes for a single type in the workspace',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workspacePath: { type: 'string', description: 'Workspace path' },
+        type: { type: 'string', description: 'Built-in variable type to revert (e.g., PAGE_URL, EVENT, DEBUG_MODE)' },
+      },
+      required: ['workspacePath', 'type'],
+    },
+  },
 
   // === CLIENTS (Server-Side GTM) ===
   {
@@ -1147,9 +1503,9 @@ Clients are only available in Server containers.
 - \`gaaw_client\`: GA4 Web Client - receives GA4 measurement protocol hits
 - \`adwords_client\`: Google Ads Client
 - \`facebook_client\`: Facebook Conversions API Client
-- \`custom\`: Custom client for specific needs
+- \`measurement_client\`: Generic measurement protocol client
 
-**Priority:** Lower numbers run first (e.g., priority 1 runs before priority 10)`,
+You can also use custom client template IDs (for gallery/custom templates).`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -1163,11 +1519,12 @@ Clients are only available in Server containers.
         },
         type: {
           type: 'string',
-          description: 'Client type (e.g., gaaw_client for GA4)',
+          description: 'Client type/template ID (e.g., gaaw_client)',
         },
         parameter: {
           type: 'array',
-          description: 'Client parameters',
+          description: 'Client parameters (GTM API v2 Parameter[])',
+          items: GTM_PARAMETER_SCHEMA,
         },
         priority: {
           type: 'number',
@@ -1177,6 +1534,25 @@ Clients are only available in Server containers.
       required: ['workspacePath', 'name', 'type'],
     },
   },
+
+  {
+    name: 'gtm_update_client',
+    description: 'Update a client (SERVER-SIDE ONLY; requires fingerprint from gtm_get_client)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        clientPath: { type: 'string', description: 'Client path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_client' },
+        clientConfig: {
+          type: 'object',
+          description: 'Partial client fields to update (name, parameter, priority, etc.)',
+          additionalProperties: true,
+        },
+      },
+      required: ['clientPath', 'fingerprint', 'clientConfig'],
+    },
+  },
+
   {
     name: 'gtm_delete_client',
     description: `Delete a client (DESTRUCTIVE).
@@ -1185,12 +1561,16 @@ Clients are only available in Server containers.
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         clientPath: {
           type: 'string',
           description: 'Client path to delete',
         },
       },
-      required: ['clientPath'],
+      required: ['clientPath', 'confirm'],
     },
   },
 
@@ -1239,6 +1619,8 @@ Use \`gtm_get_container_info\` to check your container type.
 Transformations are only available in Server containers.
 
 **Purpose:** Modify or enrich event data before tags process it.
+Use a valid transformation template/type available in your container.
+
 **Use Cases:**
 - PII redaction
 - Data enrichment
@@ -1256,14 +1638,32 @@ Transformations are only available in Server containers.
         },
         type: {
           type: 'string',
-          description: 'Transformation type',
+          description: 'Transformation type/template ID available in your server container',
         },
         parameter: {
           type: 'array',
-          description: 'Transformation parameters',
+          description: 'Transformation parameters (GTM API v2 Parameter[])',
+          items: GTM_PARAMETER_SCHEMA,
         },
       },
       required: ['workspacePath', 'name', 'type'],
+    },
+  },
+  {
+    name: 'gtm_update_transformation',
+    description: 'Update a transformation (SERVER-SIDE ONLY; requires fingerprint from gtm_get_transformation)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        transformationPath: { type: 'string', description: 'Transformation path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_transformation' },
+        transformationConfig: {
+          type: 'object',
+          description: 'Partial transformation fields to update',
+          additionalProperties: true,
+        },
+      },
+      required: ['transformationPath', 'fingerprint', 'transformationConfig'],
     },
   },
   {
@@ -1274,12 +1674,16 @@ Transformations are only available in Server containers.
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         transformationPath: {
           type: 'string',
           description: 'Transformation path to delete',
         },
       },
-      required: ['transformationPath'],
+      required: ['transformationPath', 'confirm'],
     },
   },
 
@@ -1317,13 +1721,10 @@ Transformations are only available in Server containers.
     description: `Create a new zone for consent management.
 
 **Boundary Examples:**
-- By URL: \`{ "condition": [{ "type": "contains", "arg1": "{{Page URL}}", "arg2": "/checkout" }] }\`
-- By Event: \`{ "condition": [{ "type": "equals", "arg1": "{{Event}}", "arg2": "consent_granted" }] }\`
-- By Data Layer: \`{ "condition": [{ "type": "equals", "arg1": "{{consent}}", "arg2": "true" }] }\`
+- Conditions use the same GTM API v2 \`Condition\` format as triggers (\`parameter\` with \`arg0\`/\`arg1\`).
 
 **Type Restriction Examples:**
-- Restrict to GA4: \`{ "whitelist": [{ "type": "contains", "arg1": "{{_Type}}", "arg2": "gaawe" }] }\`
-- Restrict to marketing tags: \`{ "whitelist": [{ "type": "contains", "arg1": "{{Tag Name}}", "arg2": "marketing" }] }\``,
+- Restrict to GA4 Event tag type id: \`{ "enable": true, "whitelistedTypeId": ["gaawe"] }\``,
     inputSchema: {
       type: 'object',
       properties: {
@@ -1339,31 +1740,21 @@ Transformations are only available in Server containers.
           type: 'object',
           description: `Zone boundary conditions - determines when this zone is active.
 
-**Example for URL-based zone:**
+**Example for URL-based zone (API v2 Condition format):**
 \`\`\`json
 {
   "condition": [
     {
       "type": "contains",
-      "arg1": "{{Page URL}}",
-      "arg2": "/checkout"
+      "parameter": [
+        { "key": "arg0", "type": "template", "value": "{{Page URL}}" },
+        { "key": "arg1", "type": "template", "value": "/checkout" }
+      ]
     }
   ]
 }
 \`\`\`
-
-**Example for event-based zone:**
-\`\`\`json
-{
-  "condition": [
-    {
-      "type": "equals",
-      "arg1": "{{Event}}",
-      "arg2": "consent_granted"
-    }
-  ]
-}
-\`\`\``,
+`,
         },
         childContainer: {
           type: 'array',
@@ -1379,29 +1770,14 @@ Transformations are only available in Server containers.
           type: 'object',
           description: `Tag type restrictions for this zone (optional).
 
-**Example - whitelist only GA4 tags:**
-\`\`\`json
-{
-  "whitelist": [
-    {
-      "type": "contains",
-      "arg1": "{{_Type}}",
-      "arg2": "gaawe"
-    }
-  ]
-}
-\`\`\`
+**Schema (API v2):**
+\`{ "enable": true, "whitelistedTypeId": ["gaawe","html"] }\`
 
-**Example - blacklist marketing tags:**
+**Example - whitelist only GA4 Event tags:**
 \`\`\`json
 {
-  "blacklist": [
-    {
-      "type": "contains",
-      "arg1": "{{Tag Name}}",
-      "arg2": "marketing"
-    }
-  ]
+  "enable": true,
+  "whitelistedTypeId": ["gaawe"]
 }
 \`\`\``,
         },
@@ -1410,17 +1786,38 @@ Transformations are only available in Server containers.
     },
   },
   {
+    name: 'gtm_update_zone',
+    description: 'Update a zone (requires fingerprint from gtm_get_zone)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        zonePath: { type: 'string', description: 'Zone path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_zone' },
+        zoneConfig: {
+          type: 'object',
+          description: 'Partial zone fields to update (name, boundary, typeRestriction, childContainer, etc.)',
+          additionalProperties: true,
+        },
+      },
+      required: ['zonePath', 'fingerprint', 'zoneConfig'],
+    },
+  },
+  {
     name: 'gtm_delete_zone',
     description: 'Delete a zone (DESTRUCTIVE)',
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         zonePath: {
           type: 'string',
           description: 'Zone path to delete',
         },
       },
-      required: ['zonePath'],
+      required: ['zonePath', 'confirm'],
     },
   },
 
@@ -1480,17 +1877,38 @@ Transformations are only available in Server containers.
     },
   },
   {
+    name: 'gtm_update_environment',
+    description: 'Update an environment (requires fingerprint from gtm_get_environment)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        environmentPath: { type: 'string', description: 'Environment path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_environment' },
+        environmentConfig: {
+          type: 'object',
+          description: 'Partial environment fields to update (name, description, enableDebug, containerVersionId)',
+          additionalProperties: true,
+        },
+      },
+      required: ['environmentPath', 'fingerprint', 'environmentConfig'],
+    },
+  },
+  {
     name: 'gtm_delete_environment',
     description: 'Delete an environment (DESTRUCTIVE)',
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         environmentPath: {
           type: 'string',
           description: 'Environment path to delete',
         },
       },
-      required: ['environmentPath'],
+      required: ['environmentPath', 'confirm'],
     },
   },
   {
@@ -1612,17 +2030,37 @@ Transformations are only available in Server containers.
     },
   },
   {
+    name: 'gtm_update_user_permission',
+    description: 'Update a user permission',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        permissionPath: { type: 'string', description: 'Permission path' },
+        permissionConfig: {
+          type: 'object',
+          description: 'Partial permission fields to update (accountAccess, containerAccess)',
+          additionalProperties: true,
+        },
+      },
+      required: ['permissionPath', 'permissionConfig'],
+    },
+  },
+  {
     name: 'gtm_delete_user_permission',
     description: 'Delete a user permission (revoke access) - DESTRUCTIVE',
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         permissionPath: {
           type: 'string',
           description: 'Permission path to delete',
         },
       },
-      required: ['permissionPath'],
+      required: ['permissionPath', 'confirm'],
     },
   },
 
@@ -1671,10 +2109,28 @@ Transformations are only available in Server containers.
         },
         parameter: {
           type: 'array',
-          description: 'Gtag config parameters',
+          description: 'Gtag config parameters (GTM API v2 Parameter[])',
+          items: GTM_PARAMETER_SCHEMA,
         },
       },
       required: ['workspacePath', 'type'],
+    },
+  },
+  {
+    name: 'gtm_update_gtag_config',
+    description: 'Update a gtag config (requires fingerprint from gtm_get_gtag_config)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        gtagConfigPath: { type: 'string', description: 'Gtag config path' },
+        fingerprint: { type: 'string', description: 'Fingerprint from gtm_get_gtag_config' },
+        gtagConfigData: {
+          type: 'object',
+          description: 'Partial gtag config fields to update (parameter)',
+          additionalProperties: true,
+        },
+      },
+      required: ['gtagConfigPath', 'fingerprint', 'gtagConfigData'],
     },
   },
   {
@@ -1683,15 +2139,47 @@ Transformations are only available in Server containers.
     inputSchema: {
       type: 'object',
       properties: {
+        confirm: {
+          type: 'boolean',
+          description: 'Required. Must be true to perform the deletion.',
+        },
         gtagConfigPath: {
           type: 'string',
           description: 'Gtag config path to delete',
         },
       },
-      required: ['gtagConfigPath'],
+      required: ['gtagConfigPath', 'confirm'],
     },
   },
 ];
+
+const CONFIRM_REQUIRED: Record<string, { action: string; note?: string }> = {
+  // Container-level changes
+  gtm_create_container: { action: 'create_container' },
+  gtm_delete_container: { action: 'delete_container' },
+
+  // Deletes
+  gtm_delete_tag: { action: 'delete_tag' },
+  gtm_delete_trigger: { action: 'delete_trigger' },
+  gtm_delete_variable: { action: 'delete_variable' },
+  gtm_delete_folder: { action: 'delete_folder' },
+  gtm_delete_template: { action: 'delete_template' },
+  gtm_delete_client: { action: 'delete_client' },
+  gtm_delete_transformation: { action: 'delete_transformation' },
+  gtm_delete_zone: { action: 'delete_zone' },
+  gtm_delete_environment: { action: 'delete_environment' },
+  gtm_delete_user_permission: { action: 'delete_user_permission' },
+  gtm_delete_gtag_config: { action: 'delete_gtag_config' },
+  gtm_delete_workspace: { action: 'delete_workspace' },
+  gtm_delete_version: { action: 'delete_version' },
+  gtm_undelete_version: { action: 'undelete_version' },
+
+  // Potentially destructive merges
+  gtm_sync_workspace: { action: 'sync_workspace', note: 'This pulls latest container changes into the workspace.' },
+
+  // Publishing is destructive in the sense it affects production
+  gtm_publish_version: { action: 'publish_version', note: 'This makes the version live in the container.' },
+};
 
 // Create the server
 const server = new Server(
@@ -1735,6 +2223,34 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 
   try {
+    // Hard safety gate for destructive actions. Tool descriptions mention confirmation, so enforce it.
+    const confirmMeta = CONFIRM_REQUIRED[name];
+    if (confirmMeta) {
+      const confirm = (args as any)?.confirm;
+      if (confirm !== true) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(
+                {
+                  error: 'Confirmation required',
+                  errorType: 'CONFIRMATION_REQUIRED',
+                  tool: name,
+                  action: confirmMeta.action,
+                  note: confirmMeta.note,
+                  help: 'Re-run the tool call with {"confirm": true} to proceed.',
+                },
+                null,
+                2
+              ),
+            },
+          ],
+          isError: true,
+        };
+      }
+    }
+
     let result: unknown;
 
     switch (name) {
@@ -1754,6 +2270,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       // === ACCOUNTS ===
       case 'gtm_list_accounts': {
         result = await accounts.listAccounts();
+        break;
+      }
+      case 'gtm_get_account': {
+        const { accountId } = args as { accountId: string };
+        result = await accounts.getAccount(accountId);
         break;
       }
 
@@ -1785,6 +2306,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         result = await containers.createContainer(accountId, containerName, usageContext);
         break;
       }
+      case 'gtm_delete_container': {
+        const { containerPath } = args as { containerPath: string };
+        result = { deleted: await containers.deleteContainer(containerPath), path: containerPath };
+        break;
+      }
 
       // === WORKSPACES ===
       case 'gtm_list_workspaces': {
@@ -1800,6 +2326,29 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           description?: string;
         };
         result = await workspaces.createWorkspace(containerPath, wsName, description);
+        break;
+      }
+
+      case 'gtm_get_workspace': {
+        const { workspacePath } = args as { workspacePath: string };
+        result = await workspaces.getWorkspace(workspacePath);
+        break;
+      }
+
+      case 'gtm_delete_workspace': {
+        const { workspacePath } = args as { workspacePath: string };
+        const deleteResult = await workspaces.deleteWorkspace(workspacePath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: workspacePath };
+        } else {
+          result = deleteResult;
+        }
+        break;
+      }
+
+      case 'gtm_sync_workspace': {
+        const { workspacePath } = args as { workspacePath: string };
+        result = await workspaces.syncWorkspace(workspacePath);
         break;
       }
 
@@ -1841,6 +2390,31 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           firingTriggerId,
           parameter: parameter as tagmanager_v2.Schema$Parameter[] | undefined,
         });
+        break;
+      }
+
+      case 'gtm_update_tag': {
+        const { tagPath, fingerprint, tagConfig } = args as {
+          tagPath: string;
+          fingerprint: string;
+          tagConfig: any;
+        };
+        // GTM API often requires immutable fields like `type` to be present in update calls.
+        // Merge the current entity's `type` when the caller omits it (LLM-friendly).
+        const existing = await tags.getTag(tagPath);
+        if (!existing) {
+          result = { code: 'NOT_FOUND', message: 'Tag not found', tagPath };
+          break;
+        }
+        const merged = { ...tagConfig } as any;
+        if (merged.type === undefined && existing.type) merged.type = existing.type;
+        result = await tags.updateTag(tagPath, merged, fingerprint);
+        break;
+      }
+
+      case 'gtm_revert_tag': {
+        const { tagPath } = args as { tagPath: string };
+        result = await tags.revertTag(tagPath);
         break;
       }
 
@@ -1892,6 +2466,23 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         break;
       }
 
+      case 'gtm_update_trigger': {
+        const { triggerPath, fingerprint, triggerConfig } = args as {
+          triggerPath: string;
+          fingerprint: string;
+          triggerConfig: any;
+        };
+        const existing = await triggers.getTrigger(triggerPath);
+        if (!existing) {
+          result = { code: 'NOT_FOUND', message: 'Trigger not found', triggerPath };
+          break;
+        }
+        const merged = { ...triggerConfig } as any;
+        if (merged.type === undefined && existing.type) merged.type = existing.type;
+        result = await triggers.updateTrigger(triggerPath, merged, fingerprint);
+        break;
+      }
+
       case 'gtm_delete_trigger': {
         const { triggerPath } = args as { triggerPath: string };
         const deleteResult = await triggers.deleteTrigger(triggerPath);
@@ -1936,6 +2527,23 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         break;
       }
 
+      case 'gtm_update_variable': {
+        const { variablePath, fingerprint, variableConfig } = args as {
+          variablePath: string;
+          fingerprint: string;
+          variableConfig: any;
+        };
+        const existing = await variables.getVariable(variablePath);
+        if (!existing) {
+          result = { code: 'NOT_FOUND', message: 'Variable not found', variablePath };
+          break;
+        }
+        const merged = { ...variableConfig } as any;
+        if (merged.type === undefined && existing.type) merged.type = existing.type;
+        result = await variables.updateVariable(variablePath, merged, fingerprint);
+        break;
+      }
+
       case 'gtm_delete_variable': {
         const { variablePath } = args as { variablePath: string };
         const deleteResult = await variables.deleteVariable(variablePath);
@@ -1960,6 +2568,48 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           name: string;
         };
         result = await folders.createFolder(workspacePath, folderName);
+        break;
+      }
+
+      case 'gtm_get_folder': {
+        const { folderPath } = args as { folderPath: string };
+        result = await folders.getFolder(folderPath);
+        break;
+      }
+
+      case 'gtm_update_folder': {
+        const { folderPath, name: newName, fingerprint } = args as {
+          folderPath: string;
+          name: string;
+          fingerprint: string;
+        };
+        result = await folders.updateFolder(folderPath, newName, fingerprint);
+        break;
+      }
+
+      case 'gtm_delete_folder': {
+        const { folderPath } = args as { folderPath: string };
+        const deleteResult = await folders.deleteFolder(folderPath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: folderPath };
+        } else {
+          result = deleteResult;
+        }
+        break;
+      }
+
+      case 'gtm_get_folder_entities': {
+        const { folderPath } = args as { folderPath: string };
+        result = await folders.getFolderEntities(folderPath);
+        break;
+      }
+
+      case 'gtm_move_entities_to_folder': {
+        const { folderPath, entityIds } = args as {
+          folderPath: string;
+          entityIds: { tagId?: string[]; triggerId?: string[]; variableId?: string[] };
+        };
+        result = await folders.moveEntitiesToFolder(folderPath, entityIds);
         break;
       }
 
@@ -1996,17 +2646,32 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case 'gtm_import_template_from_gallery': {
         const { workspacePath, host, owner, repository, version } = args as {
           workspacePath: string;
-          host: string;
+          host?: string;
           owner: string;
           repository: string;
-          version: string;
+          version?: string;
         };
         result = await templates.importTemplateFromGallery(workspacePath, {
-          host,
           owner,
           repository,
           version,
         });
+        break;
+      }
+
+      case 'gtm_update_template': {
+        const { templatePath, fingerprint, templateConfig } = args as {
+          templatePath: string;
+          fingerprint: string;
+          templateConfig: any;
+        };
+        result = await templates.updateTemplate(templatePath, templateConfig, fingerprint);
+        break;
+      }
+
+      case 'gtm_revert_template': {
+        const { templatePath } = args as { templatePath: string };
+        result = await templates.revertTemplate(templatePath);
         break;
       }
 
@@ -2025,6 +2690,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case 'gtm_list_versions': {
         const { containerPath } = args as { containerPath: string };
         result = await versions.listVersionHeaders(containerPath);
+        break;
+      }
+
+      case 'gtm_get_latest_version_header': {
+        const { containerPath } = args as { containerPath: string };
+        result = await versions.getLatestVersionHeader(containerPath);
         break;
       }
 
@@ -2057,6 +2728,23 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           notes?: string;
         };
         result = await versions.createVersion(workspacePath, versionName, notes);
+        break;
+      }
+
+      case 'gtm_delete_version': {
+        const { versionPath } = args as { versionPath: string };
+        const deleteResult = await versions.deleteVersion(versionPath);
+        if (deleteResult && typeof deleteResult === 'object' && 'deleted' in deleteResult) {
+          result = { ...(deleteResult as { deleted: boolean }), path: versionPath };
+        } else {
+          result = deleteResult;
+        }
+        break;
+      }
+
+      case 'gtm_undelete_version': {
+        const { versionPath } = args as { versionPath: string };
+        result = await versions.undeleteVersion(versionPath);
         break;
       }
 
@@ -2177,6 +2865,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         break;
       }
 
+      case 'gtm_revert_built_in_variable': {
+        const { workspacePath, type } = args as { workspacePath: string; type: string };
+        result = { reverted: await builtInVariables.revertBuiltInVariable(workspacePath, type), type };
+        break;
+      }
+
       // === CLIENTS (Server-Side GTM) ===
       case 'gtm_list_clients': {
         const { workspacePath } = args as { workspacePath: string };
@@ -2209,6 +2903,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           parameter: parameter as tagmanager_v2.Schema$Parameter[] | undefined,
           priority,
         });
+        break;
+      }
+
+      case 'gtm_update_client': {
+        const { clientPath, fingerprint, clientConfig } = args as {
+          clientPath: string;
+          fingerprint: string;
+          clientConfig: any;
+        };
+        result = await clients.updateClient(clientPath, clientConfig, fingerprint);
         break;
       }
 
@@ -2248,6 +2952,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           type,
           parameter: parameter as tagmanager_v2.Schema$Parameter[] | undefined,
         });
+        break;
+      }
+
+      case 'gtm_update_transformation': {
+        const { transformationPath, fingerprint, transformationConfig } = args as {
+          transformationPath: string;
+          fingerprint: string;
+          transformationConfig: any;
+        };
+        result = await transformations.updateTransformation(transformationPath, transformationConfig, fingerprint);
         break;
       }
 
@@ -2292,6 +3006,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         break;
       }
 
+      case 'gtm_update_zone': {
+        const { zonePath, fingerprint, zoneConfig } = args as {
+          zonePath: string;
+          fingerprint: string;
+          zoneConfig: any;
+        };
+        result = await zones.updateZone(zonePath, zoneConfig, fingerprint);
+        break;
+      }
+
       case 'gtm_delete_zone': {
         const { zonePath } = args as { zonePath: string };
         const deleteResult = await zones.deleteZone(zonePath);
@@ -2328,6 +3052,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           description,
           enableDebug,
         });
+        break;
+      }
+
+      case 'gtm_update_environment': {
+        const { environmentPath, fingerprint, environmentConfig } = args as {
+          environmentPath: string;
+          fingerprint: string;
+          environmentConfig: any;
+        };
+        result = await environments.updateEnvironment(environmentPath, environmentConfig, fingerprint);
         break;
       }
 
@@ -2390,6 +3124,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         break;
       }
 
+      case 'gtm_update_user_permission': {
+        const { permissionPath, permissionConfig } = args as {
+          permissionPath: string;
+          permissionConfig: any;
+        };
+        result = await userPermissions.updateUserPermission(permissionPath, permissionConfig);
+        break;
+      }
+
       case 'gtm_delete_user_permission': {
         const { permissionPath } = args as { permissionPath: string };
         const deleteResult = await userPermissions.deleteUserPermission(permissionPath);
@@ -2424,6 +3167,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           type,
           parameter: parameter as tagmanager_v2.Schema$Parameter[] | undefined,
         });
+        break;
+      }
+
+      case 'gtm_update_gtag_config': {
+        const { gtagConfigPath, fingerprint, gtagConfigData } = args as {
+          gtagConfigPath: string;
+          fingerprint: string;
+          gtagConfigData: any;
+        };
+        result = await gtagConfig.updateGtagConfig(gtagConfigPath, gtagConfigData, fingerprint);
         break;
       }
 

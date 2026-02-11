@@ -134,11 +134,25 @@ export async function updateTransformation(
   const tagmanager = getTagManagerClient();
 
   try {
+    const existing = await gtmApiCall(() =>
+      tagmanager.accounts.containers.workspaces.transformations.get({
+        path: transformationPath,
+      })
+    );
+
+    const mergedConfig = {
+      name: transformationConfig.name ?? existing.name,
+      type: existing.type,
+      parameter: transformationConfig.parameter ?? existing.parameter,
+      parentFolderId: transformationConfig.parentFolderId ?? existing.parentFolderId,
+      notes: transformationConfig.notes ?? existing.notes,
+    };
+
     const transformation = await gtmApiCall(() =>
       tagmanager.accounts.containers.workspaces.transformations.update({
         path: transformationPath,
         fingerprint,
-        requestBody: transformationConfig,
+        requestBody: mergedConfig,
       })
     );
 

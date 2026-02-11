@@ -423,7 +423,7 @@ const WORKFLOWS: Record<string, WorkflowGuide> = {
             {
               type: 'equals',
               parameter: [
-                { key: 'arg0', type: 'template', value: '{{Event}}' },
+                { key: 'arg0', type: 'template', value: '{{_event}}' },
                 { key: 'arg1', type: 'template', value: 'purchase' },
               ],
             },
