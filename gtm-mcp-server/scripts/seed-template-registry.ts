@@ -20,6 +20,13 @@ interface Args {
   verify: boolean;
 }
 
+type VerifyErrorType =
+  | 'TEMPLATE_NOT_FOUND'
+  | 'TEMPLATE_CONTEXT_MISMATCH'
+  | 'TEMPLATE_PERMISSION_DENIED'
+  | 'WORKSPACE_STATE_INVALID'
+  | 'UNKNOWN';
+
 function parseArgs(argv: string[]): Args {
   const args: Args = {
     owner: 'stape-io',
@@ -214,6 +221,25 @@ async function tryVerifyImport(
   const tagmanager = getTagManagerClient();
   let response: tagmanager_v2.Schema$CustomTemplate | null = null;
   let failureMessage = '';
+  let failureType: VerifyErrorType = 'UNKNOWN';
+  let failureCode = '';
+
+  try {
+    const wsStatus = await gtmApiCall(() =>
+      tagmanager.accounts.containers.workspaces.getStatus({ path: workspacePath })
+    );
+    if (wsStatus.mergeConflict?.length || wsStatus.workspaceChange?.length) {
+      entry.status = 'broken';
+      entry.lastVerifiedAt = new Date().toISOString();
+      entry.verificationCode = 'WORKSPACE_STATE_INVALID';
+      entry.lastErrorType = 'WORKSPACE_STATE_INVALID';
+      entry.lastErrorMessage = 'Workspace has conflict/sync state; verification skipped.';
+      entry.verificationNote = `Import preflight failed in ${context}: workspace state invalid`;
+      return entry;
+    }
+  } catch {
+    // Non-fatal preflight issue; continue with import attempt.
+  }
 
   try {
     response = await gtmApiCall(() =>
@@ -227,6 +253,15 @@ async function tryVerifyImport(
   } catch (error) {
     const msg = String((error as any)?.message || '');
     failureMessage = msg;
+    const lower = msg.toLowerCase();
+    const code = Number((error as any)?.response?.data?.error?.code || (error as any)?.code || 0);
+    failureCode = String(code || '');
+    if (lower.includes('not found') || code === 404) failureType = 'TEMPLATE_NOT_FOUND';
+    else if (lower.includes('context') || lower.includes('unsupported in this container')) failureType = 'TEMPLATE_CONTEXT_MISMATCH';
+    else if (lower.includes('permission') || lower.includes('denied') || code === 403) failureType = 'TEMPLATE_PERMISSION_DENIED';
+    else if (lower.includes('workspace') && (lower.includes('state') || lower.includes('submitted') || lower.includes('conflict'))) {
+      failureType = 'WORKSPACE_STATE_INVALID';
+    }
     if (msg.toLowerCase().includes('duplicate name')) {
       try {
         const listed = await gtmApiCall(() =>
@@ -258,7 +293,10 @@ async function tryVerifyImport(
   if (!response) {
     entry.status = 'broken';
     entry.lastVerifiedAt = new Date().toISOString();
-    entry.verificationNote = `Import failed in ${context}: ${failureMessage || 'unknown error'}`;
+    entry.verificationCode = failureCode || failureType;
+    entry.lastErrorType = failureType;
+    entry.lastErrorMessage = failureMessage || 'unknown error';
+    entry.verificationNote = `Import failed in ${context} (${failureType}): ${failureMessage || 'unknown error'}`;
     return entry;
   }
   const info = parseInfoSection(response.templateData || undefined);
@@ -276,6 +314,9 @@ async function tryVerifyImport(
   entry.examplePayload = buildExamplePayload(entry.entityKind, entry);
   entry.lastVerifiedAt = new Date().toISOString();
   entry.verificationNote = `Imported successfully in ${context} workspace`;
+  entry.verificationCode = 'IMPORT_OK';
+  entry.lastErrorType = undefined;
+  entry.lastErrorMessage = undefined;
   return entry;
 }
 
@@ -349,6 +390,9 @@ async function main() {
       } else {
         entry.status = 'broken';
         entry.lastVerifiedAt = new Date().toISOString();
+        entry.verificationCode = 'VERIFY_FAILED';
+        entry.lastErrorType = 'UNKNOWN';
+        entry.lastErrorMessage = notes.join(' | ').slice(0, 1000);
         entry.verificationNote = notes.join(' | ').slice(0, 1000);
       }
     }

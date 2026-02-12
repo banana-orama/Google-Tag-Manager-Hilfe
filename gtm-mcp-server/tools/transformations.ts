@@ -22,6 +22,23 @@ export interface TransformationDetails extends TransformationSummary {
   notes?: string;
 }
 
+function isRetryableTransformationError(error: unknown): boolean {
+  const msg = String((error as any)?.response?.data?.error?.message || (error as any)?.message || '').toLowerCase();
+  const code = Number((error as any)?.response?.data?.error?.code || (error as any)?.code || 0);
+  return (
+    code === 429 ||
+    code >= 500 ||
+    msg.includes('timeout') ||
+    msg.includes('deadline') ||
+    msg.includes('backenderror') ||
+    msg.includes('temporarily unavailable')
+  );
+}
+
+async function sleep(ms: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 /**
  * List all transformations in a workspace (Server-Side containers only)
  */
@@ -94,28 +111,72 @@ export async function createTransformation(
   }
 
   const tagmanager = getTagManagerClient();
+  const maxRetries = Number(process.env.GTM_TRANSFORMATION_CREATE_MAX_RETRIES || '2');
+  const initialBackoffMs = Number(process.env.GTM_TRANSFORMATION_CREATE_BACKOFF_MS || '1200');
+  const startedAt = Date.now();
 
-  try {
-    const transformation = await gtmApiCall(() =>
-      tagmanager.accounts.containers.workspaces.transformations.create({
-        parent: workspacePath,
-        requestBody: transformationConfig,
-      })
-    );
+  let lastError: unknown;
+  for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
+    try {
+      const transformation = await gtmApiCall(() =>
+        tagmanager.accounts.containers.workspaces.transformations.create({
+          parent: workspacePath,
+          requestBody: transformationConfig,
+        })
+      );
 
-    return {
-      transformationId: transformation.transformationId || '',
-      name: transformation.name || '',
-      type: transformation.type || '',
-      path: transformation.path || '',
-      folderId: transformation.parentFolderId || undefined,
-      parameter: transformation.parameter || undefined,
-      fingerprint: transformation.fingerprint || undefined,
-      notes: transformation.notes || undefined,
-    };
-  } catch (error) {
-    return handleApiError(error, 'createTransformation', transformationConfig);
+      return {
+        transformationId: transformation.transformationId || '',
+        name: transformation.name || '',
+        type: transformation.type || '',
+        path: transformation.path || '',
+        folderId: transformation.parentFolderId || undefined,
+        parameter: transformation.parameter || undefined,
+        fingerprint: transformation.fingerprint || undefined,
+        notes: transformation.notes || undefined,
+      };
+    } catch (error) {
+      lastError = error;
+      if (!isRetryableTransformationError(error) || attempt >= maxRetries) {
+        break;
+      }
+      await sleep(initialBackoffMs * Math.max(1, 2 ** attempt));
+    }
   }
+
+  const elapsedMs = Date.now() - startedAt;
+  const baseError = handleApiError(lastError, 'createTransformation', transformationConfig);
+  if (isRetryableTransformationError(lastError)) {
+    return {
+      ...baseError,
+      code: 'TRANSFORMATION_CREATE_SKIPPED',
+      errorType: 'TRANSFORMATION_BACKEND_UNSTABLE',
+      message: 'Transformation create skipped after retry policy due to GTM backend instability/timeout.',
+      details: {
+        ...baseError.details,
+        elapsedMs,
+        retries: maxRetries,
+        requestFootprint: {
+          workspacePath,
+          type: transformationConfig.type,
+          parameterCount: transformationConfig.parameter?.length || 0,
+        },
+        validationOnly: true,
+      },
+      suggestions: [
+        'Retry later in a fresh workspace',
+        'Run gtm_validate_transformation_config to confirm payload remains valid',
+      ],
+    };
+  }
+  return {
+    ...baseError,
+    details: {
+      ...baseError.details,
+      elapsedMs,
+      retries: maxRetries,
+    },
+  };
 }
 
 /**

@@ -13,6 +13,34 @@ import {
 } from '../utils/template-registry.js';
 import { getContainerInfo } from '../utils/container-validator.js';
 
+type TemplateImportErrorType =
+  | 'TEMPLATE_NOT_FOUND'
+  | 'TEMPLATE_CONTEXT_MISMATCH'
+  | 'TEMPLATE_PERMISSION_DENIED'
+  | 'WORKSPACE_STATE_INVALID'
+  | 'UNKNOWN';
+
+function classifyTemplateImportError(error: unknown): { errorType: TemplateImportErrorType; code: string; message: string } {
+  const raw = error as any;
+  const message = String(raw?.response?.data?.error?.message || raw?.message || 'Unknown template import error');
+  const lower = message.toLowerCase();
+  const code = String(raw?.response?.data?.error?.code || raw?.code || 'UNKNOWN');
+
+  if (lower.includes('not found') || code === '404') {
+    return { errorType: 'TEMPLATE_NOT_FOUND', code, message };
+  }
+  if (lower.includes('context') || lower.includes('unsupported in this container') || lower.includes('usage context')) {
+    return { errorType: 'TEMPLATE_CONTEXT_MISMATCH', code, message };
+  }
+  if (lower.includes('permission') || lower.includes('denied') || code === '403') {
+    return { errorType: 'TEMPLATE_PERMISSION_DENIED', code, message };
+  }
+  if (lower.includes('workspace') && (lower.includes('state') || lower.includes('submitted') || lower.includes('conflict'))) {
+    return { errorType: 'WORKSPACE_STATE_INVALID', code, message };
+  }
+  return { errorType: 'UNKNOWN', code, message };
+}
+
 export interface TemplateSummary {
   templateId: string;
   name: string;
@@ -136,6 +164,26 @@ export async function importTemplateFromGallery(
 ): Promise<TemplateDetails | ApiError> {
   const tagmanager = getTagManagerClient();
   const containerPath = workspacePath.replace(/\/workspaces\/[^/]+$/, '');
+  const registry = await loadTemplateRegistry();
+
+  try {
+    const wsStatus = await gtmApiCall(() =>
+      tagmanager.accounts.containers.workspaces.getStatus({
+        path: workspacePath,
+      })
+    );
+    if (wsStatus.mergeConflict?.length || wsStatus.workspaceChange?.length) {
+      return {
+        code: 'WORKSPACE_STATE_INVALID',
+        errorType: 'WORKSPACE_STATE_INVALID',
+        message: 'Workspace has conflicts or pending sync status; template import aborted in strict mode.',
+        details: wsStatus,
+        suggestions: ['Run gtm_get_workspace_status and resolve conflicts', 'Retry in a fresh workspace'],
+      };
+    }
+  } catch {
+    // Non-fatal preflight failure; GTM import may still succeed.
+  }
 
   try {
     const response = await gtmApiCall(() =>
@@ -153,7 +201,6 @@ export async function importTemplateFromGallery(
       const containerInfo = await getContainerInfo(containerPath);
       const usage = (containerInfo.usageContext || []).map((v) => String(v).toLowerCase());
       const containerContext = usage.includes('server') ? 'SERVER' : usage.includes('web') ? 'WEB' : 'UNKNOWN';
-      const registry = await loadTemplateRegistry();
       const entry: TemplateRegistryEntry = {
         owner: galleryReference.owner,
         repository: galleryReference.repository,
@@ -168,6 +215,9 @@ export async function importTemplateFromGallery(
         status: 'verified',
         lastVerifiedAt: new Date().toISOString(),
         verificationNote: `Imported successfully via GTM API v2 into ${workspacePath}`,
+        verificationCode: 'IMPORT_OK',
+        lastErrorType: undefined,
+        lastErrorMessage: undefined,
       };
       upsertRegistryEntry(registry, entry);
       await saveTemplateRegistry(registry);
@@ -190,8 +240,8 @@ export async function importTemplateFromGallery(
       } : undefined,
     };
   } catch (error) {
+    const classified = classifyTemplateImportError(error);
     try {
-      const registry = await loadTemplateRegistry();
       const entry: TemplateRegistryEntry = {
         owner: galleryReference.owner,
         repository: galleryReference.repository,
@@ -204,7 +254,10 @@ export async function importTemplateFromGallery(
         examplePayload: {},
         status: 'broken',
         lastVerifiedAt: new Date().toISOString(),
-        verificationNote: `Import failed: ${String((error as any)?.message || 'unknown error')}`,
+        verificationNote: `Import failed (${classified.errorType}): ${classified.message}`,
+        verificationCode: classified.code,
+        lastErrorType: classified.errorType,
+        lastErrorMessage: classified.message,
       };
       upsertRegistryEntry(registry, entry);
       await saveTemplateRegistry(registry);
@@ -236,7 +289,13 @@ export async function importTemplateFromGallery(
         // Fall through to default error handling below.
       }
     }
-    return handleApiError(error, 'importTemplateFromGallery', { galleryReference });
+    const fallback = handleApiError(error, 'importTemplateFromGallery', { galleryReference });
+    return {
+      ...fallback,
+      errorType: classified.errorType,
+      code: classified.code || fallback.code,
+      message: classified.message || fallback.message,
+    };
   }
 }
 

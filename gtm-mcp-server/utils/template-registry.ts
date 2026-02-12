@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { tagmanager_v2 } from 'googleapis';
 import { ApiError } from './error-handler.js';
 import { getContainerInfo } from './container-validator.js';
+import { getTagManagerClient, gtmApiCall } from './gtm-client.js';
 
 export type RegistryStatus = 'verified' | 'candidate' | 'broken' | 'unknown';
 export type ContainerContext = 'WEB' | 'SERVER' | 'AMP' | 'IOS' | 'ANDROID' | 'UNKNOWN';
@@ -29,6 +30,9 @@ export interface TemplateRegistryEntry {
   status: RegistryStatus;
   lastVerifiedAt: string;
   verificationNote: string;
+  verificationCode?: string;
+  lastErrorType?: string;
+  lastErrorMessage?: string;
 }
 
 export interface TemplateRegistryDocument {
@@ -58,6 +62,15 @@ function resolveRegistryPath(): string {
 const REGISTRY_PATH = resolveRegistryPath();
 const WEB_ONLY_TAG_TYPES = new Set(['html', 'awct', 'sp', 'ua', 'googtag', 'flc', 'gclidw']);
 const WEB_ONLY_VARIABLE_TYPES = new Set(['k', 'jsm', 'c', 'v', 'f', 'aev', 'r', 'smm']);
+const KNOWN_SERVER_CLIENT_TYPES = new Set(['gaaw_client', 'adwords_client', 'facebook_client']);
+const KNOWN_SERVER_TAG_TYPES = new Set(['gaawe', 'sgtm_ga4', 'sgtm_facebook', 'gtag_config']);
+
+export interface ResolvedEntityType {
+  resolvedType: string;
+  source: 'registry' | 'workspace' | 'known-default';
+  availableTypeHints: string[];
+  registryEntry?: TemplateRegistryEntry;
+}
 
 function normalizeOwner(owner: string): string {
   return owner.trim().toLowerCase();
@@ -165,6 +178,179 @@ export function upsertRegistryEntry(
   return doc;
 }
 
+async function listEntityTypesFromWorkspace(
+  workspacePath: string,
+  entityKind: Exclude<EntityKind, 'unknown'>
+): Promise<string[]> {
+  const tagmanager = getTagManagerClient();
+
+  const collect = (arr: Array<{ type?: string }> | undefined): string[] =>
+    [...new Set((arr || []).map((x) => String(x.type || '').trim()).filter(Boolean))];
+
+  try {
+    if (entityKind === 'tag') {
+      const res = await gtmApiCall(() =>
+        tagmanager.accounts.containers.workspaces.tags.list({ parent: workspacePath })
+      );
+      return collect(res.tag as Array<{ type?: string }> | undefined);
+    }
+    if (entityKind === 'variable') {
+      const res = await gtmApiCall(() =>
+        tagmanager.accounts.containers.workspaces.variables.list({ parent: workspacePath })
+      );
+      return collect(res.variable as Array<{ type?: string }> | undefined);
+    }
+    if (entityKind === 'client') {
+      const res = await gtmApiCall(() =>
+        tagmanager.accounts.containers.workspaces.clients.list({ parent: workspacePath })
+      );
+      return collect(res.client as Array<{ type?: string }> | undefined);
+    }
+    if (entityKind === 'transformation') {
+      const res = await gtmApiCall(() =>
+        tagmanager.accounts.containers.workspaces.transformations.list({ parent: workspacePath })
+      );
+      return collect(res.transformation as Array<{ type?: string }> | undefined);
+    }
+    return [];
+  } catch {
+    return [];
+  }
+}
+
+export async function getAvailableEntityTypes(
+  workspacePath: string,
+  entityKind: Exclude<EntityKind, 'unknown'>
+): Promise<string[]> {
+  const workspaceTypes = await listEntityTypesFromWorkspace(workspacePath, entityKind);
+  const registry = await loadTemplateRegistry();
+  const registryTypes = registry.entries
+    .filter((entry) => entry.status === 'verified' && entry.entityKind === entityKind && entry.type)
+    .map((entry) => String(entry.type))
+    .filter(Boolean);
+
+  const containerPath = workspacePath.replace(/\/workspaces\/[^/]+$/, '');
+  const containerInfo = await getContainerInfo(containerPath);
+  const isServer = containerInfo.capabilities.containerType === 'server';
+
+  const defaults: string[] = (() => {
+    if (!isServer) return [];
+    if (entityKind === 'client') return [...KNOWN_SERVER_CLIENT_TYPES];
+    if (entityKind === 'tag') return [...KNOWN_SERVER_TAG_TYPES];
+    return [];
+  })();
+
+  return [...new Set([...workspaceTypes, ...registryTypes, ...defaults])].sort();
+}
+
+export async function resolveEntityType(input: {
+  workspacePath: string;
+  entityKind: Exclude<EntityKind, 'unknown'>;
+  requestedType?: string;
+  templateReference?: TemplateReference;
+}): Promise<{ ok: true; result: ResolvedEntityType } | { ok: false; error: ApiError }> {
+  const hints = await getAvailableEntityTypes(input.workspacePath, input.entityKind);
+  const requested = input.requestedType?.trim();
+
+  if (input.templateReference) {
+    const registry = await loadTemplateRegistry();
+    const entry = findRegistryEntry(registry, input.templateReference);
+    if (!entry) return { ok: false, error: buildRegistryMissError(input.templateReference) };
+    if (entry.status !== 'verified') {
+      return {
+        ok: false,
+        error: {
+          code: 'TEMPLATE_NOT_VERIFIED',
+          message: `Registry entry ${entry.owner}/${entry.repository} is "${entry.status}" and cannot resolve entity type.`,
+          errorType: 'TEMPLATE_NOT_VERIFIED',
+          details: {
+            status: entry.status,
+            verificationNote: entry.verificationNote,
+            lastErrorType: entry.lastErrorType,
+            lastErrorMessage: entry.lastErrorMessage,
+          },
+        },
+      };
+    }
+    const registryType = entry.type?.trim();
+    if (!registryType) {
+      return {
+        ok: false,
+        error: {
+          code: 'TEMPLATE_TYPE_UNRESOLVED',
+          message: `Template ${entry.owner}/${entry.repository} has no registered type.`,
+          errorType: 'TEMPLATE_TYPE_UNRESOLVED',
+        },
+      };
+    }
+    if (requested && requested !== registryType) {
+      return {
+        ok: false,
+        error: {
+          code: 'TEMPLATE_TYPE_CONFLICT',
+          message: `Provided type "${requested}" conflicts with registry type "${registryType}" for ${entry.owner}/${entry.repository}.`,
+          errorType: 'TEMPLATE_TYPE_CONFLICT',
+          details: {
+            providedType: requested,
+            registryType,
+            availableTypeHints: hints,
+          },
+        },
+      };
+    }
+    return {
+      ok: true,
+      result: {
+        resolvedType: registryType,
+        source: 'registry',
+        availableTypeHints: hints,
+        registryEntry: entry,
+      },
+    };
+  }
+
+  if (!requested) {
+    return {
+      ok: false,
+      error: {
+        code: 'TYPE_REQUIRED',
+        message: 'Type is required when templateReference is not provided.',
+        errorType: 'TYPE_REQUIRED',
+        details: { availableTypeHints: hints },
+      },
+    };
+  }
+
+  if (hints.length > 0 && !hints.includes(requested) && input.entityKind !== 'variable') {
+    return {
+      ok: false,
+      error: {
+        code: 'ENTITY_TYPE_UNAVAILABLE',
+        message: `Type "${requested}" is not available for ${input.entityKind} in this workspace context.`,
+        errorType: 'ENTITY_TYPE_UNAVAILABLE',
+        details: {
+          providedType: requested,
+          availableTypeHints: hints,
+        },
+        suggestions: [
+          'Use one of availableTypeHints',
+          'Import or verify the required template first',
+          'Use templateReference for deterministic type resolution',
+        ],
+      },
+    };
+  }
+
+  return {
+    ok: true,
+    result: {
+      resolvedType: requested,
+      source: hints.includes(requested) ? 'workspace' : 'known-default',
+      availableTypeHints: hints,
+    },
+  };
+}
+
 function hasParameterKey(params: tagmanager_v2.Schema$Parameter[] | undefined, key: string): boolean {
   if (!params) return false;
   return params.some((param) => param?.key === key);
@@ -212,144 +398,91 @@ export async function preflightTemplateBasedCreate(input: {
   const containerInfo = await getContainerInfo(containerPath);
   const context = inferContainerContext(containerInfo.usageContext);
 
-  if (!input.templateReference) {
-    if (!input.type) {
+  const resolved = await resolveEntityType({
+    workspacePath: input.workspacePath,
+    entityKind: input.entityKind,
+    requestedType: input.type,
+    templateReference: input.templateReference,
+  });
+  if (!resolved.ok) return { ok: false, error: resolved.error };
+  const resolvedType = resolved.result.resolvedType;
+  const entry = resolved.result.registryEntry;
+
+  if (context === 'SERVER' && input.entityKind === 'tag' && WEB_ONLY_TAG_TYPES.has(resolvedType)) {
+    return {
+      ok: false,
+      error: {
+        code: 'SERVER_TYPE_BLOCKED',
+        message: `Type "${resolvedType}" is web-only and cannot be used in server container.`,
+        errorType: 'SERVER_TYPE_BLOCKED',
+        details: { availableTypeHints: resolved.result.availableTypeHints },
+      },
+    };
+  }
+  if (
+    context === 'SERVER' &&
+    input.entityKind === 'variable' &&
+    input.templateReference &&
+    WEB_ONLY_VARIABLE_TYPES.has(resolvedType)
+  ) {
+    return {
+      ok: false,
+      error: {
+        code: 'SERVER_TYPE_BLOCKED',
+        message: `Variable type "${resolvedType}" is web-only and cannot be used in server container.`,
+        errorType: 'SERVER_TYPE_BLOCKED',
+        details: { availableTypeHints: resolved.result.availableTypeHints },
+      },
+    };
+  }
+
+  if (entry) {
+    if (entry.containerContext !== 'UNKNOWN' && entry.containerContext !== context) {
       return {
         ok: false,
         error: {
-          code: 'TYPE_REQUIRED',
-          message: 'Type is required when templateReference is not provided.',
-          errorType: 'TYPE_REQUIRED',
+          code: 'TEMPLATE_CONTEXT_MISMATCH',
+          message: `Template ${entry.owner}/${entry.repository} is registered for ${entry.containerContext}, but workspace is ${context}.`,
+          errorType: 'TEMPLATE_CONTEXT_MISMATCH',
         },
       };
     }
-    if (context === 'SERVER') {
-      if (input.entityKind === 'tag' && WEB_ONLY_TAG_TYPES.has(input.type)) {
-        return {
-          ok: false,
-          error: {
-            code: 'SERVER_TYPE_BLOCKED',
-            message: `Type "${input.type}" is web-only and cannot be used in server container.`,
-            errorType: 'SERVER_TYPE_BLOCKED',
-            suggestions: [
-              'Use a server-compatible type from an imported template',
-              'Pass templateReference { owner, repository } to resolve type from registry',
-            ],
-          },
-        };
-      }
-      if (input.entityKind === 'variable' && WEB_ONLY_VARIABLE_TYPES.has(input.type)) {
-        return {
-          ok: false,
-          error: {
-            code: 'SERVER_TYPE_BLOCKED',
-            message: `Variable type "${input.type}" is web-only and cannot be used in server container.`,
-            errorType: 'SERVER_TYPE_BLOCKED',
-            suggestions: [
-              'Use server-compatible variable/template type',
-              'Pass templateReference { owner, repository } to resolve type from registry',
-            ],
-          },
-        };
-      }
+
+    if (entry.entityKind !== input.entityKind) {
+      return {
+        ok: false,
+        error: {
+          code: 'TEMPLATE_ENTITY_MISMATCH',
+          message: `Template ${entry.owner}/${entry.repository} is registered for entityKind=${entry.entityKind}, expected ${input.entityKind}.`,
+          errorType: 'TEMPLATE_ENTITY_MISMATCH',
+        },
+      };
     }
-    return { ok: true, type: input.type, parameter: input.parameter };
   }
 
-  const registry = await loadTemplateRegistry();
-  const entry = findRegistryEntry(registry, input.templateReference);
-  if (!entry) {
-    return {
-      ok: false,
-      error: buildRegistryMissError(input.templateReference),
-    };
-  }
-
-  if (entry.status !== 'verified') {
-    return {
-      ok: false,
-      error: {
-        code: 'TEMPLATE_NOT_VERIFIED',
-        message: `Registry entry ${entry.owner}/${entry.repository} is "${entry.status}" and not usable for create flows.`,
-        errorType: 'TEMPLATE_NOT_VERIFIED',
-        details: {
-          status: entry.status,
-          verificationNote: entry.verificationNote,
-          lastVerifiedAt: entry.lastVerifiedAt,
+  const mergedParams = appendDefaultParameters(input.parameter, entry?.defaults || {});
+  if (entry) {
+    const missing = validateRequiredParameters(entry.requiredParameters, mergedParams);
+    if (missing.length > 0) {
+      return {
+        ok: false,
+        error: {
+          code: 'TEMPLATE_REQUIRED_PARAMETERS_MISSING',
+          message: `Missing required parameters for ${entry.owner}/${entry.repository}: ${missing.join(', ')}`,
+          errorType: 'TEMPLATE_REQUIRED_PARAMETERS_MISSING',
+          details: {
+            missingKeys: missing,
+            requiredParameters: entry.requiredParameters,
+          },
         },
-        suggestions: [
-          'Re-run template registry seed/sync with verification',
-          'Use gtm_import_template_from_gallery and verify success',
-        ],
-      },
-    };
-  }
-
-  if (entry.containerContext !== 'UNKNOWN' && entry.containerContext !== context) {
-    return {
-      ok: false,
-      error: {
-        code: 'TEMPLATE_CONTEXT_MISMATCH',
-        message: `Template ${entry.owner}/${entry.repository} is registered for ${entry.containerContext}, but workspace is ${context}.`,
-        errorType: 'TEMPLATE_CONTEXT_MISMATCH',
-      },
-    };
-  }
-
-  if (entry.entityKind !== input.entityKind) {
-    return {
-      ok: false,
-      error: {
-        code: 'TEMPLATE_ENTITY_MISMATCH',
-        message: `Template ${entry.owner}/${entry.repository} is registered for entityKind=${entry.entityKind}, expected ${input.entityKind}.`,
-        errorType: 'TEMPLATE_ENTITY_MISMATCH',
-      },
-    };
-  }
-
-  const resolvedType = input.type || entry.type;
-  if (!resolvedType) {
-    return {
-      ok: false,
-      error: {
-        code: 'TEMPLATE_TYPE_UNRESOLVED',
-        message: `Template ${entry.owner}/${entry.repository} has no resolved GTM type in registry.`,
-        errorType: 'TEMPLATE_TYPE_UNRESOLVED',
-      },
-    };
-  }
-  if (input.type && entry.type && input.type !== entry.type) {
-    return {
-      ok: false,
-      error: {
-        code: 'TEMPLATE_TYPE_CONFLICT',
-        message: `Provided type "${input.type}" conflicts with registry type "${entry.type}" for ${entry.owner}/${entry.repository}.`,
-        errorType: 'TEMPLATE_TYPE_CONFLICT',
-      },
-    };
-  }
-
-  const mergedParams = appendDefaultParameters(input.parameter, entry.defaults);
-  const missing = validateRequiredParameters(entry.requiredParameters, mergedParams);
-  if (missing.length > 0) {
-    return {
-      ok: false,
-      error: {
-        code: 'TEMPLATE_REQUIRED_PARAMETERS_MISSING',
-        message: `Missing required parameters for ${entry.owner}/${entry.repository}: ${missing.join(', ')}`,
-        errorType: 'TEMPLATE_REQUIRED_PARAMETERS_MISSING',
-        details: {
-          missingKeys: missing,
-          requiredParameters: entry.requiredParameters,
-        },
-      },
-    };
+      };
+    }
   }
 
   return {
     ok: true,
     type: resolvedType,
     parameter: mergedParams,
-    registryEntry: entry,
+    registryEntry: entry ?? undefined,
   };
 }

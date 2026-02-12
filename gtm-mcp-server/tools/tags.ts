@@ -23,6 +23,20 @@ export interface TagDetails extends TagSummary {
   notes?: string;
 }
 
+function getParameterValue(params: tagmanager_v2.Schema$Parameter[] | undefined, key: string): string | undefined {
+  const hit = (params || []).find((p) => p?.key === key);
+  return hit?.value !== undefined ? String(hit.value) : undefined;
+}
+
+function hasParamKey(params: tagmanager_v2.Schema$Parameter[] | undefined, key: string): boolean {
+  return (params || []).some((p) => p?.key === key);
+}
+
+function isServerUrlParamSupported(tagType: string | null | undefined): boolean {
+  // GTM tag entity supports these server URL params reliably on googtag.
+  return tagType === 'googtag';
+}
+
 /**
  * List all tags in a workspace
  * Returns compressed summary to save tokens
@@ -163,6 +177,25 @@ export async function updateTag(
       notes: tagConfig.notes ?? current.notes ?? undefined,
     };
 
+    const attemptsServerUrlUpdate =
+      hasParamKey(requestBody.parameter, 'server_container_url') ||
+      hasParamKey(requestBody.parameter, 'server_transport_url');
+    if (attemptsServerUrlUpdate && !isServerUrlParamSupported(requestBody.type)) {
+      return {
+        code: 'UNSUPPORTED_PARAMETER_FOR_TYPE',
+        errorType: 'UPDATE_NOT_APPLIED',
+        message: `server_container_url/server_transport_url are not supported for tag type "${requestBody.type}"`,
+        details: {
+          tagType: requestBody.type,
+          supportedTypes: ['googtag'],
+        },
+        suggestions: [
+          'Use a googtag tag when setting server transport/container URL',
+          'For server-side transport configuration, prefer gtm_create_gtag_config',
+        ],
+      };
+    }
+
     // Custom HTML tags require a non-empty `html` parameter value.
     if (requestBody.type === 'html' && Array.isArray(current.parameter)) {
       const hasHtml = (requestBody.parameter || []).some(
@@ -180,6 +213,44 @@ export async function updateTag(
         requestBody,
       })
     );
+
+    // Read-after-write verification for known problematic URL parameters.
+    if (attemptsServerUrlUpdate && tag.path) {
+      const reread = await gtmApiCall(() =>
+        tagmanager.accounts.containers.workspaces.tags.get({
+          path: tag.path!,
+        })
+      );
+      const expectedServerContainerUrl = getParameterValue(requestBody.parameter, 'server_container_url');
+      const expectedServerTransportUrl = getParameterValue(requestBody.parameter, 'server_transport_url');
+      const actualServerContainerUrl = getParameterValue(reread.parameter || undefined, 'server_container_url');
+      const actualServerTransportUrl = getParameterValue(reread.parameter || undefined, 'server_transport_url');
+
+      if (
+        (expectedServerContainerUrl !== undefined && expectedServerContainerUrl !== actualServerContainerUrl) ||
+        (expectedServerTransportUrl !== undefined && expectedServerTransportUrl !== actualServerTransportUrl)
+      ) {
+        return {
+          code: 'UPDATE_NOT_APPLIED',
+          errorType: 'UPDATE_NOT_APPLIED',
+          message: 'Tag update accepted, but server URL parameter was not persisted by GTM API.',
+          details: {
+            expected: {
+              server_container_url: expectedServerContainerUrl,
+              server_transport_url: expectedServerTransportUrl,
+            },
+            actual: {
+              server_container_url: actualServerContainerUrl,
+              server_transport_url: actualServerTransportUrl,
+            },
+          },
+          suggestions: [
+            'Use gtm_create_gtag_config for server URL transport setup',
+            'Validate the target tag type supports these parameters',
+          ],
+        };
+      }
+    }
 
     return {
       tagId: tag.tagId || '',

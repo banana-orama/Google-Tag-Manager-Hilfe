@@ -108,6 +108,15 @@
         },
         "verificationNote": {
           "type": "string"
+        },
+        "verificationCode": {
+          "type": "string"
+        },
+        "lastErrorType": {
+          "type": "string"
+        },
+        "lastErrorMessage": {
+          "type": "string"
         }
       },
       "additionalProperties": false

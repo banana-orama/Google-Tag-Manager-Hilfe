@@ -22,7 +22,8 @@ import { initTagManagerClient } from './utils/gtm-client.js';
 import { rateLimiter } from './utils/rate-limiter.js';
 import { getTriggerTemplate, validateTriggerConfigFull, getVariableParameters } from './utils/llm-helpers.js';
 import { getContainerInfo } from './utils/container-validator.js';
-import { preflightTemplateBasedCreate, TemplateReference } from './utils/template-registry.js';
+import { validateEntityConfigStrict } from './utils/entity-validators.js';
+import { getAvailableEntityTypes, preflightTemplateBasedCreate, TemplateReference } from './utils/template-registry.js';
 import { getTagTypeInfo, getAllTagTypes, validateTagParameters } from './utils/tag-helpers.js';
 import { getWorkflow, getAllWorkflows, customizeWorkflow } from './utils/workflow-guides.js';
 import { searchEntities, formatSearchResults } from './utils/search.js';
@@ -1218,6 +1219,90 @@ Preferred: use parameter array with arg0/arg1 (API v2 format)
     },
   },
   {
+    name: 'gtm_validate_tag_config',
+    description: 'Validate a tag create payload before write. Returns deterministic strict-validation output.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workspacePath: { type: 'string', description: 'Workspace path' },
+        tagConfig: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            type: { type: 'string' },
+            parameter: { type: 'array', items: GTM_PARAMETER_SCHEMA },
+            templateReference: TEMPLATE_REFERENCE_SCHEMA,
+          },
+          required: ['name'],
+        },
+      },
+      required: ['workspacePath', 'tagConfig'],
+    },
+  },
+  {
+    name: 'gtm_validate_variable_config',
+    description: 'Validate a variable create payload before write. Returns deterministic strict-validation output.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workspacePath: { type: 'string', description: 'Workspace path' },
+        variableConfig: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            type: { type: 'string' },
+            parameter: { type: 'array', items: GTM_PARAMETER_SCHEMA },
+            templateReference: TEMPLATE_REFERENCE_SCHEMA,
+          },
+          required: ['name'],
+        },
+      },
+      required: ['workspacePath', 'variableConfig'],
+    },
+  },
+  {
+    name: 'gtm_validate_client_config',
+    description: 'Validate a server client create payload before write. Returns deterministic strict-validation output.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workspacePath: { type: 'string', description: 'Workspace path' },
+        clientConfig: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            type: { type: 'string' },
+            parameter: { type: 'array', items: GTM_PARAMETER_SCHEMA },
+            templateReference: TEMPLATE_REFERENCE_SCHEMA,
+          },
+          required: ['name'],
+        },
+      },
+      required: ['workspacePath', 'clientConfig'],
+    },
+  },
+  {
+    name: 'gtm_validate_transformation_config',
+    description: 'Validate a server transformation create payload before write. Returns deterministic strict-validation output.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workspacePath: { type: 'string', description: 'Workspace path' },
+        transformationConfig: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            type: { type: 'string' },
+            parameter: { type: 'array', items: GTM_PARAMETER_SCHEMA },
+            templateReference: TEMPLATE_REFERENCE_SCHEMA,
+          },
+          required: ['name'],
+        },
+      },
+      required: ['workspacePath', 'transformationConfig'],
+    },
+  },
+  {
     name: 'gtm_get_trigger_template',
     description: `Get a template for common trigger configurations. Returns example configuration that you can modify.`,
     inputSchema: {
@@ -1264,10 +1349,15 @@ Preferred: use parameter array with arg0/arg1 (API v2 format)
   },
   {
     name: 'gtm_list_tag_types',
-    description: `List all known tag types with their categories and descriptions.`,
+    description: `List all known tag types with their categories and descriptions. Optionally include workspace-scoped type hints.`,
     inputSchema: {
       type: 'object',
-      properties: {},
+      properties: {
+        workspacePath: {
+          type: 'string',
+          description: 'Optional workspace path to include observed/available tag types in this context.',
+        },
+      },
       required: [],
     },
   },
@@ -2881,6 +2971,90 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         break;
       }
 
+      case 'gtm_validate_tag_config': {
+        const { workspacePath, tagConfig } = args as {
+          workspacePath: string;
+          tagConfig: {
+            name: string;
+            type?: string;
+            parameter?: tagmanager_v2.Schema$Parameter[];
+            templateReference?: TemplateReference;
+          };
+        };
+        result = await validateEntityConfigStrict({
+          workspacePath,
+          entityKind: 'tag',
+          name: tagConfig.name,
+          type: tagConfig.type,
+          parameter: tagConfig.parameter,
+          templateReference: tagConfig.templateReference,
+        });
+        break;
+      }
+
+      case 'gtm_validate_variable_config': {
+        const { workspacePath, variableConfig } = args as {
+          workspacePath: string;
+          variableConfig: {
+            name: string;
+            type?: string;
+            parameter?: tagmanager_v2.Schema$Parameter[];
+            templateReference?: TemplateReference;
+          };
+        };
+        result = await validateEntityConfigStrict({
+          workspacePath,
+          entityKind: 'variable',
+          name: variableConfig.name,
+          type: variableConfig.type,
+          parameter: variableConfig.parameter,
+          templateReference: variableConfig.templateReference,
+        });
+        break;
+      }
+
+      case 'gtm_validate_client_config': {
+        const { workspacePath, clientConfig } = args as {
+          workspacePath: string;
+          clientConfig: {
+            name: string;
+            type?: string;
+            parameter?: tagmanager_v2.Schema$Parameter[];
+            templateReference?: TemplateReference;
+          };
+        };
+        result = await validateEntityConfigStrict({
+          workspacePath,
+          entityKind: 'client',
+          name: clientConfig.name,
+          type: clientConfig.type,
+          parameter: clientConfig.parameter,
+          templateReference: clientConfig.templateReference,
+        });
+        break;
+      }
+
+      case 'gtm_validate_transformation_config': {
+        const { workspacePath, transformationConfig } = args as {
+          workspacePath: string;
+          transformationConfig: {
+            name: string;
+            type?: string;
+            parameter?: tagmanager_v2.Schema$Parameter[];
+            templateReference?: TemplateReference;
+          };
+        };
+        result = await validateEntityConfigStrict({
+          workspacePath,
+          entityKind: 'transformation',
+          name: transformationConfig.name,
+          type: transformationConfig.type,
+          parameter: transformationConfig.parameter,
+          templateReference: transformationConfig.templateReference,
+        });
+        break;
+      }
+
       case 'gtm_get_trigger_template': {
         const { templateType } = args as { templateType: string };
         result = getTriggerTemplate(templateType);
@@ -3270,7 +3444,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'gtm_list_tag_types': {
-        result = getAllTagTypes();
+        const { workspacePath } = (args || {}) as { workspacePath?: string };
+        const known = getAllTagTypes();
+        if (!workspacePath) {
+          result = known;
+          break;
+        }
+        result = {
+          known,
+          availableInWorkspace: await getAvailableEntityTypes(workspacePath, 'tag'),
+          workspacePath,
+        };
         break;
       }
 

@@ -6,6 +6,7 @@ import { tagmanager_v2 } from 'googleapis';
 import { getTagManagerClient, gtmApiCall } from '../utils/gtm-client.js';
 import { handleApiError, ApiError } from '../utils/error-handler.js';
 import { validateVariableConfig } from '../utils/container-validator.js';
+import { getAvailableEntityTypes } from '../utils/template-registry.js';
 
 export interface VariableSummary {
   variableId: string;
@@ -88,6 +89,21 @@ export async function createVariable(
 ): Promise<VariableDetails | ApiError> {
   const validationError = await validateVariableConfig(variableConfig, workspacePath);
   if (validationError) {
+    try {
+      const hints = await getAvailableEntityTypes(workspacePath, 'variable');
+      validationError.details = {
+        ...(validationError.details || {}),
+        availableTypeHints: hints,
+      };
+      if (hints.length > 0) {
+        validationError.suggestions = [
+          ...(validationError.suggestions || []),
+          `Available variable types in this workspace: ${hints.join(', ')}`,
+        ];
+      }
+    } catch {
+      // Keep original validation error if hint resolution fails.
+    }
     return validationError;
   }
 

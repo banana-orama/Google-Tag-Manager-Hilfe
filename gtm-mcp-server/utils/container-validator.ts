@@ -31,6 +31,20 @@ export interface ContainerInfo {
     triggers: string[];
     variables: string[];
   };
+  declaredCapabilities: {
+    triggers: string[];
+    variables: string[];
+    clients: boolean;
+    transformations: boolean;
+  };
+  verifiedCapabilities: {
+    triggers: string[];
+    variables: string[];
+    tags: string[];
+    clients: string[];
+    transformations: string[];
+  };
+  capabilityConflicts: string[];
   capabilities: ContainerCapabilities;
 }
 
@@ -57,7 +71,7 @@ const SERVER_TRIGGER_TYPES = [
   'init', 'consentInit', 'serverPageview'
 ];
 
-// Common variable types
+// Common variable types (Web/Mobile built-ins). Server containers often use template-defined variable types.
 const COMMON_VARIABLE_TYPES = ['c', 'jsm', 'v', 'k', 'aev', 'r', 'smm', 'f', 'ev', 'fn', 'd', 'j', 'ejs'];
 
 // Mobile-only variable types
@@ -117,6 +131,59 @@ export async function getContainerInfo(containerPath: string): Promise<Container
 
   const capabilities = getContainerCapabilities(container.usageContext!);
 
+  let verifiedWorkspacePath: string | undefined;
+  try {
+    const workspaces = await gtmApiCall(() =>
+      tagmanager.accounts.containers.workspaces.list({ parent: containerPath })
+    );
+    verifiedWorkspacePath = workspaces.workspace?.[0]?.path || undefined;
+  } catch {
+    verifiedWorkspacePath = undefined;
+  }
+
+  const collectTypes = (items: Array<{ type?: string }> | undefined): string[] =>
+    [...new Set((items || []).map((item) => String(item.type || '').trim()).filter(Boolean))].sort();
+
+  let verifiedTags: string[] = [];
+  let verifiedTriggers: string[] = [];
+  let verifiedVariables: string[] = [];
+  let verifiedClients: string[] = [];
+  let verifiedTransformations: string[] = [];
+  if (verifiedWorkspacePath) {
+    try {
+      const tags = await gtmApiCall(() => tagmanager.accounts.containers.workspaces.tags.list({ parent: verifiedWorkspacePath! }));
+      verifiedTags = collectTypes(tags.tag as Array<{ type?: string }> | undefined);
+    } catch {}
+    try {
+      const triggers = await gtmApiCall(() => tagmanager.accounts.containers.workspaces.triggers.list({ parent: verifiedWorkspacePath! }));
+      verifiedTriggers = collectTypes(triggers.trigger as Array<{ type?: string }> | undefined);
+    } catch {}
+    try {
+      const vars = await gtmApiCall(() => tagmanager.accounts.containers.workspaces.variables.list({ parent: verifiedWorkspacePath! }));
+      verifiedVariables = collectTypes(vars.variable as Array<{ type?: string }> | undefined);
+    } catch {}
+    try {
+      const clients = await gtmApiCall(() => tagmanager.accounts.containers.workspaces.clients.list({ parent: verifiedWorkspacePath! }));
+      verifiedClients = collectTypes(clients.client as Array<{ type?: string }> | undefined);
+    } catch {}
+    try {
+      const transformations = await gtmApiCall(() => tagmanager.accounts.containers.workspaces.transformations.list({ parent: verifiedWorkspacePath! }));
+      verifiedTransformations = collectTypes(transformations.transformation as Array<{ type?: string }> | undefined);
+    } catch {}
+  }
+
+  const declaredVariables = capabilities.containerType === 'server'
+    ? [] // server variable types are template-defined; static web variable list is misleading.
+    : capabilities.supportedVariableTypes;
+
+  const conflicts: string[] = [];
+  if (capabilities.containerType === 'server' && declaredVariables.length > 0) {
+    conflicts.push('Declared server variable types should be empty/static-agnostic.');
+  }
+  if (verifiedVariables.length === 0 && capabilities.containerType === 'server') {
+    conflicts.push('No verified variable types found in sampled server workspace; template-specific types may still be valid.');
+  }
+
   const info: ContainerInfo = {
     accountId: container.accountId!,
     containerId: container.containerId!,
@@ -127,9 +194,23 @@ export async function getContainerInfo(containerPath: string): Promise<Container
       clients: capabilities.hasClients,
       transformations: capabilities.hasTransformations,
       zones: true,
-      triggers: capabilities.supportedTriggerTypes,
-      variables: capabilities.supportedVariableTypes,
+      triggers: verifiedTriggers.length > 0 ? verifiedTriggers : capabilities.supportedTriggerTypes,
+      variables: verifiedVariables.length > 0 ? verifiedVariables : declaredVariables,
     },
+    declaredCapabilities: {
+      triggers: capabilities.supportedTriggerTypes,
+      variables: declaredVariables,
+      clients: capabilities.hasClients,
+      transformations: capabilities.hasTransformations,
+    },
+    verifiedCapabilities: {
+      triggers: verifiedTriggers,
+      variables: verifiedVariables,
+      tags: verifiedTags,
+      clients: verifiedClients,
+      transformations: verifiedTransformations,
+    },
+    capabilityConflicts: conflicts,
     capabilities,
   };
 
@@ -316,6 +397,22 @@ export async function validateVariableConfig(
 
   const containerPath = workspacePath.replace(/\/workspaces\/\d+$/, '');
   const containerInfo = await getContainerInfo(containerPath);
+
+  // Strict API v2: server-side variable types can be template-defined and are not safely enumerable.
+  if (containerInfo.capabilities.containerType === 'server') {
+    if (!config.type || config.type.trim() === '') {
+      return {
+        code: 'INVALID_TYPE',
+        message: 'Variable type is required',
+        errorType: 'VARIABLE_TYPE_REQUIRED',
+        suggestions: [
+          'Provide an explicit server variable type',
+          'Prefer templateReference for deterministic type resolution',
+        ],
+      };
+    }
+    return null;
+  }
 
   if (!containerInfo.supportedFeatures.variables.includes(config.type)) {
     return {

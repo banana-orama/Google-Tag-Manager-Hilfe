@@ -17,10 +17,16 @@ type ErrorType =
   | 'PARAMETER_MISSING_TYPE'
   | 'PARAMETER_INVALID_FORMAT'
   | 'RATE_LIMITED'
+  | 'ENTITY_TYPE_UNKNOWN'
+  | 'UPDATE_NOT_APPLIED'
   | 'TRIGGER_INVALID_TYPE'
   | 'TRIGGER_CONDITION_FORMAT'
   | 'CONTAINER_TYPE_MISMATCH'
   | 'SERVER_ONLY_FEATURE'
+  | 'WORKSPACE_STATE_INVALID'
+  | 'TEMPLATE_NOT_FOUND'
+  | 'TEMPLATE_CONTEXT_MISMATCH'
+  | 'TEMPLATE_PERMISSION_DENIED'
   | 'PERMISSION_DENIED'
   | 'RESOURCE_NOT_FOUND'
   | 'FILTER_FORMAT_DEPRECATED'
@@ -59,9 +65,33 @@ export function handleApiError(
 
 function detectErrorType(apiError: any, operation: string): ErrorType {
   const message = apiError.message?.toLowerCase() || '';
+  const reason = apiError.status || apiError.reason || '';
 
   if (apiError.code === 429 || message.includes('resource exhausted') || message.includes('ratelimit')) {
     return 'RATE_LIMITED';
+  }
+
+  if (message.includes('unknown entity type') || message.includes('template public id')) {
+    return 'ENTITY_TYPE_UNKNOWN';
+  }
+
+  if (message.includes('not applied') || message.includes('update_not_applied')) {
+    return 'UPDATE_NOT_APPLIED';
+  }
+
+  if (operation.includes('importTemplateFromGallery')) {
+    if (apiError.code === 404 || message.includes('not found') || reason === 'notFound') {
+      return 'TEMPLATE_NOT_FOUND';
+    }
+    if (message.includes('context') || message.includes('container context') || message.includes('unsupported in this container')) {
+      return 'TEMPLATE_CONTEXT_MISMATCH';
+    }
+    if (apiError.code === 403 || message.includes('permission') || message.includes('denied') || reason === 'permissionDenied') {
+      return 'TEMPLATE_PERMISSION_DENIED';
+    }
+    if (message.includes('workspace') && (message.includes('state') || message.includes('submitted') || message.includes('conflict'))) {
+      return 'WORKSPACE_STATE_INVALID';
+    }
   }
   
   if (message.includes('type') && message.includes('invalid')) {
@@ -108,10 +138,16 @@ function generateHelp(errorType: ErrorType, operation: string): string {
     PARAMETER_MISSING_TYPE: 'Each parameter must include a "type" field. Valid types: template, integer, boolean, list, map, triggerReference, tagReference.',
     PARAMETER_INVALID_FORMAT: 'Check the parameter format for this operation. All parameters need key, type, and value fields.',
     RATE_LIMITED: 'The GTM API is rate-limiting this request (HTTP 429). Wait and retry with fewer/serialized requests.',
+    ENTITY_TYPE_UNKNOWN: 'The requested GTM type/template public ID is not recognized in this workspace context.',
+    UPDATE_NOT_APPLIED: 'The update call completed, but the requested field change was not persisted. Verify supported fields for this entity type.',
     TRIGGER_INVALID_TYPE: 'The trigger type is not supported by this container. Web and Server containers support different trigger types.',
     TRIGGER_CONDITION_FORMAT: 'Conditions should use "parameter" array with arg0/arg1 keys (API v2 format).',
     CONTAINER_TYPE_MISMATCH: 'This operation is only supported in specific container types. Check if you\'re using the right container type.',
     SERVER_ONLY_FEATURE: 'This feature (clients/transformations) is only available in Server-Side GTM containers.',
+    WORKSPACE_STATE_INVALID: 'Workspace is not in a valid state for this write/import operation. Sync or use a fresh workspace.',
+    TEMPLATE_NOT_FOUND: 'Template repository/SHA could not be resolved by GTM gallery import.',
+    TEMPLATE_CONTEXT_MISMATCH: 'Template exists but is not compatible with this container context (WEB vs SERVER).',
+    TEMPLATE_PERMISSION_DENIED: 'Template import denied by GTM permissions or gallery access restrictions.',
     PERMISSION_DENIED: 'Your account lacks permission for this operation. Contact your GTM administrator.',
     RESOURCE_NOT_FOUND: 'The specified resource was not found. Check the path and ensure the resource exists.',
     FILTER_FORMAT_DEPRECATED: 'The filter format using direct arg1/arg2 is deprecated. Use parameter array with arg0/arg1.',
@@ -140,6 +176,16 @@ function generateSuggestions(errorType: ErrorType, operation: string, apiError: 
       'If this persists, you may be hitting per-minute or per-project quota limits',
       'Check whether other processes are also calling the GTM API with the same OAuth client',
     ],
+    ENTITY_TYPE_UNKNOWN: [
+      'Run a validate_* tool first to resolve available type hints',
+      'Use templateReference + registry for deterministic type resolution',
+      'Import and verify the template before create',
+    ],
+    UPDATE_NOT_APPLIED: [
+      'Read entity after update and compare target fields',
+      'Verify the field is supported for this GTM type',
+      'Prefer gtag_config for server URL transport updates',
+    ],
     TRIGGER_INVALID_TYPE: [
       'Web containers support: pageview, click, formSubmission, customEvent, timer, scrollDepth, etc.',
       'Server containers support: always, customEvent, triggerGroup',
@@ -162,6 +208,26 @@ function generateSuggestions(errorType: ErrorType, operation: string, apiError: 
       'Use gtm_get_container_info to check your container type',
       'Clients receive and process incoming requests in Server-Side GTM',
       'Transformations modify data before tags fire in Server-Side GTM',
+    ],
+    WORKSPACE_STATE_INVALID: [
+      'Run gtm_get_workspace_status and resolve conflicts',
+      'Retry in a fresh workspace',
+      'Avoid writes in submitted/locked workspace state',
+    ],
+    TEMPLATE_NOT_FOUND: [
+      'Verify owner/repository/version values',
+      'Confirm template exists in GTM Gallery',
+      'Try import without version pin first',
+    ],
+    TEMPLATE_CONTEXT_MISMATCH: [
+      'Import template into matching container context (WEB or SERVER)',
+      'Check template registry containerContext',
+      'Use gtm_get_container_info before import',
+    ],
+    TEMPLATE_PERMISSION_DENIED: [
+      'Ensure account has template import permissions',
+      'Retry with acknowledgePermissions where supported',
+      'Use another template or owner if repository is restricted',
     ],
     PERMISSION_DENIED: [
       'Verify your account has the required permissions',
@@ -205,6 +271,13 @@ function generateExample(errorType: ErrorType, params: any): ApiError['example']
       ],
       note: 'All parameters must have key, type, and value fields',
     },
+    ENTITY_TYPE_UNKNOWN: {
+      note: 'Use validate_* output availableTypeHints or template registry mapping before create.',
+    },
+    UPDATE_NOT_APPLIED: {
+      note: 'Update may return success but field can be dropped for unsupported type/field combinations.',
+      followUp: 'Re-read entity and compare fields.',
+    },
     
     TRIGGER_INVALID_TYPE: {
       webTriggers: ['pageview', 'click', 'formSubmission', 'customEvent', 'timer', 'scrollDepth'],
@@ -234,6 +307,20 @@ function generateExample(errorType: ErrorType, params: any): ApiError['example']
       serverOnlyFeatures: ['clients', 'transformations'],
       serverTriggers: ['always', 'customEvent', 'triggerGroup'],
       checkCommand: 'gtm_get_container_info',
+    },
+    WORKSPACE_STATE_INVALID: {
+      checkCommand: 'gtm_get_workspace_status',
+      note: 'Use a non-submitted editable workspace.',
+    },
+    TEMPLATE_NOT_FOUND: {
+      example: { owner: 'stape-io', repository: 'fb-tag' },
+      note: 'Repository or version pin may be invalid.',
+    },
+    TEMPLATE_CONTEXT_MISMATCH: {
+      note: 'A SERVER template cannot be imported into WEB container (and vice versa).',
+    },
+    TEMPLATE_PERMISSION_DENIED: {
+      note: 'GTM/Gallery access control denied this import.',
     },
     
     PERMISSION_DENIED: null,

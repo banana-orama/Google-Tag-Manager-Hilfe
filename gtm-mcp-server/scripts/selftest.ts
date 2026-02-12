@@ -358,8 +358,28 @@ async function main() {
     status: 'pass',
     details: (await callToolJson('gtm_validate_trigger_config', { containerType: 'web', triggerConfig: { name: 'x', type: 'customEvent', customEventFilter: [] } })).json,
   });
+  results.push({
+    name: 'gtm_validate_tag_config',
+    status: 'pass',
+    details: (await callToolJson('gtm_validate_tag_config', { workspacePath, tagConfig: { name: 'Validate Tag', type: 'googtag', parameter: [] } })).json,
+  });
+  results.push({
+    name: 'gtm_validate_variable_config',
+    status: 'pass',
+    details: (await callToolJson('gtm_validate_variable_config', { workspacePath, variableConfig: { name: 'Validate Variable', type: 'r', parameter: [] } })).json,
+  });
+  results.push({
+    name: 'gtm_validate_client_config',
+    status: 'pass',
+    details: (await callToolJson('gtm_validate_client_config', { workspacePath, clientConfig: { name: 'Validate Client', type: 'gaaw_client', parameter: [] } })).json,
+  });
+  results.push({
+    name: 'gtm_validate_transformation_config',
+    status: 'pass',
+    details: (await callToolJson('gtm_validate_transformation_config', { workspacePath, transformationConfig: { name: 'Validate Transformation', type: 'allow_parameters', parameter: [] } })).json,
+  });
   results.push({ name: 'gtm_get_trigger_template', status: 'pass', details: (await callToolJson('gtm_get_trigger_template', { templateType: 'custom-event-generic' })).json });
-  results.push({ name: 'gtm_list_tag_types', status: 'pass', details: (await callToolJson('gtm_list_tag_types')).json });
+  results.push({ name: 'gtm_list_tag_types', status: 'pass', details: (await callToolJson('gtm_list_tag_types', { workspacePath })).json });
   results.push({ name: 'gtm_get_tag_parameters', status: 'pass', details: (await callToolJson('gtm_get_tag_parameters', { tagType: 'html' })).json });
   results.push({ name: 'gtm_get_variable_parameters', status: 'pass', details: (await callToolJson('gtm_get_variable_parameters', { variableType: 'r' })).json });
   results.push({ name: 'gtm_list_workflows', status: 'pass', details: (await callToolJson('gtm_list_workflows')).json });
