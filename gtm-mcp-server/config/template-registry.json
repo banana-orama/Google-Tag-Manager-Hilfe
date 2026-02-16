@@ -1,137 +1,135 @@
 {
   "version": 1,
-  "updatedAt": "2026-02-11T20:01:00.397Z",
+  "updatedAt": "2026-02-13T15:08:49.622Z",
   "entries": [
     {
-      "owner": "stape-io",
-      "repository": "activecampaign-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "owner": "Google",
+      "repository": "ga4-event",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - activecampaign-tag",
-        "type": "68",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:41:59.787Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "broken",
+      "lastVerifiedAt": "2026-02-12T14:39:51.077Z",
+      "verificationNote": "Import failed: Not found or permission denied."
+    },
+    {
+      "owner": "stape",
+      "repository": "facebook-pixel",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "broken",
+      "lastVerifiedAt": "2026-02-12T14:31:54.273Z",
+      "verificationNote": "Import failed: Not found or permission denied."
+    },
+    {
+      "owner": "stape-io",
+      "repository": "activecampaign-tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "68",
       "sha": "a9a62e14e2376d23c22c37359abe190c8a165ac0"
     },
     {
       "owner": "stape-io",
       "repository": "adform-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - adform-tag",
-        "type": "69",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:03.452Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "69",
       "sha": "f3d52506e4a3486a7fcbfce5432128809a068cc3"
     },
     {
       "owner": "stape-io",
       "repository": "admitad-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - admitad-tag",
-        "type": "70",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:08.120Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "70",
       "sha": "ce8122d88f47b600536d4e7f59dbac58b4f272c0"
     },
     {
       "owner": "stape-io",
       "repository": "adroll-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - adroll-tag",
-        "type": "71",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:11.978Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "71",
       "sha": "2efdc8bb53be6a46c5e6eb3885dfdda612c16abb"
     },
     {
       "owner": "stape-io",
       "repository": "adtraction-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - adtraction-tag",
-        "type": "72",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:15.839Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "72",
       "sha": "aa637e5a16f2786545a2a581686f7448500d4b48"
     },
     {
       "owner": "stape-io",
       "repository": "advanced-lookup-table-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - advanced-lookup-table-variable",
-        "type": "73",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:19.815Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "73",
       "sha": "0b9068dc98476b7a7eaae50e8bf99740daaf771f"
     },
     {
       "owner": "stape-io",
       "repository": "affiliate-conversion-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - affiliate-conversion-tag",
-        "type": "74",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:24.227Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "74",
       "sha": "09a1082a2c22eff3219c1757698ee6929be8af24"
     },
@@ -144,102 +142,82 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:42:30.717Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "amazon-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - amazon-tag",
-        "type": "75",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:36.409Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "75",
       "sha": "89c38479f1def26823a386dff55212ba79394be2"
     },
     {
       "owner": "stape-io",
       "repository": "array-builder-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - array-builder-variable",
-        "type": "76",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:39.876Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "76",
       "sha": "761eef505a685772816ae1f586952768bf78db1f"
     },
     {
       "owner": "stape-io",
       "repository": "attentive-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - attentive-tag",
-        "type": "77",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:44.034Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "77",
       "sha": "4924d3a6d624d6e084dd83b6e1bc3060a277dd8e"
     },
     {
       "owner": "stape-io",
       "repository": "awin-conversion-api-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - awin-conversion-api-tag",
-        "type": "78",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:48.538Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "78",
       "sha": "6cc9c63a27c8a231885dc7b285d734ecfe340019"
     },
     {
       "owner": "stape-io",
       "repository": "awin-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - awin-tag",
-        "type": "79",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:42:51.977Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "79",
       "sha": "4127f006121f4e034b81ec269f3946b5ddf988cd"
     },
@@ -252,9 +230,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:42:59.145Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -265,9 +243,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:43:07.178Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -278,9 +256,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:43:15.185Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -291,9 +269,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:43:23.193Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -304,26 +282,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:43:31.156Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "brevo-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - brevo-tag",
-        "type": "80",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:43:36.267Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "80",
       "sha": "5f7f229bf9a4dabed32af6e71be04eb8f928224d1"
     },
@@ -336,9 +310,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:43:43.795Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -349,9 +323,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:43:51.238Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -362,9 +336,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:43:59.198Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -375,9 +349,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:44:06.734Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -388,45 +362,37 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:44:15.482Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "channel-flow-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - channel-flow-tag",
-        "type": "81",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:44:20.413Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "81",
       "sha": "738f198e218abfac2ee70c8da83943714fc83e38"
     },
     {
       "owner": "stape-io",
       "repository": "cj-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - cj-tag",
-        "type": "82",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:44:24.790Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "82",
       "sha": "88e57a5e5387b010dae9d4e14aba928d220f84e2"
     },
@@ -434,55 +400,44 @@
       "owner": "stape-io",
       "repository": "consent-parser-variable",
       "containerContext": "SERVER",
-      "entityKind": "variable",
+      "entityKind": "VARIABLE",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - consent-parser-variable",
-        "type": "83",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:44:28.101Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.660Z",
+      "verificationNote": "Verified as SERVER VARIABLE",
       "type": "83",
       "sha": "1340062b9623e23951cc84f4cd91a0cc7575c587"
     },
     {
       "owner": "stape-io",
       "repository": "contactout-lookup-server",
-      "containerContext": "SERVER",
+      "containerContext": "UNKNOWN",
       "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "type": "84",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:44:32.133Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.655Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "84",
       "sha": "53c75908bd05bf188b948051c94edff245597c3f"
     },
     {
       "owner": "stape-io",
       "repository": "cookie-extender-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - cookie-extender-tag",
-        "type": "85",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:44:36.537Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "85",
       "sha": "9f66679dfac72d7baa9a75adbeaa2b21e87da200"
     },
@@ -495,26 +450,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:44:42.781Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "cookie-restore-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - cookie-restore-tag",
-        "type": "86",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:44:48.736Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "86",
       "sha": "5864d64da7eb31586479fa2e139012f2d205f62d"
     },
@@ -527,32 +478,60 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:44:54.767Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "customer-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - customer-tag",
-        "type": "87",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:45:01.076Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "87",
       "sha": "df5d9965950c4381d3066e71d44449b8903ccfa4"
     },
     {
       "owner": "stape-io",
       "repository": "data-client",
+      "containerContext": "SERVER",
+      "entityKind": "CLIENT",
+      "requiredParameters": [],
+      "optionalParameters": [
+        "exposeFPIDCookie",
+        "httpOnlyCookie",
+        "generateClientId"
+      ],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER CLIENT"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "data-tag",
+      "containerContext": "WEB",
+      "entityKind": "TAG",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as WEB TAG",
+      "type": "24",
+      "sha": "03884c517c32384513927f236b22e1756259be9a"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "data-variable",
       "containerContext": "UNKNOWN",
       "entityKind": "unknown",
       "requiredParameters": [],
@@ -560,101 +539,52 @@
       "defaults": {},
       "examplePayload": {},
       "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:45:07.209Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
-    },
-    {
-      "owner": "stape-io",
-      "repository": "data-tag",
-      "containerContext": "WEB",
-      "entityKind": "tag",
-      "requiredParameters": [],
-      "optionalParameters": [],
-      "defaults": {},
-      "examplePayload": {
-        "name": "Template - data-tag",
-        "type": "24",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:45:15.566Z",
-      "verificationNote": "Imported successfully in WEB workspace",
-      "type": "24",
-      "sha": "03884c517c32384513927f236b22e1756259be9a"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "data-variable",
-      "containerContext": "WEB",
-      "entityKind": "variable",
-      "requiredParameters": [],
-      "optionalParameters": [],
-      "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - data-variable",
-        "type": "25",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:45:23.501Z",
-      "verificationNote": "Imported successfully in WEB workspace",
-      "type": "25",
-      "sha": "d65e569d72c4f71124f891b99f46e4e25c8237b7"
+      "lastVerifiedAt": "2026-02-13T13:47:04.084Z",
+      "verificationNote": "Import failed: data.containerContext: Template of [WEB] context is not allowed in SERVER container.\n",
+      "type": "25"
     },
     {
       "owner": "stape-io",
       "repository": "days-in-seconds-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - days-in-seconds-variable",
-        "type": "88",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:45:28.561Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "88",
       "sha": "d3c76ba38f6f9acd82d31a86c3ccb0a07e14608e"
     },
     {
       "owner": "stape-io",
       "repository": "duplicate-transaction-checker-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - duplicate-transaction-checker-variable",
-        "type": "89",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:45:32.635Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "89",
       "sha": "8e40bcc10bf487a80650a7b457893bcfc2eb895a"
     },
     {
       "owner": "stape-io",
       "repository": "effinity-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - effinity-tag",
-        "type": "90",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:45:36.602Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "90",
       "sha": "8256119445ff1c0a358102b2c4e9ea666a6f18d1"
     },
@@ -662,20 +592,15 @@
       "owner": "stape-io",
       "repository": "event-enricher-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - event-enricher-tag",
-        "type": "91",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:45:40.521Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
-      "type": "91",
-      "sha": "a9e84a0b199c0c2f1615c59647499ea4525acc5a"
+      "lastVerifiedAt": "2026-02-13T15:08:49.622Z",
+      "verificationNote": "Imported successfully via GTM API v2 into accounts/572865630/containers/243476431/workspaces/3",
+      "type": "11"
     },
     {
       "owner": "stape-io",
@@ -686,9 +611,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:45:47.217Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -699,22 +624,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:45:54.788Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "exponea-client",
-      "containerContext": "UNKNOWN",
-      "entityKind": "unknown",
+      "containerContext": "SERVER",
+      "entityKind": "CLIENT",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:46:03.274Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER CLIENT"
     },
     {
       "owner": "stape-io",
@@ -725,233 +650,13 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:46:10.816Z",
-      "verificationNote": "Import failed in WEB: Not found or permission denied. | Import failed in SERVER: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
-      "repository": "facebook-leads-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
-      "requiredParameters": [],
-      "optionalParameters": [
-        {
-          "key": "event_name",
-          "type": "template",
-          "description": "Event name (e.g., purchase)"
-        },
-        {
-          "key": "event_id",
-          "type": "template",
-          "description": "Event ID for deduplication"
-        }
-      ],
-      "defaults": {
-        "event_name": "purchase",
-        "event_id": "PLACEHOLDER_EVENT_ID"
-      },
-      "examplePayload": {
-        "name": "Template - facebook-leads-tag",
-        "type": "92",
-        "parameter": [
-          {
-            "key": "event_name",
-            "type": "template",
-            "value": "purchase"
-          },
-          {
-            "key": "event_id",
-            "type": "template",
-            "value": "PLACEHOLDER_EVENT_ID"
-          }
-        ]
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:46:16.669Z",
-      "verificationNote": "Imported successfully in SERVER workspace | Priority enrichment applied | Priority enrichment applied | Priority enrichment applied",
-      "type": "92",
-      "sha": "74a87274d97b76a476f20f3bf052752154fc004f"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "facebook-offline-conversion-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
-      "requiredParameters": [],
-      "optionalParameters": [
-        {
-          "key": "event_name",
-          "type": "template",
-          "description": "Event name (e.g., purchase)"
-        },
-        {
-          "key": "event_id",
-          "type": "template",
-          "description": "Event ID for deduplication"
-        }
-      ],
-      "defaults": {
-        "event_name": "purchase",
-        "event_id": "PLACEHOLDER_EVENT_ID"
-      },
-      "examplePayload": {
-        "name": "Template - facebook-offline-conversion-tag",
-        "type": "93",
-        "parameter": [
-          {
-            "key": "event_name",
-            "type": "template",
-            "value": "purchase"
-          },
-          {
-            "key": "event_id",
-            "type": "template",
-            "value": "PLACEHOLDER_EVENT_ID"
-          }
-        ]
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:46:20.799Z",
-      "verificationNote": "Imported successfully in SERVER workspace | Priority enrichment applied | Priority enrichment applied | Priority enrichment applied",
-      "type": "93",
-      "sha": "c17b013a31c91176c093ab7e58aacf4d6d35852d"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "facebook-parameter-generator-variable",
-      "containerContext": "WEB",
-      "entityKind": "variable",
-      "requiredParameters": [],
-      "optionalParameters": [
-        {
-          "key": "event_name",
-          "type": "template",
-          "description": "Event name (e.g., purchase)"
-        },
-        {
-          "key": "event_id",
-          "type": "template",
-          "description": "Event ID for deduplication"
-        }
-      ],
-      "defaults": {
-        "event_name": "purchase",
-        "event_id": "PLACEHOLDER_EVENT_ID"
-      },
-      "examplePayload": {
-        "name": "Template - facebook-parameter-generator-variable",
-        "type": "26",
-        "parameter": [
-          {
-            "key": "event_name",
-            "type": "template",
-            "value": "purchase"
-          },
-          {
-            "key": "event_id",
-            "type": "template",
-            "value": "PLACEHOLDER_EVENT_ID"
-          }
-        ]
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:46:27.090Z",
-      "verificationNote": "Imported successfully in WEB workspace | Priority enrichment applied | Priority enrichment applied | Priority enrichment applied",
-      "type": "26",
-      "sha": "eef195fea14a7cb8f269ee9e2b223b540cbc264a"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "facebook-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
-      "requiredParameters": [],
-      "optionalParameters": [
-        {
-          "key": "event_name",
-          "type": "template",
-          "description": "Event name (e.g., purchase)"
-        },
-        {
-          "key": "event_id",
-          "type": "template",
-          "description": "Event ID for deduplication"
-        }
-      ],
-      "defaults": {
-        "event_name": "purchase",
-        "event_id": "PLACEHOLDER_EVENT_ID"
-      },
-      "examplePayload": {
-        "name": "Template - facebook-tag",
-        "type": "27",
-        "parameter": [
-          {
-            "key": "event_name",
-            "type": "template",
-            "value": "purchase"
-          },
-          {
-            "key": "event_id",
-            "type": "template",
-            "value": "PLACEHOLDER_EVENT_ID"
-          }
-        ]
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:46:39.189Z",
-      "verificationNote": "Imported successfully in SERVER workspace | Priority enrichment applied | Priority enrichment applied | Priority enrichment applied",
-      "type": "27",
-      "sha": "8093c373ed116395251221f85e50c5e71f830b16"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "fb-tag",
-      "containerContext": "WEB",
-      "entityKind": "tag",
-      "requiredParameters": [],
-      "optionalParameters": [
-        {
-          "key": "event_name",
-          "type": "template",
-          "description": "Event name (e.g., purchase)"
-        },
-        {
-          "key": "event_id",
-          "type": "template",
-          "description": "Event ID for deduplication"
-        }
-      ],
-      "defaults": {
-        "event_name": "purchase",
-        "event_id": "PLACEHOLDER_EVENT_ID"
-      },
-      "examplePayload": {
-        "name": "Template - fb-tag",
-        "type": "27",
-        "parameter": [
-          {
-            "key": "event_name",
-            "type": "template",
-            "value": "purchase"
-          },
-          {
-            "key": "event_id",
-            "type": "template",
-            "value": "PLACEHOLDER_EVENT_ID"
-          }
-        ]
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:46:49.987Z",
-      "verificationNote": "Imported successfully in WEB workspace | Priority enrichment applied | Priority enrichment applied | Priority enrichment applied",
-      "type": "27",
-      "sha": "26fdd16454bed7e4c46f1cd69bba43e2593b8fbf"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "file-proxy-client",
+      "repository": "facebook-client",
       "containerContext": "UNKNOWN",
       "entityKind": "unknown",
       "requiredParameters": [],
@@ -959,44 +664,135 @@
       "defaults": {},
       "examplePayload": {},
       "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:46:54.821Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "lastVerifiedAt": "2026-02-12T14:39:15.005Z",
+      "verificationNote": "Import failed: Not found or permission denied."
+    },
+    {
+      "owner": "stape-io",
+      "repository": "facebook-leads-tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
+      "type": "92",
+      "sha": "74a87274d97b76a476f20f3bf052752154fc004f"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "facebook-offline-conversion-tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
+      "type": "93",
+      "sha": "c17b013a31c91176c093ab7e58aacf4d6d35852d"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "facebook-parameter-generator-variable",
+      "containerContext": "SERVER",
+      "entityKind": "VARIABLE",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER VARIABLE",
+      "type": "26",
+      "sha": "eef195fea14a7cb8f269ee9e2b223b540cbc264a"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "facebook-pixel-tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "broken",
+      "lastVerifiedAt": "2026-02-12T14:28:39.933Z",
+      "verificationNote": "Import failed: Not found or permission denied."
+    },
+    {
+      "owner": "stape-io",
+      "repository": "facebook-tag",
+      "containerContext": "SERVER",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:46:40.020Z",
+      "verificationNote": "Imported successfully via GTM API v2 into accounts/572865630/containers/243476431/workspaces/3",
+      "type": "6"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "fb-tag",
+      "containerContext": "WEB",
+      "entityKind": "TAG",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as WEB TAG",
+      "type": "18"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "file-proxy-client",
+      "containerContext": "SERVER",
+      "entityKind": "CLIENT",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER CLIENT"
     },
     {
       "owner": "stape-io",
       "repository": "firestore-request-delay-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - firestore-request-delay-tag",
-        "type": "94",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:47:00.622Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "94",
       "sha": "3fe53dd382a242b228da1846f75eb00169ae75fd"
     },
     {
       "owner": "stape-io",
       "repository": "firestore-restore-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - firestore-restore-variable",
-        "type": "95",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:47:04.351Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "95",
       "sha": "6d85ca453c81681183cb27fec2d16fdfaa6f7027"
     },
@@ -1004,18 +800,14 @@
       "owner": "stape-io",
       "repository": "firestore-writer-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - firestore-writer-tag",
-        "type": "96",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:47:08.640Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "96",
       "sha": "ea98946f76d74114bcd184bea9bb8ec56430e33c"
     },
@@ -1023,37 +815,28 @@
       "owner": "stape-io",
       "repository": "ga4-advanced-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - ga4-advanced-tag",
-        "type": "20",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:47:19.017Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
-      "type": "20",
-      "sha": "293aaffcf556b69d2fa03fa8a374f6710e1f8337"
+      "lastVerifiedAt": "2026-02-13T14:08:34.147Z",
+      "verificationNote": "Imported successfully via GTM API v2 into accounts/572865630/containers/243476431/workspaces/3",
+      "type": "8"
     },
     {
       "owner": "stape-io",
       "repository": "gads-conversion-adjustments-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - gads-conversion-adjustments-tag",
-        "type": "97",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:47:25.324Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "97",
       "sha": "e08d0e25f541a222378ead0c208cd780e9e92c25"
     },
@@ -1061,18 +844,14 @@
       "owner": "stape-io",
       "repository": "gads-conversion-improver-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - gads-conversion-improver-tag",
-        "type": "98",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:47:29.747Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "98",
       "sha": "e2d530bc384d3b54f8d7f4151e0089fde4ce77a6"
     },
@@ -1080,37 +859,29 @@
       "owner": "stape-io",
       "repository": "gads-offline-conversion-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - gads-offline-conversion-tag",
-        "type": "99",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:47:34.510Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "99",
       "sha": "e924f21f7e0d240e7a31e4663c1fe753e6ac3b3e2"
     },
     {
       "owner": "stape-io",
       "repository": "gohighlevel-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - gohighlevel-tag",
-        "type": "100",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:47:36.460Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "100",
       "sha": "1e1fbcbc83f2effad2169923a68b31ee3d70d904"
     },
@@ -1123,9 +894,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:47:43.258Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -1136,64 +907,51 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:47:50.850Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "google-conversion-events-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - google-conversion-events-tag",
-        "type": "101",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:47:57.243Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
-      "type": "101",
-      "sha": "c8a13d0527902d2abacf52a5277926bd664778dc"
+      "lastVerifiedAt": "2026-02-13T14:08:39.903Z",
+      "verificationNote": "Imported successfully via GTM API v2 into accounts/572865630/containers/243476431/workspaces/3",
+      "type": "9"
     },
     {
       "owner": "stape-io",
       "repository": "google-customer-match-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - google-customer-match-tag",
-        "type": "102",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:48:01.309Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "102",
       "sha": "cf530784597defcedf4339925f9e2302aa87689b"
     },
     {
       "owner": "stape-io",
       "repository": "google-customer-reviews-tag",
-      "containerContext": "WEB",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - google-customer-reviews-tag",
-        "type": "28",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:48:07.295Z",
-      "verificationNote": "Imported successfully in WEB workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "28",
       "sha": "db65aef3af2717da27e900deed208b28d3db5b1e"
     },
@@ -1206,9 +964,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:48:14.821Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -1219,9 +977,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:48:23.291Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -1232,9 +990,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:48:30.816Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -1245,9 +1003,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:48:39.306Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -1258,9 +1016,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:48:46.825Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -1271,77 +1029,65 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:48:55.289Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "http-lookup-variable",
       "containerContext": "SERVER",
-      "entityKind": "variable",
+      "entityKind": "VARIABLE",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - http-lookup-variable",
-        "type": "103",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:01.485Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER VARIABLE",
       "type": "103",
       "sha": "0e816a5d484aab5aab6aa59b85f53baec51b4064"
     },
     {
       "owner": "stape-io",
       "repository": "hubspot-lookup-variable",
+      "containerContext": "SERVER",
+      "entityKind": "VARIABLE",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER VARIABLE"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "hubspot-tag",
       "containerContext": "UNKNOWN",
       "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:49:07.301Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
-    },
-    {
-      "owner": "stape-io",
-      "repository": "hubspot-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
-      "requiredParameters": [],
-      "optionalParameters": [],
-      "defaults": {},
-      "examplePayload": {
-        "name": "Template - hubspot-tag",
-        "type": "104",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:12.745Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "104",
       "sha": "b15bfc8acc7c69ac94e6795ecdb617034a26bbfc"
     },
     {
       "owner": "stape-io",
       "repository": "impact-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - impact-tag",
-        "type": "105",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:16.669Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "105",
       "sha": "77bf161a330ee346cd66b516ae4e5333eb42a668"
     },
@@ -1354,26 +1100,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:49:22.818Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "json-converter-variable",
       "containerContext": "SERVER",
-      "entityKind": "variable",
+      "entityKind": "VARIABLE",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - json-converter-variable",
-        "type": "106",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:29.025Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER VARIABLE",
       "type": "106",
       "sha": "218b696f8269a0fb787c30b06a05fe773bb1845e"
     },
@@ -1381,18 +1123,14 @@
       "owner": "stape-io",
       "repository": "json-http-request-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - json-http-request-tag",
-        "type": "107",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:32.951Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "107",
       "sha": "0f28e7bee041fdbad6884d013432ae7ebafdb15b"
     },
@@ -1400,37 +1138,29 @@
       "owner": "stape-io",
       "repository": "json-response-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - json-response-tag",
-        "type": "108",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:36.505Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "108",
       "sha": "0b102fac9341a24cfaa97c7d13536965a5b1ffd4"
     },
     {
       "owner": "stape-io",
       "repository": "klaviyo-identify-tag",
-      "containerContext": "WEB",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - klaviyo-identify-tag",
-        "type": "29",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:43.256Z",
-      "verificationNote": "Imported successfully in WEB workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "29",
       "sha": "fec32114309336aa60ad2e22d56ba4a16a233a7d"
     },
@@ -1438,18 +1168,14 @@
       "owner": "stape-io",
       "repository": "klaviyo-lookup-variable",
       "containerContext": "SERVER",
-      "entityKind": "variable",
+      "entityKind": "VARIABLE",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - klaviyo-lookup-variable",
-        "type": "109",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:48.660Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER VARIABLE",
       "type": "109",
       "sha": "3db76eeff889c660c16f743ccc2699aad2a4627c"
     },
@@ -1457,37 +1183,35 @@
       "owner": "stape-io",
       "repository": "klaviyo-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
-      "requiredParameters": [],
-      "optionalParameters": [],
+      "entityKind": "TAG",
+      "requiredParameters": [
+        "apiKey"
+      ],
+      "optionalParameters": [
+        "type",
+        "email",
+        "phone"
+      ],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - klaviyo-tag",
-        "type": "110",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:52.994Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "110",
       "sha": "3951cabd3e00c5744d5d475b969778a60db6840f"
     },
     {
       "owner": "stape-io",
       "repository": "leadfeeder-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - leadfeeder-variable",
-        "type": "111",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:49:56.576Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "111",
       "sha": "095358e5bae59ef12356a4a38b58e108e58e3bb4"
     },
@@ -1500,51 +1224,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:50:03.316Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "linkedin-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
-      "optionalParameters": [
-        {
-          "key": "event_name",
-          "type": "template",
-          "description": "Event name (e.g., purchase)"
-        },
-        {
-          "key": "event_id",
-          "type": "template",
-          "description": "Event ID for deduplication"
-        }
-      ],
-      "defaults": {
-        "event_name": "purchase",
-        "event_id": "PLACEHOLDER_EVENT_ID"
-      },
-      "examplePayload": {
-        "name": "Template - linkedin-tag",
-        "type": "112",
-        "parameter": [
-          {
-            "key": "event_name",
-            "type": "template",
-            "value": "purchase"
-          },
-          {
-            "key": "event_id",
-            "type": "template",
-            "value": "PLACEHOLDER_EVENT_ID"
-          }
-        ]
-      },
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:08.837Z",
-      "verificationNote": "Imported successfully in SERVER workspace | Priority enrichment applied | Priority enrichment applied | Priority enrichment applied",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "112",
       "sha": "94000fb78f50b2442788a620ae34628cfbf16910"
     },
@@ -1552,18 +1247,14 @@
       "owner": "stape-io",
       "repository": "logger-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - logger-tag",
-        "type": "113",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:12.646Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "113",
       "sha": "28b8105a92946a4d182383fecb679281b6c10260"
     },
@@ -1576,45 +1267,37 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:50:19.285Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "mailchimp-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - mailchimp-tag",
-        "type": "114",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:25.584Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "114",
       "sha": "86c3edda4f061007af436d828d383b0eb6b1b6fa"
     },
     {
       "owner": "stape-io",
       "repository": "mailgun-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - mailgun-tag",
-        "type": "115",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:29.234Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "115",
       "sha": "85f8bdde369deecedeb1450bf219e3ee5c95f3a1"
     },
@@ -1622,138 +1305,89 @@
       "owner": "stape-io",
       "repository": "math-variable",
       "containerContext": "SERVER",
-      "entityKind": "variable",
+      "entityKind": "VARIABLE",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - math-variable",
-        "type": "116",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:32.679Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER VARIABLE",
       "type": "116",
       "sha": "41fcf9036cca409743931f21759d0b9017d52ad2"
     },
     {
       "owner": "stape-io",
       "repository": "matomo-advanced-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - matomo-advanced-tag",
-        "type": "117",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:37.302Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "117",
       "sha": "8d8c0d81ed014f0c08344f390313845cb25723d7"
     },
     {
       "owner": "stape-io",
       "repository": "md5-hash-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - md5-hash-variable",
-        "type": "118",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:41.367Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "118",
       "sha": "6721c7a5218095c80dd1805e1275296cfc4ae260"
     },
     {
       "owner": "stape-io",
       "repository": "merchant-center-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - merchant-center-variable",
-        "type": "119",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:45.417Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "119",
       "sha": "4a47c19ffd2ccf77c38a6947c23119963a851340"
     },
     {
       "owner": "stape-io",
       "repository": "meta-custom-audiences-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - meta-custom-audiences-tag",
-        "type": "120",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:49.175Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "120",
       "sha": "8e6db1fbc035b68509193358e6d19ae75633ef6e"
     },
     {
       "owner": "stape-io",
       "repository": "microsoft-ads-offline-conversion-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
-      "optionalParameters": [
-        {
-          "key": "event_name",
-          "type": "template",
-          "description": "Event name (e.g., purchase)"
-        },
-        {
-          "key": "event_id",
-          "type": "template",
-          "description": "Event ID for deduplication"
-        }
-      ],
-      "defaults": {
-        "event_name": "purchase",
-        "event_id": "PLACEHOLDER_EVENT_ID"
-      },
-      "examplePayload": {
-        "name": "Template - microsoft-ads-offline-conversion-tag",
-        "type": "121",
-        "parameter": [
-          {
-            "key": "event_name",
-            "type": "template",
-            "value": "purchase"
-          },
-          {
-            "key": "event_id",
-            "type": "template",
-            "value": "PLACEHOLDER_EVENT_ID"
-          }
-        ]
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:53.152Z",
-      "verificationNote": "Imported successfully in SERVER workspace | Priority enrichment applied | Priority enrichment applied | Priority enrichment applied",
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "121",
       "sha": "f095bcc583153092f8139f156b84f29e42eef257"
     },
@@ -1761,81 +1395,44 @@
       "owner": "stape-io",
       "repository": "microsoft-capi-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
-      "optionalParameters": [
-        {
-          "key": "event_name",
-          "type": "template",
-          "description": "Event name (e.g., purchase)"
-        },
-        {
-          "key": "event_id",
-          "type": "template",
-          "description": "Event ID for deduplication"
-        }
-      ],
-      "defaults": {
-        "event_name": "purchase",
-        "event_id": "PLACEHOLDER_EVENT_ID"
-      },
-      "examplePayload": {
-        "name": "Template - microsoft-capi-tag",
-        "type": "122",
-        "parameter": [
-          {
-            "key": "event_name",
-            "type": "template",
-            "value": "purchase"
-          },
-          {
-            "key": "event_id",
-            "type": "template",
-            "value": "PLACEHOLDER_EVENT_ID"
-          }
-        ]
-      },
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:50:57.697Z",
-      "verificationNote": "Imported successfully in SERVER workspace | Priority enrichment applied | Priority enrichment applied | Priority enrichment applied",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "122",
       "sha": "4a56e6fcb6cf5806b7fed2d6580bcf6417059de3"
     },
     {
       "owner": "stape-io",
       "repository": "mixpanel-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - mixpanel-tag",
-        "type": "123",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:02.188Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "123",
       "sha": "212dcf3c7cb7d18ce8257849a27be7bcad4ce997"
     },
     {
       "owner": "stape-io",
       "repository": "nextdoor-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - nextdoor-tag",
-        "type": "124",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:05.583Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.656Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "124",
       "sha": "211414dc7d061d088879a9dc995c0c292e17e11d"
     },
@@ -1843,18 +1440,14 @@
       "owner": "stape-io",
       "repository": "object-builder-variable",
       "containerContext": "SERVER",
-      "entityKind": "variable",
+      "entityKind": "VARIABLE",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - object-builder-variable",
-        "type": "125",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:09.702Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER VARIABLE",
       "type": "125",
       "sha": "51fc9df8d224fb6896242046b2e8c6809f4f3686"
     },
@@ -1862,18 +1455,14 @@
       "owner": "stape-io",
       "repository": "object-property-extractor-variable",
       "containerContext": "SERVER",
-      "entityKind": "variable",
+      "entityKind": "VARIABLE",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - object-property-extractor-variable",
-        "type": "126",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:13.119Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER VARIABLE",
       "type": "126",
       "sha": "ed3eb7752839848e8d3f0738614801044320e691"
     },
@@ -1886,96 +1475,80 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:51:18.868Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "outbrain-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
-      "requiredParameters": [],
-      "optionalParameters": [],
-      "defaults": {},
-      "examplePayload": {
-        "name": "Template - outbrain-tag",
-        "type": "127",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:25.630Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
-      "type": "127",
-      "sha": "9583e0b7b922537eb041f7d05f56e08159cd3071"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "phone-number-formatter-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
-      "requiredParameters": [],
-      "optionalParameters": [],
-      "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - phone-number-formatter-variable",
-        "type": "128",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:28.985Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
-      "type": "128",
-      "sha": "2f2adbf713c6743b80819797e7f484795c3b4805"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "phone-number-formatter-web-variable",
-      "containerContext": "WEB",
-      "entityKind": "variable",
-      "requiredParameters": [],
-      "optionalParameters": [],
-      "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - phone-number-formatter-web-variable",
-        "type": "30",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:31.241Z",
-      "verificationNote": "Imported successfully in WEB workspace",
-      "type": "30",
-      "sha": "19158b7104410491b939be8aea5af82b88d6bf8e"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "piano-client",
       "containerContext": "UNKNOWN",
       "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:51:38.850Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
+      "type": "127",
+      "sha": "9583e0b7b922537eb041f7d05f56e08159cd3071"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "phone-number-formatter-variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
+      "type": "128",
+      "sha": "2f2adbf713c6743b80819797e7f484795c3b4805"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "phone-number-formatter-web-variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
+      "type": "30",
+      "sha": "19158b7104410491b939be8aea5af82b88d6bf8e"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "piano-client",
+      "containerContext": "SERVER",
+      "entityKind": "CLIENT",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER CLIENT"
     },
     {
       "owner": "stape-io",
       "repository": "piano-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - piano-tag",
-        "type": "129",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:45.813Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "129",
       "sha": "48060defdc5159b30c5cbedd33f7544ef761a783"
     },
@@ -1983,37 +1556,29 @@
       "owner": "stape-io",
       "repository": "pinterest-capi-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - pinterest-capi-tag",
-        "type": "130",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:49.712Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "130",
       "sha": "fc570b88274241bc66f27e49d7ec2f420ae54310"
     },
     {
       "owner": "stape-io",
       "repository": "pipedrive-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - pipedrive-tag",
-        "type": "131",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:51:54.272Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "131",
       "sha": "562556e586eddeb2d171dc3448ec94eb02830567"
     },
@@ -2026,26 +1591,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:51:58.880Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "piwik-pro-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - piwik-pro-tag",
-        "type": "18",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:52:11.577Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "18",
       "sha": "e1dfe5bc941f5d2abe5e0a7e00995ebe046de35f"
     },
@@ -2058,26 +1619,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:52:18.898Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "postscript-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - postscript-tag",
-        "type": "132",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:52:26.105Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "132",
       "sha": "504d3c08cd1eb358b68c1b82420dffa52a45ceea"
     },
@@ -2090,139 +1647,112 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:52:31.440Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "pub-sub-publish-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - pub-sub-publish-tag",
-        "type": "133",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:52:37.665Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "133",
       "sha": "8e4cb372439ed055c11bd1e35aa7c7789aec3dec"
     },
     {
       "owner": "stape-io",
       "repository": "query-replacer-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - query-replacer-variable",
-        "type": "134",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:52:42.189Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "134",
       "sha": "3ea7f72bbd7e7f533f20f8190556c338dae69cad"
     },
     {
       "owner": "stape-io",
       "repository": "quora-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - quora-tag",
-        "type": "135",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:52:46.602Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "135",
       "sha": "b5eadfdbb3009bef73c905573102456d9ac35b68"
     },
     {
       "owner": "stape-io",
       "repository": "rakuten-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - rakuten-tag",
-        "type": "136",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:52:49.595Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "136",
       "sha": "9a0909ad868cdcf033d39555d2a4729dd9b93413"
     },
     {
       "owner": "stape-io",
       "repository": "real-boolean",
-      "containerContext": "SERVER",
+      "containerContext": "UNKNOWN",
       "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "type": "137",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:52:54.210Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "137",
       "sha": "642fec79a41caab9dcb134e28cc6e6627f3b0d4e"
     },
     {
       "owner": "stape-io",
       "repository": "reddit-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - reddit-tag",
-        "type": "138",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:52:57.994Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "138",
       "sha": "d15962574cf991e9f10e09cd315ef0e8073beb30"
     },
     {
       "owner": "stape-io",
       "repository": "refersion-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - refersion-tag",
-        "type": "139",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:53:03.323Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "139",
       "sha": "aeb1c9335533c8463d5eb797a5917694fb72b32d"
     },
@@ -2235,64 +1765,52 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:53:07.641Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "revcontent-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - revcontent-tag",
-        "type": "140",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:53:14.918Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "140",
       "sha": "562ffdbc2bb3843097934bf753c32dd51b7a7a87"
     },
     {
       "owner": "stape-io",
       "repository": "roq-ad-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - roq-ad-tag",
-        "type": "141",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:53:18.791Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "141",
       "sha": "2afdcaab038293acea5579ee82316f2c3ac6580c"
     },
     {
       "owner": "stape-io",
       "repository": "salesforce-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - salesforce-tag",
-        "type": "142",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:53:22.476Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "142",
       "sha": "10fd324f5fde8e10d0011eb2f33adf153acc7e1f"
     },
@@ -2305,45 +1823,37 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:53:28.096Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "sendgrid-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - sendgrid-tag",
-        "type": "143",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:53:34.564Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "143",
       "sha": "1b6041c518273902eff263bd2eb37531e43e37d7"
     },
     {
       "owner": "stape-io",
       "repository": "sendlane-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - sendlane-tag",
-        "type": "144",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:53:38.504Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "144",
       "sha": "ece22f5bed64af16bcb4add540d63b643ad208b1"
     },
@@ -2356,26 +1866,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:53:44.038Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "shareasale-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - shareasale-tag",
-        "type": "145",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:53:50.620Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "145",
       "sha": "8518760e49f4fa617f69adb6763ca6e4c0e69c45"
     },
@@ -2388,9 +1894,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:53:55.612Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2401,9 +1907,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:54:04.048Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2414,9 +1920,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:54:12.104Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2427,26 +1933,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:54:19.642Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "slack-notification-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - slack-notification-tag",
-        "type": "146",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:54:26.539Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "146",
       "sha": "7dcb0ed73e75bd1625d51c780833ff6e5d26c507"
     },
@@ -2454,18 +1956,14 @@
       "owner": "stape-io",
       "repository": "snapchat-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - snapchat-tag",
-        "type": "147",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:54:31.071Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "147",
       "sha": "d6038c2318ccf50e22ce97ab5ac57fb758fba739"
     },
@@ -2478,9 +1976,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:54:35.651Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2491,26 +1989,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:54:43.627Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "spotify-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - spotify-tag",
-        "type": "148",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:54:51.012Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "148",
       "sha": "b78624a4390641f4d5ce8f9b91d119c0d5a7536a"
     },
@@ -2518,37 +2012,29 @@
       "owner": "stape-io",
       "repository": "spreadsheet-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - spreadsheet-tag",
-        "type": "149",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:54:55.981Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "149",
       "sha": "9a2ed3fc583aa6351f6fe1e74553b82bfa3b9eb2"
     },
     {
       "owner": "stape-io",
       "repository": "spreadsheet-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - spreadsheet-variable",
-        "type": "150",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:54:59.787Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "150",
       "sha": "b70a9a989dcc6607b05d4e47f38057024c2f2ab4"
     },
@@ -2561,9 +2047,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:55:04.227Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2574,9 +2060,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:55:12.255Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2587,9 +2073,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:55:20.236Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2600,9 +2086,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:55:28.236Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2613,9 +2099,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:55:36.249Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2626,159 +2112,127 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:55:44.301Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "stape-store-lookup-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - stape-store-lookup-variable",
-        "type": "151",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:55:52.434Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "151",
       "sha": "67b3fc88d9ada068ff1cebda9cafe62ea63a4570"
     },
     {
       "owner": "stape-io",
       "repository": "stape-store-margin-lookup-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - stape-store-margin-lookup-variable",
-        "type": "152",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:55:55.658Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "152",
       "sha": "7ba0ba751aa3f3359128248813d5342ab51a59aa"
     },
     {
       "owner": "stape-io",
       "repository": "stape-store-restore-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - stape-store-restore-variable",
-        "type": "153",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:00.823Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "153",
       "sha": "5edaadc520266b3aa59e4c2f95dca7b9daca7f2f"
     },
     {
       "owner": "stape-io",
       "repository": "stape-store-writer-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - stape-store-writer-tag",
-        "type": "154",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:05.301Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "154",
       "sha": "e97ba7b0ae68309decff1a4dcb0256ea86342431"
     },
     {
       "owner": "stape-io",
       "repository": "supabase-lookup-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - supabase-lookup-variable",
-        "type": "155",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:10.067Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "155",
       "sha": "78759a35ff7237d8ed85667834a0b26819e69d83"
     },
     {
       "owner": "stape-io",
       "repository": "supabase-writer-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - supabase-writer-tag",
-        "type": "156",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:14.802Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "156",
       "sha": "b3c7e86a9260fa3053fe4371e88ec0a8df6add9d"
     },
     {
       "owner": "stape-io",
       "repository": "taboola-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - taboola-tag",
-        "type": "157",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:18.421Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "157",
       "sha": "35970e2dcc960da5325bfdadaf4eb30d572ac949"
     },
     {
       "owner": "stape-io",
       "repository": "telegram-notification-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - telegram-notification-tag",
-        "type": "158",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:22.231Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "158",
       "sha": "81c412432686c18afead577113058d19b75b441d"
     },
@@ -2786,18 +2240,14 @@
       "owner": "stape-io",
       "repository": "tiktok-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - tiktok-tag",
-        "type": "159",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:26.418Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "159",
       "sha": "789f99ed8653b62177fe84d6e8652588fa3be97d"
     },
@@ -2805,56 +2255,44 @@
       "owner": "stape-io",
       "repository": "tiktok-web-tag",
       "containerContext": "WEB",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - tiktok-web-tag",
-        "type": "31",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:27.840Z",
-      "verificationNote": "Imported successfully in WEB workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as WEB TAG",
       "type": "31",
       "sha": "9357f95b8bf17e638dad494fb2862207fd36ed1f"
     },
     {
       "owner": "stape-io",
       "repository": "timestamp-converter-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - timestamp-converter-variable",
-        "type": "160",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:34.230Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "160",
       "sha": "239f95f803b6d6d41458697d0c31895a5bceadc8"
     },
     {
       "owner": "stape-io",
       "repository": "tradedoubler-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - tradedoubler-tag",
-        "type": "161",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:56:38.649Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "161",
       "sha": "5281cf52db2aa5aded3d9ac8573efab26b75156d"
     },
@@ -2867,9 +2305,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:56:43.058Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2880,9 +2318,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:56:51.119Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2893,9 +2331,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:56:59.058Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -2906,26 +2344,22 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:57:07.078Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "twilio-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - twilio-tag",
-        "type": "162",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:57:14.744Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "162",
       "sha": "1e870d506dbb0c5730876df9de98c46ac640b02d"
     },
@@ -2933,37 +2367,29 @@
       "owner": "stape-io",
       "repository": "twitter-tag",
       "containerContext": "SERVER",
-      "entityKind": "tag",
+      "entityKind": "TAG",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - twitter-tag",
-        "type": "163",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:57:18.818Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as SERVER TAG",
       "type": "163",
       "sha": "9eadee9fba51122d92789a67c4ab34094a6f84b0"
     },
     {
       "owner": "stape-io",
       "repository": "type-convertor-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - type-convertor-variable",
-        "type": "164",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:57:22.528Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "164",
       "sha": "f958b3117772d149017334cba63a2429266b56f8"
     },
@@ -2976,45 +2402,37 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:57:27.635Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "unique-event-id-variable",
       "containerContext": "WEB",
-      "entityKind": "variable",
+      "entityKind": "VARIABLE",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - unique-event-id-variable",
-        "type": "32",
-        "parameter": []
-      },
+      "examplePayload": {},
       "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:57:35.525Z",
-      "verificationNote": "Imported successfully in WEB workspace",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as WEB VARIABLE",
       "type": "32",
       "sha": "76498f16f1954b0286640d19eb6a1ddf2909e183"
     },
     {
       "owner": "stape-io",
       "repository": "universal-conversions-variable",
-      "containerContext": "WEB",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - universal-conversions-variable",
-        "type": "33",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:57:43.835Z",
-      "verificationNote": "Imported successfully in WEB workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "33",
       "sha": "1effdefd3dceb2231152dab2618a0e350445fa6f"
     },
@@ -3027,78 +2445,67 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:57:51.620Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "url-builder-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
-      "requiredParameters": [],
-      "optionalParameters": [],
-      "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - url-builder-variable",
-        "type": "165",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:57:58.924Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
-      "type": "165",
-      "sha": "ab3394d0985aca5ab503736b0bbcd6fe877bba88"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "url-parser",
-      "containerContext": "SERVER",
-      "entityKind": "unknown",
-      "requiredParameters": [],
-      "optionalParameters": [],
-      "defaults": {},
-      "examplePayload": {
-        "type": "166",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:58:02.671Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
-      "type": "166",
-      "sha": "296d3f36d4b5dafad81ecc5bdc93fe1effd05e821"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "user-data-extractor-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
-      "requiredParameters": [],
-      "optionalParameters": [],
-      "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - user-data-extractor-variable",
-        "type": "167",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:58:07.276Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
-      "type": "167",
-      "sha": "681dc649a4dcc4a7cc735cd3f10567bdbc926d51"
-    },
-    {
-      "owner": "stape-io",
-      "repository": "user-data-extractor-web-tag",
       "containerContext": "UNKNOWN",
       "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:58:11.985Z",
-      "verificationNote": "Import failed in WEB: Not found or permission denied. | Import failed in SERVER: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
+      "type": "165",
+      "sha": "ab3394d0985aca5ab503736b0bbcd6fe877bba88"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "url-parser",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
+      "type": "166",
+      "sha": "296d3f36d4b5dafad81ecc5bdc93fe1effd05e821"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "user-data-extractor-variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
+      "type": "167",
+      "sha": "681dc649a4dcc4a7cc735cd3f10567bdbc926d51"
+    },
+    {
+      "owner": "stape-io",
+      "repository": "user-data-extractor-web-tag",
+      "containerContext": "WEB",
+      "entityKind": "TAG",
+      "requiredParameters": [],
+      "optionalParameters": [],
+      "defaults": {},
+      "examplePayload": {},
+      "status": "verified",
+      "lastVerifiedAt": "2026-02-13T13:45:55.663Z",
+      "verificationNote": "Verified as WEB TAG"
     },
     {
       "owner": "stape-io",
@@ -3109,9 +2516,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:58:19.980Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -3122,64 +2529,52 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:58:27.987Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.657Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "voyado-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - voyado-tag",
-        "type": "168",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:58:34.980Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.658Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "168",
       "sha": "53f2663246a432e7ede60506fcd39400f3808208"
     },
     {
       "owner": "stape-io",
       "repository": "weather-variable",
-      "containerContext": "SERVER",
-      "entityKind": "variable",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template Variable - weather-variable",
-        "type": "169",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:58:39.036Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.658Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "169",
       "sha": "41050b621f72f682749abbefeef9c21bc494201c"
     },
     {
       "owner": "stape-io",
       "repository": "webgains-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - webgains-tag",
-        "type": "170",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:58:47.056Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.658Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "170",
       "sha": "aae6f27d3c68566006541470708b65f877f55fdc"
     },
@@ -3192,9 +2587,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:58:51.563Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.658Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -3205,45 +2600,37 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:59:00.021Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.658Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
       "repository": "xandr-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - xandr-tag",
-        "type": "171",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:59:08.425Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.658Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "171",
       "sha": "f4db1ac7c250f89ea264b708d874d6bc5371c5b1"
     },
     {
       "owner": "stape-io",
       "repository": "yelp-tag",
-      "containerContext": "SERVER",
-      "entityKind": "tag",
+      "containerContext": "UNKNOWN",
+      "entityKind": "unknown",
       "requiredParameters": [],
       "optionalParameters": [],
       "defaults": {},
-      "examplePayload": {
-        "name": "Template - yelp-tag",
-        "type": "172",
-        "parameter": []
-      },
-      "status": "verified",
-      "lastVerifiedAt": "2026-02-11T19:59:13.356Z",
-      "verificationNote": "Imported successfully in SERVER workspace",
+      "examplePayload": {},
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.658Z",
+      "verificationNote": "Discovered via GitHub owner repository listing",
       "type": "172",
       "sha": "314e2a19bb136f558492312052f61305b386a72c"
     },
@@ -3256,9 +2643,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:59:17.653Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.658Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     },
     {
       "owner": "stape-io",
@@ -3269,9 +2656,9 @@
       "optionalParameters": [],
       "defaults": {},
       "examplePayload": {},
-      "status": "broken",
-      "lastVerifiedAt": "2026-02-11T19:59:25.628Z",
-      "verificationNote": "Import failed in SERVER: Not found or permission denied. | Import failed in WEB: Not found or permission denied."
+      "status": "candidate",
+      "lastVerifiedAt": "2026-02-13T07:37:27.658Z",
+      "verificationNote": "Discovered via GitHub owner repository listing"
     }
   ]
 }
