@@ -322,6 +322,175 @@ The GTM MCP Server includes verified Stape.io templates:
 
 ---
 
+## Part 6: MCP Tool Reference
+
+### Parameter Format (GTM API v2)
+
+All parameters use this structure:
+```
+{ "key": "parameterName", "type": "template|boolean|integer|list|map", "value": "..." }
+```
+
+| Type | Usage |
+|------|-------|
+| `template` | String values (IDs, names, URLs) |
+| `boolean` | true/false flags |
+| `integer` | Numbers (delays, priorities) |
+| `list` | Arrays of parameters |
+| `map` | Key-value objects |
+
+### Tag Types & Parameters
+
+Use `gtm_get_tag_parameters` to get parameters for a specific tag type.
+
+**Common Tag Types:**
+| Type | Description | Key Parameters |
+|------|-------------|----------------|
+| `gaawe` | GA4 Event | measurementId, eventName |
+| `googtag` | Google Tag | measurementId, sendPageView |
+| `html` | Custom HTML | html |
+| `awct` | Google Ads Conversion | conversionId, conversionLabel, conversionValue |
+| `sp` | Google Ads Remarketing | conversionId |
+| `sgtmadsct` | Server-side Google Ads Conversion | conversionId, conversionLabel |
+| `sgtmadsremarket` | Server-side Google Ads Remarketing | conversionId |
+| `sgtmgaaw` | Server-side GA4 | measurementId |
+
+### Trigger Types
+
+**Web Container:**
+| Type | Use When | Key Parameters |
+|------|----------|----------------|
+| `pageview` | Page loads | filter (URL conditions) |
+| `domReady` | DOM ready | filter |
+| `windowLoaded` | Window load | filter |
+| `customEvent` | dataLayer event | customEventFilter |
+| `click` | Element click | autoEventFilter |
+| `linkClick` | Link click | autoEventFilter, waitForTags |
+| `formSubmission` | Form submit | autoEventFilter |
+| `scrollDepth` | Scroll % | verticalScrollBoundaryList |
+| `elementVisibility` | Element visible | elementSelector |
+| `timer` | Interval | interval, limit |
+| `youTubeVideo` | YouTube video | videoIdFilter |
+
+**Server Container:**
+| Type | Use When |
+|------|----------|
+| `always` | Always fires |
+| `init` | Container init |
+| `serverPageview` | Page view request |
+| `customEvent` | Custom event |
+| `triggerGroup` | Combine triggers |
+
+### Variable Types
+
+Use `gtm_get_variable_parameters` to get parameters for a specific variable type.
+
+| Type | Description | Key Parameters |
+|------|-------------|----------------|
+| `k` | Constant | value |
+| `c` | 1st Party Cookie | cookieName |
+| `f` | Data Layer | dataLayerName |
+| `v` | URL | urlComponent, queryKey |
+| `jsm` | Custom JavaScript | javascript |
+| `aev` | Auto-Event | eventType, varType |
+| `r` | Random Number | - |
+| `smm` | Storage | key, storageType |
+
+### Trigger Condition Format
+
+```json
+{
+  "type": "contains|equals|startsWith|endsWith|matchRegex|greater|less",
+  "parameter": [
+    { "key": "arg0", "type": "template", "value": "{{Page URL}}" },
+    { "key": "arg1", "type": "template", "value": "/checkout" },
+    { "key": "ignore_case", "type": "boolean", "value": "true" }
+  ]
+}
+```
+
+### Filter Types for Triggers
+
+| Filter | Purpose |
+|--------|---------|
+| `filter` | Trigger activation conditions |
+| `customEventFilter` | Match dataLayer event name (customEvent triggers only) |
+| `autoEventFilter` | Element conditions (click, form, visibility triggers) |
+
+### Template Reference
+
+For community templates, use `templateReference` instead of guessing types:
+
+```json
+{
+  "templateReference": {
+    "owner": "stape-io",
+    "repository": "facebook-pixel"
+  }
+}
+```
+
+Verified templates in registry: `stape-io/facebook-pixel`, `stape-io/google-ads-enhanced-conversions`, `stape-io/tiktok-events-api`
+
+### Validation Tools
+
+Always validate before creating:
+- `gtm_validate_tag_config` - Validate tag
+- `gtm_validate_trigger_config` - Validate trigger (requires containerType)
+- `gtm_validate_variable_config` - Validate variable
+- `gtm_validate_client_config` - Validate server client
+- `gtm_validate_transformation_config` - Validate server transformation
+
+### Helper Tools
+
+| Tool | Purpose |
+|------|---------|
+| `gtm_get_tag_parameters` | Get required/optional params for tag type |
+| `gtm_list_tag_types` | List all available tag types |
+| `gtm_get_variable_parameters` | Get params for variable type |
+| `gtm_get_trigger_template` | Get example trigger config |
+| `gtm_search_entities` | Search tags/triggers/variables |
+| `gtm_check_best_practices` | Audit container |
+| `gtm_get_container_info` | Get container type (web/server) |
+
+### Workflow Guides
+
+Use `gtm_get_workflow` with one of:
+- `setup_ga4` - Complete GA4 setup
+- `setup_conversion_tracking` - Google Ads conversions
+- `setup_form_tracking` - Form tracking
+- `setup_scroll_tracking` - Scroll depth
+- `setup_link_click_tracking` - Link clicks
+- `setup_ecommerce_tracking` - E-commerce
+
+### Server-Side Tools
+
+**Clients** (receive incoming requests):
+| Tool | Purpose |
+|------|---------|
+| `gtm_list_clients` | List clients |
+| `gtm_create_client` | Create client (type: gaaw_client, adwords_client, etc.) |
+| `gtm_update_client` | Update client config |
+
+**Transformations** (modify event data):
+| Tool | Purpose |
+|------|---------|
+| `gtm_list_transformations` | List transformations |
+| `gtm_create_transformation` | Create transformation |
+
+### Update Operations
+
+All update operations require `fingerprint` from the corresponding `get_*` call:
+1. Call `gtm_get_tag` / `gtm_get_trigger` / `gtm_get_variable`
+2. Extract `fingerprint` from response
+3. Include in update call
+
+### Destructive Operations
+
+All delete operations require `confirm: true` parameter.
+
+---
+
 ## Resources
 
 - [Analytics Mania](https://www.analyticsmania.com) - Julius Fedorovicius
